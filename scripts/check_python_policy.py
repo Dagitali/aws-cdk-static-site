@@ -97,7 +97,12 @@ def validate(
         failures.append('.pre-commit-config.yaml: Python policy hook is missing')
 
     makefile = (root / 'Makefile').read_text(encoding='utf-8')
-    for expected in ('PYTHON ?= python3.13', 'python-policy:'):
+    make_requirements = (
+        'PY ?= python3',
+        'MINIMUM_PYTHON_VERSION ?= 3.13',
+        'python-policy:',
+    )
+    for expected in make_requirements:
         if expected not in makefile:
             failures.append(f"Makefile: missing {expected!r}")
 

@@ -1,0 +1,338 @@
+# Makefile
+# aws-cdk-static-site
+#
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# Facilitates automation for local development environments.
+#
+# Responsibilities
+# - Automate common local setup, quality, testing, and packaging workflows.
+# - Provide stable, discoverable entry points shared by contributors and CI.
+#
+# Maintainer Notes
+# - Keep common target names and help text consistent with other Dagitali
+#   projects when their behavior is equivalent.
+# - Keep project-specific commands and variables clearly labeled so reusable
+#   conventions can be extracted without coupling projects.
+# - Prefer overridable variables for paths, interpreters, and outputs.
+#
+# References
+# - GNU Make documentation:
+#   https://www.gnu.org/software/make/manual/make.html
+# - GNU Make conventions:
+#   https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html
+# - GNU Make include directive:
+#   https://www.gnu.org/software/make/manual/html_node/Include.html
+#
+# Common Flows
+#
+# 1) Create the development environment.
+# $ make dev
+#
+# 2) Run the local CI-equivalent checks.
+# $ make check
+#
+# 3) Run a focused test suite.
+# $ make test-unit
+#
+# 4) Inspect the local environment.
+# $ make show-venv
+#
+# 5) Clean build artifacts or nuke the venv.
+# $ make clean
+# $ make clean-venv
+
+
+# SECTION: VARIABLES
+
+SHELL := /bin/bash
+
+### Make ###
+
+.DEFAULT_GOAL := help
+HELP_TARGET_WIDTH ?= 20
+SHARED_MAKEFILE ?=
+
+### Project ###
+
+PROJECT_NAME ?= $(notdir $(CURDIR))
+EXAMPLES_DIR ?= examples
+SCRIPTS_DIR ?= scripts
+SOURCE_DIR ?= src
+TESTS_DIR ?= tests
+
+PYTHON_POLICY_SCRIPT ?= $(SCRIPTS_DIR)/check_python_policy.py
+WORKFLOW_PINS_SCRIPT ?= $(SCRIPTS_DIR)/check_workflow_pins.py
+
+PACKAGE_OUTPUT ?= $(subst .,-,$(PROJECT_NAME))-repository.tar.gz
+PACKAGE_PREFIX ?= $(PROJECT_NAME)/
+
+### Installation ###
+
+VENV_READY_COMMAND ?= true
+RUNTIME_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(RUNTIME_INSTALL_ARGS)
+DEV_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(DEV_INSTALL_ARGS)
+RUNTIME_POST_INSTALL_COMMAND ?= true
+DEV_POST_INSTALL_COMMAND ?= $(RUNTIME_POST_INSTALL_COMMAND)
+
+### Python ###
+
+# Python to bootstrap the venv. To override the interpreter, set PY on the CLI:
+#   make dev PY=python3.13
+#   make dev PY=python3.14
+PY ?= python3
+MINIMUM_PYTHON_VERSION ?= 3.13
+
+# Package root (where pyproject.toml lives)
+PKG_DIR ?= .
+PYTHON_DIST_DIR ?= $(PKG_DIR)/dist
+
+# Virtualenv lives inside the package folder
+VENV_DIR ?= $(PKG_DIR)/.venv
+
+# Cross-platform venv bin paths
+ifeq ($(OS),Windows_NT)
+VENV_BIN := $(abspath $(VENV_DIR)/Scripts)
+PYTHON ?= $(VENV_BIN)/python.exe
+else
+VENV_BIN := $(abspath $(VENV_DIR)/bin)
+PYTHON ?= $(VENV_BIN)/python
+endif
+
+MYPY ?= $(PYTHON) -m mypy
+PIP ?= $(PYTHON) -m pip
+PRE_COMMIT ?= $(PYTHON) -m pre_commit
+PYTEST ?= $(PYTHON) -m pytest
+RUFF ?= $(PYTHON) -m ruff
+PYTHON_BUILD ?= $(PYTHON) -m build
+TWINE ?= $(PYTHON) -m twine
+
+PIP_INSTALL_FLAGS ?= --disable-pip-version-check
+RUNTIME_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))"
+DEV_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[dev]"
+
+PYTHON_LINT_PATHS ?= .
+PYTHON_TYPECHECK_PATHS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR)
+
+### Packaging ###
+
+DIST_BUILD_COMMAND ?= $(PYTHON_BUILD) --outdir "$(PYTHON_DIST_DIR)"
+DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
+
+### Quality ###
+
+CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test dist
+CHECK_PRE_PUSH_TARGETS ?= $(CHECK_TARGETS)
+CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS)
+CI_SMOKE_TARGETS ?= python-policy lint test-unit
+
+### Testing ###
+
+TEST_PYTHONPATH ?= $(abspath $(SOURCE_DIR))
+TEST_ENV ?= PYTHONPATH="$(TEST_PYTHONPATH)"
+PYTEST_COMMON_ARGS ?=
+TEST_MARK_EXPRESSION ?=
+PYTEST_MARK_ARGS = $(if $(strip $(TEST_MARK_EXPRESSION)),\
+	-m "$(TEST_MARK_EXPRESSION)")
+TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS)
+
+FULL_TEST_TARGETS ?= test
+
+UNIT_TEST_PATH ?= $(TESTS_DIR)/unit
+UNIT_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS) $(UNIT_TEST_PATH)
+
+# !SECTION
+
+# SECTION: MACROS
+
+define ASSERT_REPOSITORY_PATH
+	case "$(abspath $(1))" in \
+		"$(CURDIR)"/*) ;; \
+		*) echo "$(2) must be inside $(CURDIR)" >&2; exit 1 ;; \
+	esac
+endef
+
+define ECHO_INFO
+	printf "\033[36mℹ\033[0m %s\n" "$(1)"
+endef
+
+define ECHO_OK
+	printf "\033[32m✔\033[0m %s\n" "$(1)"
+endef
+
+define RUN_IN_PACKAGE
+	cd "$(PKG_DIR)" && $(1)
+endef
+
+# !SECTION
+
+# Optionally load versioned common rules from a local path, such as a Make
+# fragment installed by a development-tooling package. Project values above
+# are available to the shared rules, and local targets below remain explicit.
+ifneq ($(strip $(SHARED_MAKEFILE)),)
+include $(SHARED_MAKEFILE)
+endif
+
+# SECTION: PHONY TARGETS
+
+##@ Utilities
+
+.PHONY: help
+help: ## Show this help
+	@awk 'BEGIN {FS=":.*##"; printf "\nUsage: make \033[36m<TARGET>\033[0m\n\nTargets:\n"} \
+	/^[a-zA-Z0-9_-]+:.*##/ {printf "  \033[36m%-*s\033[0m %s\n", $(HELP_TARGET_WIDTH), $$1, $$2} \
+	/^##@/ {printf "\n\033[1m%s\033[0m\n", substr($$0, 5)}' $(MAKEFILE_LIST)
+
+.PHONY: check-python-runtime
+check-python-runtime: ## Require Python 3.13 or newer for local project commands
+	@$(PY) -c \
+		'import sys; required=tuple(map(int, "$(MINIMUM_PYTHON_VERSION)".split("."))); raise SystemExit(0 if sys.version_info >= required else "Python $(MINIMUM_PYTHON_VERSION) or newer is required")'
+
+.PHONY: venv
+venv: check-python-runtime ## Create the Python virtual environment
+	@$(call ASSERT_REPOSITORY_PATH,$(VENV_DIR),VENV_DIR)
+	@if [ ! -x "$(PYTHON)" ]; then \
+		$(call ECHO_INFO,Creating $(VENV_DIR) with $(PY)); \
+		$(PY) -m venv "$(VENV_DIR)"; \
+	else \
+		current="$$($(PYTHON) -V 2>/dev/null || true)"; \
+		current="$${current#Python }"; current="$${current%.*}"; \
+		requested="$$($(PY) -V)"; \
+		requested="$${requested#Python }"; requested="$${requested%.*}"; \
+		if [ "$$current" != "$$requested" ]; then \
+			$(call ECHO_INFO,Recreating $(VENV_DIR) for Python $$requested; found $$current); \
+			rm -rf "$(VENV_DIR)"; \
+			$(PY) -m venv "$(VENV_DIR)"; \
+		else \
+			$(call ECHO_INFO,Using existing environment: $(VENV_DIR)); \
+		fi; \
+	fi
+	@$(VENV_READY_COMMAND)
+	@$(call ECHO_OK,Virtual environment ready)
+
+.PHONY: install
+install: venv ## Install runtime dependencies
+	$(RUNTIME_INSTALL_COMMAND)
+	@$(RUNTIME_POST_INSTALL_COMMAND)
+	@$(call ECHO_OK,Installed runtime dependencies)
+
+.PHONY: dev
+dev: venv ## Install development dependencies
+	$(DEV_INSTALL_COMMAND)
+	@$(DEV_POST_INSTALL_COMMAND)
+	@$(call ECHO_OK,Installed development dependencies)
+
+.PHONY: hooks
+hooks: dev ## Install pre-commit hooks
+	$(PRE_COMMIT) install --install-hooks
+	@$(call ECHO_OK,Installed pre-commit hooks)
+
+.PHONY: setup
+setup: dev ## Install the development environment (compatibility alias)
+
+.PHONY: show-venv
+show-venv: ## Print virtual-environment and interpreter locations
+	@echo "PIP      = $(PIP)"
+	@echo "PY       = $(PY)"
+	@echo "PYTHON   = $(PYTHON)"
+	@echo "VENV_BIN = $(VENV_BIN)"
+	@echo "VENV_DIR = $(VENV_DIR)"
+
+.PHONY: clean
+clean: ## Remove generated build artifacts and caches
+	@$(call ASSERT_REPOSITORY_PATH,$(VENV_DIR),VENV_DIR)
+	@$(call ASSERT_REPOSITORY_PATH,$(PYTHON_DIST_DIR),PYTHON_DIST_DIR)
+	@find $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR) $(EXAMPLES_DIR) -type d \
+		\( -name '__pycache__' -o -name '.mypy_cache' \
+		-o -name '.pytest_cache' -o -name '.ruff_cache' \) \
+		-prune -exec rm -rf {} + 2>/dev/null || true
+	@rm -rf build "$(PYTHON_DIST_DIR)" .coverage coverage.xml htmlcov \
+		.mypy_cache .pytest_cache .ruff_cache $(SOURCE_DIR)/*.egg-info
+	@$(call ECHO_OK,Removed generated artifacts and caches)
+
+.PHONY: clean-venv
+clean-venv: ## Remove the Python virtual environment
+	@$(call ASSERT_REPOSITORY_PATH,$(VENV_DIR),VENV_DIR)
+	@rm -rf "$(VENV_DIR)"
+	@$(call ECHO_OK,Removed virtual environment)
+
+
+##@ Quality
+
+.PHONY: check
+check: $(CHECK_TARGETS) ## Run local CI checks
+
+.PHONY: check-pre-push
+check-pre-push: $(CHECK_PRE_PUSH_TARGETS) ## Run the local pre-push checks
+
+.PHONY: check-ci-local
+check-ci-local: $(CHECK_CI_LOCAL_TARGETS) ## Run the CI-equivalent local checks
+
+.PHONY: fix
+fix: python-policy ## Apply safe Ruff fixes to Python code
+	$(call RUN_IN_PACKAGE,$(RUFF) check --fix $(PYTHON_LINT_PATHS))
+
+.PHONY: fmt
+fmt: fix ## Format Python code with Ruff
+	$(call RUN_IN_PACKAGE,$(RUFF) format $(PYTHON_LINT_PATHS))
+
+.PHONY: format
+format: fmt ## Format Python code (compatibility alias)
+
+.PHONY: lint
+lint: python-policy ## Run Python lint checks
+	$(call RUN_IN_PACKAGE,$(RUFF) check $(PYTHON_LINT_PATHS))
+
+.PHONY: typecheck
+typecheck: python-policy ## Check Python types
+	$(call RUN_IN_PACKAGE,$(MYPY) $(PYTHON_TYPECHECK_PATHS))
+
+.PHONY: workflow-pins
+workflow-pins: python-policy ## Verify remote GitHub Actions use immutable commits
+	$(PYTHON) $(WORKFLOW_PINS_SCRIPT)
+
+.PHONY: python-policy
+python-policy: ## Verify the repository-wide minimum Python version policy
+	$(PYTHON) $(PYTHON_POLICY_SCRIPT)
+
+
+##@ Testing
+
+.PHONY: test
+test: python-policy ## Run the default test suite
+	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(TEST_ARGS))
+
+.PHONY: test-unit
+test-unit: python-policy ## Run isolated unit tests
+	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(UNIT_TEST_ARGS))
+
+.PHONY: test-full
+test-full: $(FULL_TEST_TARGETS) ## Run all available test suites
+
+
+##@ CI
+
+.PHONY: ci-smoke
+ci-smoke: $(CI_SMOKE_TARGETS) ## Run fast environment, lint, and unit checks
+
+
+##@ Packaging
+
+.PHONY: dist
+dist: python-policy ## Build and validate Python distributions
+	@$(call ASSERT_REPOSITORY_PATH,$(PYTHON_DIST_DIR),PYTHON_DIST_DIR)
+	@rm -rf "$(PYTHON_DIST_DIR)"
+	$(DIST_BUILD_COMMAND)
+	$(DIST_CHECK_COMMAND)
+	@$(call ECHO_OK,Built Python distributions in $(PYTHON_DIST_DIR))
+
+.PHONY: build
+build: dist ## Build Python distributions (compatibility alias)
+
+.PHONY: package
+package: python-policy ## Build a repository archive from the current commit
+	git archive --format=tar.gz --prefix=$(PACKAGE_PREFIX) \
+		--output=$(PACKAGE_OUTPUT) HEAD
+	@$(call ECHO_OK,Built repository archive: $(PACKAGE_OUTPUT))
+
+# !SECTION
