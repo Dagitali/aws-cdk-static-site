@@ -1,0 +1,17 @@
+# config.yml
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# GitHub issue template configuration.
+#
+# Responsibilities
+# - Disable blank issues and direct users toward the supported support paths.
+#
+# Maintainer Notes
+# - Keep links aligned with the repository's supported reporting surfaces.
+
+---
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosures
+    url: https://github.com/Dagitali/aws-cdk-static-site/security/policy
+    about: Report security issues privately under the repository security policy.
