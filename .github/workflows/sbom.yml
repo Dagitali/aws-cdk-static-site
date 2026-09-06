@@ -1,0 +1,102 @@
+# sbom.yml
+# aws-cdk-static-site
+#
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# GitHub Actions workflow for Software Bill of Materials (SBOM) generation.
+#
+# Responsibilities
+# - Generate CycloneDX SBOMs for the Python and npm dependency surfaces.
+# - Upload both documents as short-lived workflow artifacts for inspection.
+#
+# Maintainer Notes
+# - Global permissions are intentionally omitted; each job declares the minimum
+#   permissions it needs.
+# - External GitHub Actions are pinned to full commit SHAs to reduce supply-
+#   chain risk.
+# - Pull requests intentionally do not trigger this supplementary workflow;
+#   required CI already validates dependency and lockfile changes before merge.
+#
+# References
+# - CycloneDX Python tooling:
+#   https://cyclonedx.org/tool-center/python/
+# - npm SBOM documentation:
+#   https://docs.npmjs.com/cli/commands/npm-sbom
+# - GitHub Actions artifact documentation:
+#   https://docs.github.com/en/actions/using-workflows/
+#   storing-workflow-data-as-artifacts
+
+---
+name: SBOM
+
+run-name: >-
+  ${{
+    github.event_name == 'push' &&
+    format('SBOM: push on {0}', github.ref_name) ||
+    'SBOM: manual dispatch'
+  }}
+
+on:
+  push:
+    branches: [develop, main]
+    paths:
+      - pyproject.toml
+      - src/**
+      - .github/workflows/sbom.yml
+  workflow_dispatch:
+
+permissions: {}
+
+env:
+  ARTIFACT_RETENTION_DAYS: "14"
+  CYCLONEDX_BOM_VERSION: "7.2.2"
+  PYTHON_SBOM_FILENAME: python-sbom.json
+  SBOM_ARTIFACT_NAME: python-sbom
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    name: Generate Python SBOM
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Generate Python SBOM
+        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516
+        with:
+          phase: sbom
+          python-version: "3.13"
+          pip-install: .
+          working-directory: .
+          sbom-tool-version: ${{ env.CYCLONEDX_BOM_VERSION }}
+          sbom-output-file: ${{ env.PYTHON_SBOM_FILENAME }}
+          sbom-output-format: JSON
+
+      - name: Validate Python SBOM
+        run: |
+          jq -e '
+            .bomFormat == "CycloneDX" and
+            ((.specVersion | type) == "string") and
+            ((.components | type) == "array")
+          ' "$PYTHON_SBOM_FILENAME" > /dev/null
+
+      - name: Upload Python SBOM
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ env.SBOM_ARTIFACT_NAME }}
+          path: ${{ env.PYTHON_SBOM_FILENAME }}
+          if-no-files-found: error
+          retention-days: ${{ env.ARTIFACT_RETENTION_DAYS }}
