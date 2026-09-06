@@ -1,0 +1,113 @@
+# ci.yml
+# aws-cdk-static-site
+#
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# GitHub Actions workflow for continuous integration (CI).
+#
+# Responsibilities
+# - Run pre-merge validation for pull requests targeting the long-lived GitFlow
+#   branches.
+# - Build non-HTML docs targets, cross-platform install smoke coverage, and
+#   packaged distribution validation before those changes land.
+#
+# Maintainer Notes
+# - Global permissions are intentionally omitted; each job declares the minimum
+#   permissions it needs.
+# - External GitHub Actions are pinned to full commit SHAs to reduce supply-
+#   chain risk.
+# - Keep required pull-request and merge-queue gates in `pr.yml`.
+# - This workflow intentionally complements, rather than replaces, the lighter
+#   integration checks that run earlier in the development loop.
+# - The dynamic run name is part of the workflow contract: it should identify
+#   the short-lived source branch and the long-running target branch for PR
+#   review clarity.
+#
+# References
+# - GitHub Actions Python guide:
+#   https://docs.github.com/en/actions/automating-builds-and-tests/
+#   building-and-testing-python
+# - GitHub Actions expressions reference:
+#   https://docs.github.com/en/actions/learn-github-actions/expressions
+# - GitHub Actions security hardening guide:
+# - GitHub Actions security hardening guide:
+#   https://docs.github.com/en/actions/security-guides/
+#   security-hardening-for-github-actions
+# - GitHub Actions workflow syntax reference:
+#   https://docs.github.com/en/actions/using-workflows/
+#   workflow-syntax-for-github-actions
+# - GitHub pull request documentation:
+#   https://docs.github.com/en/pull-requests
+# - GitHub merge queue documentation:
+#   https://docs.github.com/en/repositories/
+#   configuring-branches-and-merges-in-your-repository/configuring-merge-queues
+# - Python packaging documentation:
+#   https://packaging.python.org/
+# - Python wheel format specification:
+#   https://packaging.python.org/en/latest/specifications/
+#   binary-distribution-format/#file-contents
+# - Read the Docs documentation:
+#   https://docs.readthedocs.io/en/stable/
+# - Sphinx documentation:
+#   https://www.sphinx-doc.org/en/master/
+# - Sphinx builders reference:
+#   https://www.sphinx-doc.org/en/master/usage/builders/index.html
+
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [develop, main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate package
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install development dependencies
+        run: python -m pip install --disable-pip-version-check -e '.[dev]'
+
+      - name: Lint Python code
+        run: python -m ruff check .
+
+      - name: Check Python types
+        run: python -m mypy src tests scripts
+
+      - name: Verify GitHub Actions pins
+        run: python scripts/check_workflow_pins.py
+
+      - name: Verify minimum Python version policy
+        run: python scripts/check_python_policy.py
+
+      - name: Run unit tests
+        run: python -m pytest
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Check distributions
+        run: python -m twine check dist/*
