@@ -2,7 +2,7 @@
 
 Describe the user-visible or maintainer-facing change and why it is needed.
 
-## Compatibility and risks
+## Compatibility and Risks
 
 Describe effects on public interfaces, generated artifacts, supported platforms or toolchains, and
 existing consumers. Identify breaking changes, migrations, security considerations, and operational

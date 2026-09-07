@@ -1,4 +1,4 @@
-# Branch protection
+# Branch Protection
 
 This repository uses GitFlow-style branch roles:
 
@@ -12,12 +12,12 @@ This repository uses GitFlow-style branch roles:
 - `develop` is the protected integration branch.
 - `main` is the protected release branch and source of release tags.
 
-- [Shared protection baseline](#shared-protection-baseline)
-- [Branch-specific policy](#branch-specific-policy)
-- [Maintaining required checks](#maintaining-required-checks)
+- [Shared Protection Baseline](#shared-protection-baseline)
+- [Branch-Specific Policy](#branch-specific-policy)
+- [Maintaining Required Checks](#maintaining-required-checks)
 - [References](#references)
 
-## Shared protection baseline
+## Shared Protection Baseline
 
 Protect both `main` and `develop` with a GitHub ruleset that:
 
@@ -35,7 +35,7 @@ available, while pull requests and CI remain mandatory. Once multiple maintainer
 require at least one approval and CODEOWNERS review for governance, packaging, security, and
 workflow changes.
 
-## Branch-specific policy
+## Branch-Specific Policy
 
 Feature, bug-fix, routine maintenance, dependency, and synchronization pull requests target
 `develop`. Only `release/*` and `hotfix/*` pull requests should target `main`. Release pull requests
@@ -45,7 +45,7 @@ requests document urgency and the plan to synchronize the correction back to `de
 Do not require a merge queue until every required workflow handles the `merge_group` event and a
 representative queued pull request has succeeded.
 
-## Maintaining required checks
+## Maintaining Required Checks
 
 When a workflow or job name changes:
 
@@ -56,6 +56,9 @@ When a workflow or job name changes:
 
 Workflow step names are not status-check names. This repository currently exposes
 the job name `Validate package`.
+
+See the [CI/CD workflow map](../CI-CD-WORKFLOWS.md) for each workflow's public role and trigger
+model.
 
 ## References
 

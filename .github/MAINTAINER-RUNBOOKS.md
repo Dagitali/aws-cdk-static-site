@@ -1,12 +1,13 @@
 # Maintainer Runbooks
 
 - [Start Repository Work](#start-repository-work)
-- [Develop a Feature Or Bug Fix](#develop-a-feature-or-bug-fix)
+- [Develop a Feature or Bug Fix](#develop-a-feature-or-bug-fix)
 - [Prepare a Release](#prepare-a-release)
 - [Apply a Hotfix](#apply-a-hotfix)
 - [Investigate Failed Checks](#investigate-failed-checks)
 - [Recover a Release](#recover-a-release)
 - [Clean Up](#clean-up)
+- [Keep Private Elsewhere](#keep-private-elsewhere)
 
 ## Start Repository Work
 
@@ -20,7 +21,7 @@
 Do not use local Git Flow `finish` commands as the authoritative integration step. Merge through a
 GitHub pull request and clean up branches afterward.
 
-## Develop a Feature Or Bug Fix
+## Develop a Feature or Bug Fix
 
 1. Start from current `develop`.
 2. Implement one cohesive change with tests and documentation.
@@ -29,6 +30,10 @@ GitHub pull request and clean up branches afterward.
 5. Open a pull request targeting `develop` and complete required checks.
 
 ## Prepare a Release
+
+Use the public [release checklist](../RELEASE-CHECKLIST.md) together with these repository-specific
+steps. The versioning and compatibility rules are defined in
+[RELEASE-POLICY.md](../RELEASE-POLICY.md).
 
 1. Confirm `develop` contains the intended scope and passes CI.
 2. Create `release/<version>` from `develop`.
@@ -73,5 +78,8 @@ and document the consumer impact.
 After confirming the authoritative merge, delete the remote topic branch, prune remote references,
 and remove the local branch. Retain release tags and avoid rewriting shared history.
 
-Keep credentials, PyPI recovery codes, AWS account identifiers, private incident details, and
-embargoed vulnerability reports outside the repository.
+## Keep Private Elsewhere
+
+Keep credentials, PyPI recovery codes, AWS account identifiers, emergency bypass procedures, private
+incident details, and embargoed vulnerability reports outside the repository. Public runbooks should
+explain policy and reproducible workflows without exposing privileged operational details.
