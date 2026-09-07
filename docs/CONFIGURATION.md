@@ -87,18 +87,20 @@ site = StaticSite(
 
 CloudFront requires an ACM certificate in `us-east-1`. A stack using `create_certificate=True` must
 therefore be deployed in `us-east-1`. Applications using another deployment region should provision
-the certificate separately in `us-east-1` and pass it through `certificate`.
+the certificate separately in `us-east-1` and pass it through `certificate`. The construct rejects
+certificate creation when the stack region is unresolved or is not `us-east-1`.
 
 ## Validation Rules
 
 Configuration fails before synthesis when it contains incomplete combinations,
 including:
 
-- domain names without an existing or construct-created certificate;
-- both `certificate` and `create_certificate=True`;
-- certificate creation or Route 53 records without a hosted zone and domain names;
-- empty or duplicate domain and path patterns; or
-- nonpositive log retention or negative cache lifetime values.
+- Domain names without an existing or construct-created certificate;
+- Both `certificate` and `create_certificate=True`;
+- Certificate creation or Route 53 records without a hosted zone and domain names;
+- Certificate creation in an environment-agnostic stack or a region other than `us-east-1`;
+- Empty or duplicate domain and path patterns; or
+- Nonpositive log retention or negative cache lifetime values.
 
 ## Security Policy Customization
 

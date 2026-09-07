@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import cast
 
-from aws_cdk import Duration, RemovalPolicy
+from aws_cdk import Duration, RemovalPolicy, Stack, Token
 from aws_cdk import aws_certificatemanager as acm
 from aws_cdk import aws_cloudfront as cloudfront
 from aws_cdk import aws_cloudfront_origins as origins
@@ -15,6 +15,14 @@ from aws_cdk import aws_s3_deployment as s3deploy
 from constructs import Construct
 
 from .props import StaticSiteProps
+
+# SECTION: PROTECTED CONSTANTS
+
+
+_CLOUDFRONT_CERTIFICATE_REGION = 'us-east-1'
+
+
+# !SECTION
 
 # SECTION: AWS CDK CONSTRUCTS
 
@@ -36,6 +44,7 @@ class StaticSite(Construct):
         """Create the static-site resources."""
         super().__init__(scope, construct_id)
         props = props or StaticSiteProps()
+        self._validate_certificate_region(props)
 
         self.bucket = self._create_content_bucket(props)
         self.access_log_bucket = self._create_access_log_bucket(props)
@@ -292,5 +301,22 @@ class StaticSite(Construct):
                 ),
             )
         return tuple(records)
+
+    def _validate_certificate_region(self, props: StaticSiteProps) -> None:
+        if not props.create_certificate:
+            return
+
+        region = Stack.of(self).region
+        if Token.is_unresolved(region):
+            raise ValueError(
+                'create_certificate requires an explicit stack region of '
+                f'{_CLOUDFRONT_CERTIFICATE_REGION}',
+            )
+        if region != _CLOUDFRONT_CERTIFICATE_REGION:
+            raise ValueError(
+                'create_certificate requires stack region '
+                f'{_CLOUDFRONT_CERTIFICATE_REGION}; received {region}',
+            )
+
 
 # !SECTION
