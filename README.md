@@ -1,5 +1,10 @@
 # AWS CDK Static Site
 
+[![Release](https://img.shields.io/github/v/tag/Dagitali/aws-cdk-static-site?label=release)][GitHub release]
+[![Python](https://img.shields.io/badge/python-3.13%20%7C%203.14-blue.svg)][Python support]
+[![License](https://img.shields.io/github/license/Dagitali/aws-cdk-static-site.svg)](LICENSE)
+[![CI](https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/ci.yml/badge.svg?branch=main)][GitHub Actions CI workflow]
+
 `aws-cdk-static-site` is a Python AWS CDK construct for deploying a static site through CloudFront
 from a private, encrypted S3 bucket.
 
@@ -9,6 +14,7 @@ maintained CDK construct that applications can compose inside their own stacks.
 
 - [Status](#status)
 - [Features](#features)
+- [Architecture](#architecture)
 - [Requirements](#requirements)
 - [Development Installation](#development-installation)
 - [Usage](#usage)
@@ -34,6 +40,15 @@ not yet published to PyPI.
 - Support for externally managed DNS and an imported ACM certificate
 - Optional access logs with bounded retention
 - Retained content resources and low-cost `PriceClass_100` defaults
+
+## Architecture
+
+```mermaid
+flowchart LR
+    viewer[Viewer] --> distribution[CloudFront]
+    distribution --> oac[Origin Access Control]
+    oac --> bucket[(Private S3 bucket)]
+```
 
 ## Requirements
 
@@ -129,3 +144,7 @@ wheel smoke testing, and trusted publishing. Git-based installation is sufficien
 ## License
 
 Licensed under the [MIT License](LICENSE).
+
+[GitHub Actions CI workflow]: https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/ci.yml
+[GitHub release]: https://github.com/Dagitali/aws-cdk-static-site/releases
+[Python support]: #requirements
