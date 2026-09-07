@@ -38,6 +38,22 @@ def _require_value(
         failures.append(f"{location}: expected {expected!r}, received {actual!r}")
 
 
+def _resolve_workflow_env(value: str, content: str) -> str:
+    match = re.fullmatch(r'\$\{\{\s*env\.([A-Z][A-Z0-9_]*)\s*}}', value)
+    if match is None:
+        return value
+
+    name = re.escape(match.group(1))
+    declaration = re.search(
+        rf'^  {name}:\s*(.+?)\s*$',
+        content,
+        re.MULTILINE,
+    )
+    if declaration is None:
+        return value
+    return _normalize_yaml_scalar(declaration.group(1))
+
+
 # !SECTION
 
 
@@ -111,7 +127,8 @@ def validate(
     for path in sorted((*workflow_dir.glob('*.yml'), *workflow_dir.glob('*.yaml'))):
         content = path.read_text(encoding='utf-8')
         configured_versions = [
-            _normalize_yaml_scalar(value) for value in version_pattern.findall(content)
+            _resolve_workflow_env(_normalize_yaml_scalar(value), content)
+            for value in version_pattern.findall(content)
         ]
         for configured_version in configured_versions:
             if configured_version != MINIMUM_PYTHON_TEXT:
