@@ -11,21 +11,28 @@
 #   through reviewable pull requests.
 # - Route routine dependency maintenance through the GitFlow development
 #   branch before release promotion.
+# - Reduce supply-chain exposure from stale dependencies while preserving
+#   review, CI, and package-build gates.
 #
 # Maintainer Notes
 # - `pyproject.toml` is the canonical Python dependency metadata source.
+# - Dependency update pull requests intentionally target `develop`; release
+#   branches receive them through normal GitFlow promotion unless an urgent
+#   security fix requires a hotfix.
 # - Keep external GitHub Actions pinned to full commit SHAs after accepting
 #   Dependabot updates.
-# - Use a hotfix branch instead for an urgent dependency security correction
-#   that must target the release branch directly.
 #
 # References
+# - GitHub Advisory Database: https://github.com/advisories
 # - GitHub Dependabot documentation:
 #   https://docs.github.com/en/code-security/dependabot
 # - Dependabot configuration reference:
 #   https://docs.github.com/en/code-security/dependabot/
 #   dependabot-version-updates/
 #   configuration-options-for-the-dependabot.yml-file
+# - Dependabot quickstart guide:
+#   https://docs.github.com/en/code-security/tutorials/
+#   secure-your-dependencies/dependabot-quickstart-guide
 # - Python packaging documentation:
 #   https://packaging.python.org/
 
