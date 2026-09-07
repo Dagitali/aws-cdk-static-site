@@ -22,6 +22,9 @@
 ---
 blank_issues_enabled: false
 contact_links:
+  - name: Support and usage questions
+    url: https://github.com/Dagitali/aws-cdk-static-site/blob/main/SUPPORT.md
+    about: Review the support policy and available help channels before opening an issue.
   - name: Security disclosures
     url: https://github.com/Dagitali/aws-cdk-static-site/security/policy
     about: Report security issues privately under the repository security policy.
