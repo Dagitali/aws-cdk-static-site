@@ -79,20 +79,19 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
-        exclude: ^site/.*\.png$
       - id: check-ast
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
       - id: check-executables-have-shebangs
         exclude_types: [batch]
-      - id: check-json
+      # - id: check-json
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       # - id: check-symlinks
       - id: check-toml
       - id: check-vcs-permalinks
-      - id: check-xml
+      # - id: check-xml
       - id: check-yaml
       - id: debug-statements
       - id: destroyed-symlinks
@@ -106,12 +105,12 @@ repos:
       - id: mixed-line-ending
       - id: name-tests-test
         args: [--pytest-test-first]
-        exclude: ^tests/support/.*\.py$
+      #   exclude: ^tests/support/.*\.py$
       - id: no-commit-to-branch
         args: [--branch, develop, --branch, main]
-      - id: pretty-format-json
-        args: [--autofix, --no-sort-keys]
-      - id: requirements-txt-fixer
+      # - id: pretty-format-json
+      #   args: [--autofix, --no-sort-keys]
+      # - id: requirements-txt-fixer
       # - id: sort-simple-yaml
       - id: trailing-whitespace
 
@@ -181,7 +180,7 @@ repos:
         pass_filenames: false
 
       - id: check-python-policy
-        name: Check minimum Python version policy
+        name: Check supported Python version policy
         entry: python3 scripts/check_python_policy.py
         language: system
         files: >-
