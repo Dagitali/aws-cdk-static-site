@@ -14,6 +14,7 @@ maintained CDK construct that applications can compose inside their own stacks.
 - [Usage](#usage)
 - [Design Boundaries](#design-boundaries)
 - [Documentation](#documentation)
+- [Contributing and Support](#contributing-and-support)
 - [PyPI Publication](#pypi-publication)
 - [License](#license)
 
@@ -102,11 +103,21 @@ one organization or deployment process.
 
 ## Documentation
 
+- [Documentation index](docs/README.md)
 - [Configuration reference](docs/CONFIGURATION.md)
 - [Cost considerations](docs/COSTS.md)
 - [Testing guide](docs/TESTING.md)
 - [Extraction roadmap](docs/ROADMAP.md)
+- [CI/CD workflow map](CI-CD-WORKFLOWS.md)
+- [Release policy](RELEASE-POLICY.md)
+- [Release checklist](RELEASE-CHECKLIST.md)
 - [Maintainer runbooks](.github/MAINTAINER-RUNBOOKS.md)
+
+## Contributing and Support
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request expectations. Use
+[SUPPORT.md](SUPPORT.md) for public help channels and [SECURITY.md](SECURITY.md) for private
+vulnerability reporting.
 
 ## PyPI Publication
 

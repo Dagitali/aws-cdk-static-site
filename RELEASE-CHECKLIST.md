@@ -5,7 +5,7 @@ details, and incident procedures outside the repository.
 
 - [Prepare](#prepare)
 - [Validate](#validate)
-- [Integrate And Tag](#integrate-and-tag)
+- [Integrate and Tag](#integrate-and-tag)
 - [Publish](#publish)
 - [Close Out](#close-out)
 
@@ -26,7 +26,7 @@ details, and incident procedures outside the repository.
 - [ ] Review synthesized changes for security, replacement risk, and cost implications.
 - [ ] Confirm required GitHub Actions are pinned and pass on the release pull request.
 
-## Integrate And Tag
+## Integrate and Tag
 
 - [ ] Open a pull request from `release/<version>` to protected `main`.
 - [ ] Merge through GitHub after required checks and reviews pass.

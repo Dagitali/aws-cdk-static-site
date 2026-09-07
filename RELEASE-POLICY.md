@@ -1,4 +1,4 @@
-# Release Policy And Versioning
+# Release Policy and Versioning
 
 - [Scope](#scope)
 - [Versioning Model](#versioning-model)
