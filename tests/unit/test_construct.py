@@ -153,21 +153,6 @@ class TestDelivery:
 class TestOptionalIntegrations:
     """Verify DNS, certificate, and logging remain opt-in."""
 
-    def test_creates_route53_aliases_and_certificate_when_requested(
-        self,
-        template_factory: TemplateFactory,
-    ) -> None:
-        template = template_factory(route53_enabled=True)
-        template.resource_count_is('AWS::Route53::RecordSet', 4)
-        template.has_resource_properties(
-            'AWS::CertificateManager::Certificate',
-            {
-                'DomainName': 'example.com',
-                'SubjectAlternativeNames': ['www.example.com'],
-                'ValidationMethod': 'DNS',
-            },
-        )
-
     def test_creates_bounded_access_log_storage_when_requested(
         self,
         template_factory: TemplateFactory,
@@ -188,6 +173,60 @@ class TestOptionalIntegrations:
                 },
             },
         )
+
+    def test_creates_route53_aliases_and_certificate_when_requested(
+        self,
+        template_factory: TemplateFactory,
+    ) -> None:
+        template = template_factory(route53_enabled=True)
+        template.resource_count_is('AWS::Route53::RecordSet', 4)
+        template.has_resource_properties(
+            'AWS::CertificateManager::Certificate',
+            {
+                'DomainName': 'example.com',
+                'SubjectAlternativeNames': ['www.example.com'],
+                'ValidationMethod': 'DNS',
+            },
+        )
+
+    @pytest.mark.parametrize(
+        ('environment', 'message'),
+        [
+            (
+                cdk.Environment(account=ACCOUNT, region='us-west-2'),
+                'requires stack region us-east-1; received us-west-2',
+            ),
+            (
+                None,
+                'requires an explicit stack region of us-east-1',
+            ),
+        ],
+        ids=('incompatible-region', 'environment-agnostic'),
+    )
+    def test_rejects_invalid_region_for_created_certificate(
+        self,
+        environment: cdk.Environment | None,
+        message: str,
+    ) -> None:
+        app = cdk.App()
+        stack = cdk.Stack(app, 'TestStack', env=environment)
+        hosted_zone = route53.HostedZone.from_hosted_zone_attributes(
+            stack,
+            'HostedZone',
+            hosted_zone_id='Z0000000000000000000',
+            zone_name='example.com',
+        )
+
+        with pytest.raises(ValueError, match=message):
+            StaticSite(
+                stack,
+                'Site',
+                props=StaticSiteProps(
+                    domain_names=('www.example.com',),
+                    hosted_zone=hosted_zone,
+                    create_certificate=True,
+                ),
+            )
 
 
 class TestStorage:
