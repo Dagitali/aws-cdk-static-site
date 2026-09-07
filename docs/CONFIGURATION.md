@@ -1,4 +1,4 @@
-# Configuration reference
+# Configuration Reference
 
 `StaticSiteProps` defines the public configuration passed to the `StaticSite` construct. The
 consuming CDK application remains responsible for reading context, environment variables, or
@@ -7,9 +7,9 @@ configuration files and converting them into these typed properties.
 - [Properties](#properties)
 - [CloudFront-Only Domain](#cloudfront-only-domain)
 - [Externally Managed DNS](#externally-managed-dns)
-- [Route 53 And ACM](#route-53-and-acm)
+- [Route 53 and ACM](#route-53-and-acm)
 - [Validation Rules](#validation-rules)
-- [Security-Policy Customization](#security-policy-customization)
+- [Security Policy Customization](#security-policy-customization)
 
 ## Properties
 
@@ -67,7 +67,7 @@ site = StaticSite(
 Create the required CNAME or equivalent record with the external DNS provider. The construct
 deliberately does not modify external DNS.
 
-## Route 53 And ACM
+## Route 53 and ACM
 
 To manage aliases and certificate validation in the consuming stack:
 
@@ -100,7 +100,7 @@ including:
 - empty or duplicate domain and path patterns; or
 - nonpositive log retention or negative cache lifetime values.
 
-## Security-Policy Customization
+## Security Policy Customization
 
 The default Content Security Policy allows same-origin scripts, styles, fonts, images, and
 connections, plus `data:` images. A consuming site that uses external analytics, fonts, forms, or
