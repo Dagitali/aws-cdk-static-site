@@ -6,22 +6,17 @@
 # GitHub Actions workflow for continuous integration (CI).
 #
 # Responsibilities
-# - Run pre-merge validation for pull requests targeting the long-lived GitFlow
-#   branches.
-# - Build non-HTML docs targets, cross-platform install smoke coverage, and
-#   packaged distribution validation before those changes land.
+# - Enforce supported GitFlow pull-request targets.
+# - Validate changes proposed for or pushed to long-lived GitFlow branches.
+# - Run the repository's linting, type, policy, test, and package-build gates.
 #
 # Maintainer Notes
 # - Global permissions are intentionally omitted; each job declares the minimum
 #   permissions it needs.
 # - External GitHub Actions are pinned to full commit SHAs to reduce supply-
 #   chain risk.
-# - Keep required pull-request and merge-queue gates in `pr.yml`.
-# - This workflow intentionally complements, rather than replaces, the lighter
-#   integration checks that run earlier in the development loop.
 # - The dynamic run name is part of the workflow contract: it should identify
-#   the short-lived source branch and the long-running target branch for PR
-#   review clarity.
+#   the event and relevant branch for review clarity.
 #
 # References
 # - GitHub Actions Python guide:
@@ -29,7 +24,6 @@
 #   building-and-testing-python
 # - GitHub Actions expressions reference:
 #   https://docs.github.com/en/actions/learn-github-actions/expressions
-# - GitHub Actions security hardening guide:
 # - GitHub Actions security hardening guide:
 #   https://docs.github.com/en/actions/security-guides/
 #   security-hardening-for-github-actions
@@ -46,38 +40,85 @@
 # - Python wheel format specification:
 #   https://packaging.python.org/en/latest/specifications/
 #   binary-distribution-format/#file-contents
-# - Read the Docs documentation:
-#   https://docs.readthedocs.io/en/stable/
-# - Sphinx documentation:
-#   https://www.sphinx-doc.org/en/master/
-# - Sphinx builders reference:
-#   https://www.sphinx-doc.org/en/master/usage/builders/index.html
-
 ---
 name: CI
 
+run-name: >-
+  ${{
+    github.event_name == 'pull_request' &&
+    format('CI: {0} -> {1}', github.head_ref, github.base_ref) ||
+    github.event_name == 'push' &&
+    format('CI: push on {0}', github.ref_name) ||
+    github.event_name == 'merge_group' &&
+    format('CI: merge queue for {0}', github.ref_name) ||
+    'CI: manual dispatch'
+  }}
+
 on:
   pull_request:
+    branches:
+      - develop
+      - main
   push:
-    branches: [develop, main]
+    branches:
+      - develop
+      - main
+  merge_group:
+    branches:
+      - develop
+      - main
   workflow_dispatch:
 
 permissions: {}
+
+env:
+  DEFAULT_PYTHON_VERSION: "3.13"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  guard-pr-target:
+    name: Guard PR target branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Enforce GitFlow pull-request targets
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+        shell: bash
+        run: |
+          if [[ "$EVENT_NAME" != "pull_request" ]]; then
+            echo "No pull-request target to validate for $EVENT_NAME."
+            exit 0
+          fi
+
+          case "$BASE_REF:$HEAD_REF" in
+            main:release/* | main:hotfix/*)
+              echo "Pull-request target is valid for main."
+              ;;
+            develop:feature/* | develop:bugfix/* | develop:chore/* | develop:ci/* | develop:docs/* | develop:dependabot/* | develop:sync/*)
+              echo "Pull-request target is valid for develop."
+              ;;
+            *)
+              echo "Unsupported GitFlow path: $HEAD_REF -> $BASE_REF" >&2
+              exit 1
+              ;;
+          esac
+
   validate:
     name: Validate package
+    needs: guard-pr-target
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
       contents: read
     steps:
       - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -85,7 +126,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
-          python-version: "3.13"
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
           cache: pip
 
       - name: Install development dependencies
