@@ -10,6 +10,16 @@
 # Maintainer Notes
 # - Keep prompts product-neutral unless a project-specific question materially
 #   improves triage.
+#
+# References
+# - GitHub issue templates:
+#   https://docs.github.com/en/repositories/
+#   managing-your-repositorys-settings-and-features/
+#   customizing-your-repository/configuring-issue-templates-for-your-repository
+# - GitHub issue forms syntax:
+#   https://docs.github.com/en/repositories/
+#   managing-your-repositorys-settings-and-features/
+#   customizing-your-repository/syntax-for-issue-forms
 
 ---
 name: Bug Report
