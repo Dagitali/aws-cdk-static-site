@@ -24,3 +24,32 @@
 
 # Default ownership until a Dagitali maintainers team is established.
 * @djrlj694
+
+# Repository automation and governance
+/.github/                         @djrlj694
+
+# Community health and agent guidance
+/AGENTS.md                        @djrlj694
+/CODE_OF_CONDUCT.md               @djrlj694
+/CONTRIBUTING.md                  @djrlj694
+/README.md                        @djrlj694
+/REFERENCES.md                    @djrlj694
+/RELEASE-CHECKLIST.md             @djrlj694
+/RELEASE-POLICY.md                @djrlj694
+/SECURITY.md                      @djrlj694
+/SUPPORT.md                       @djrlj694
+
+# Development and packaging policy
+/.pre-commit-config.yaml          @djrlj694
+/.python-version                  @djrlj694
+/LICENSE                          @djrlj694
+/Makefile                         @djrlj694
+/NOTICE                           @djrlj694
+/pyproject.toml                   @djrlj694
+
+# Source, tests, tooling, examples, and documentation
+/docs/                            @djrlj694
+/examples/                        @djrlj694
+/scripts/                         @djrlj694
+/src/                             @djrlj694
+/tests/                           @djrlj694
