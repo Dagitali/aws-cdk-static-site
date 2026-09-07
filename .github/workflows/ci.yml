@@ -9,6 +9,8 @@
 # - Enforce supported GitFlow pull-request targets.
 # - Validate changes proposed for or pushed to long-lived GitFlow branches.
 # - Run the repository's linting, type, policy, test, and package-build gates.
+# - Exercise every explicitly supported Python version.
+# - Smoke-test installation on each supported operating-system family.
 #
 # Maintainer Notes
 # - Global permissions are intentionally omitted; each job declares the minimum
@@ -17,6 +19,8 @@
 #   chain risk.
 # - The dynamic run name is part of the workflow contract: it should identify
 #   the event and relevant branch for review clarity.
+# - The default Python version runs the complete validation gate; compatibility
+#   jobs cover additional versions declared by the package metadata.
 #
 # References
 # - GitHub Actions Python guide:
@@ -118,13 +122,13 @@ jobs:
       contents: read
     steps:
       - name: Check out repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # Pinned v6.0.3
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
         with:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
           cache: pip
@@ -152,3 +156,52 @@ jobs:
 
       - name: Check distributions
         run: python -m twine check dist/*
+
+  test-python-314:
+    name: Test on Python 3.14
+    needs: guard-pr-target
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # Pinned v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Run tests
+        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516  # Pinned v0.1.2
+        with:
+          phase: test
+          python-version: "3.14"
+          pip-install: "-e .[dev]"
+          pytest-args: "-q"
+
+  smoke-cross-platform:
+    name: Smoke install on ${{ matrix.os }}
+    needs: guard-pr-target
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # Pinned v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Install package
+        uses: Dagitali/python-bootstrap@eebcaa17afad3256b944399e1e34ba355b30e895  # Pinned v0.1.3
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          pip-install: "."
+
+      - name: Verify installed package import
+        run: python -c "import aws_cdk_static_site"

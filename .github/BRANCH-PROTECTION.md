@@ -30,26 +30,31 @@ retain a reviewable pull-request record before `develop` or `main` moves.
 
 ## Recommended Required Checks
 
-Require the `Validate package` status check from `.github/workflows/ci.yml`. It depends on the
-`Guard PR target branch` job, so a valid pull-request route and the package quality gate must both
-succeed.
+Require the `Validate package` and `Test on Python 3.14` status checks from
+`.github/workflows/ci.yml`. Both depend on the `Guard PR target branch` job, so a valid pull-request
+route, the package quality gate, and compatibility with each declared Python version must succeed.
 
 The `Generate CycloneDX SBOM` job is advisory. It runs after relevant protected-branch pushes and
 should not be configured as a pull-request requirement unless its workflow triggers are expanded to
 cover every protected pull-request and merge-queue event.
 
+The `Smoke install on macos-latest` and `Smoke install on windows-latest` jobs are advisory
+cross-platform packaging checks. Promote them to required checks only after weighing their added
+runner time and availability against the repository's merge policy.
+
 ## Shared Protection Baseline
 
 Protect both `main` and `develop` with a GitHub ruleset that:
 
-- requires pull requests;
-- requires the `Validate package` status check from `.github/workflows/ci.yml`,
-  which depends on the `Guard PR target branch` job;
-- requires conversations to be resolved;
-- blocks force pushes and branch deletion;
-- prevents direct updates, including by administrators unless a documented
+- Requires pull requests;
+- Requires the `Validate package` and `Test on Python 3.14` status checks from
+  `.github/workflows/ci.yml`, which depend on the `Guard PR target branch` job;
+- Requires branches to be up to date before merging when merge queue is not enabled;
+- Requires conversations to be resolved;
+- Blocks force pushes and branch deletion;
+- Prevents direct updates, including by administrators unless a documented
   recovery exception is necessary; and
-- dismisses stale approvals when review requirements are enabled.
+- Dismisses stale approvals when review requirements are enabled.
 
 For a solo-maintained project, required approval can remain disabled until another reviewer is
 available, while pull requests and CI remain mandatory. Once multiple maintainers participate,
@@ -64,11 +69,14 @@ document version changes, compatibility, validation, release notes, and rollback
 requests document urgency and the plan to synchronize the correction back to `develop`.
 
 Do not require a merge queue until every required workflow handles the `merge_group` event and a
-representative queued pull request has succeeded.
+representative queued pull request has succeeded. When enabling merge queue, review whether the
+separate up-to-date branch requirement remains useful rather than retaining redundant controls by
+default.
 
 ## Protection Checklist for `develop`
 
-- [ ] Require pull requests and the `Validate package` status check.
+- [ ] Require pull requests and the `Validate package` and `Test on Python 3.14` status checks.
+- [ ] Require branches to be up to date before merging unless merge queue is enabled.
 - [ ] Require conversation resolution.
 - [ ] Block force pushes, deletion, and direct updates.
 - [ ] Accept routine topic branches and `sync/*` branches under the documented branch map.
@@ -76,7 +84,9 @@ representative queued pull request has succeeded.
 
 ## Protection Checklist for `main`
 
-- [ ] Require pull requests and the `Validate package` status check.
+- [ ] Require pull requests and the `Validate package` and
+  `Test on Python 3.14` status checks.
+- [ ] Require branches to be up to date before merging unless merge queue is enabled.
 - [ ] Require conversation resolution.
 - [ ] Block force pushes, deletion, and direct updates.
 - [ ] Accept only `release/*` and `hotfix/*` pull requests under the documented branch map.
@@ -98,8 +108,9 @@ When a workflow or job name changes:
 3. Add the exact new job name and select GitHub Actions as its source when available.
 4. Confirm it runs for every protected target and supported merge event.
 
-Workflow step names are not status-check names. This repository currently exposes
-the job name `Validate package`.
+Workflow step names are not status-check names. This repository currently exposes the job names
+`Validate package` and `Test on Python 3.14`. Run a representative pull request successfully before
+adding a new job name to an active ruleset.
 
 See the [CI/CD workflow map](../CI-CD-WORKFLOWS.md) for each workflow's public role and trigger
 model.

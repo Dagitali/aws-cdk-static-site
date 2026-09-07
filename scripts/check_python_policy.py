@@ -20,11 +20,22 @@ MINIMUM_PYTHON_TEXT = '3.13'
 # SECTION: PROTECTED FUNCTIONS
 
 
-def _normalize_yaml_scalar(value: str) -> str:
+def _normalize_yaml_scalar(
+    value: str,
+) -> str:
     value = value.split(' #', maxsplit=1)[0].strip()
     if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
         return value[1:-1]
     return value
+
+
+def _parse_python_version(
+    value: str,
+) -> tuple[int, int] | None:
+    match = re.fullmatch(r'(\d+)\.(\d+)', value)
+    if match is None:
+        return None
+    return int(match.group(1)), int(match.group(2))
 
 
 def _require_value(
@@ -38,7 +49,10 @@ def _require_value(
         failures.append(f"{location}: expected {expected!r}, received {actual!r}")
 
 
-def _resolve_workflow_env(value: str, content: str) -> str:
+def _resolve_workflow_env(
+    value: str,
+    content: str,
+) -> str:
     match = re.fullmatch(r'\$\{\{\s*env\.([A-Z][A-Z0-9_]*)\s*}}', value)
     if match is None:
         return value
@@ -131,7 +145,8 @@ def validate(
             for value in version_pattern.findall(content)
         ]
         for configured_version in configured_versions:
-            if configured_version != MINIMUM_PYTHON_TEXT:
+            parsed_version = _parse_python_version(configured_version)
+            if parsed_version is None or parsed_version < MINIMUM_PYTHON:
                 failures.append(
                     f"{path.relative_to(root)}: unsupported Python version "
                     f"{configured_version!r}",
