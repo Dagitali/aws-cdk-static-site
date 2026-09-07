@@ -11,7 +11,8 @@ details, and incident procedures outside the repository.
 
 ## Prepare
 
-- [ ] Confirm the intended version and compatibility impact under [RELEASE-POLICY.md].
+- [ ] Confirm the intended version and compatibility impact under the
+      [release policy].
 - [ ] Create `release/<version>` from current `develop`.
 - [ ] Finalize user-facing changes, tests, documentation, and `CHANGELOG.md`.
 - [ ] Confirm package metadata, supported Python versions, dependencies, and public exports.
@@ -51,4 +52,4 @@ and enabled.
 - [ ] Delete merged working branches and prune obsolete remote references.
 - [ ] Record follow-up work without rewriting the released tag or shared history.
 
-[RELEASE-POLICY.md]: ELEASE-POLICY.md
+[release policy]: RELEASE-POLICY.md

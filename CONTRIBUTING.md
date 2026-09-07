@@ -7,6 +7,7 @@ under this project's [MIT License](LICENSE).
 - [Ways to Contribute](#ways-to-contribute)
 - [Development Workflow](#development-workflow)
 - [Protected-Branch GitFlow](#protected-branch-gitflow)
+- [Public API and Type Checking](#public-api-and-type-checking)
 - [Local Quality Gates](#local-quality-gates)
 - [Testing](#testing)
 - [Documentation](#documentation)
@@ -52,6 +53,22 @@ that bypass the pull-request review surface. The complete branch map and require
 [.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md), and maintainer procedures are in
 [.github/MAINTAINER-RUNBOOKS.md](.github/MAINTAINER-RUNBOOKS.md).
 
+## Public API and Type Checking
+
+The names exported from `aws_cdk_static_site.__all__` form the intentional package-level public API.
+Treat changes to their names, signatures, defaults, validation, and synthesized behavior as
+compatibility decisions rather than internal refactors.
+
+The package ships a `py.typed` marker and runs mypy in strict mode. When contributing Python code:
+
+- Use Python 3.13 syntax and standard-library types where they improve clarity;
+- Prefer precise boundary types over `Any` and explain unavoidable dynamic boundaries;
+- Keep runtime validation for configuration rules that type checking cannot enforce;
+- Avoid importing internal modules in examples when the package-level API is sufficient; and
+- Add contract tests when changing public configuration or generated infrastructure.
+
+Run `make typecheck` locally and include migration guidance for intentional breaking changes.
+
 ## Local Quality Gates
 
 Run the complete local gate with:
@@ -91,6 +108,10 @@ Keep prose concise, use descriptive link text, and wrap code, file names, comman
 in backticks. Update nearby examples and cross-references when behavior or public interfaces change.
 Prefer repository-relative links for local documents and authoritative primary sources for external
 technical references.
+
+Document public behavior and decision-relevant constraints rather than restating implementation line
+by line. Keep headings in title case, preserve the official capitalization of tools and products,
+and keep table-of-contents labels synchronized with their headings.
 
 ## Community Standards
 

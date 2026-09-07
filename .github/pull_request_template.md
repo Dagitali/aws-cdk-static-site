@@ -2,6 +2,8 @@
 
 Describe the user-visible or maintainer-facing change and why it is needed.
 
+Link related issues and identify the intended target branch when that context is not obvious.
+
 ## Compatibility and Risks
 
 Describe effects on public interfaces, generated artifacts, supported platforms or toolchains, and
@@ -19,5 +21,7 @@ practical, such as `make check`.
 - [ ] I updated user-facing or maintainer documentation when needed.
 - [ ] I ran the relevant local checks.
 - [ ] I updated `CHANGELOG.md` for a user-visible change.
+- [ ] I reviewed compatibility and generated or deployable artifacts when applicable.
+- [ ] I identified breaking changes, deprecations, and migration steps explicitly.
 - [ ] I kept credentials, private data, and other secrets out of the repository.
 - [ ] I documented intentional limitations and follow-up work.

@@ -1,6 +1,7 @@
 # Release Notes Template
 
-Use this template when drafting GitHub release notes for a tagged release.
+Use this template when drafting GitHub Release notes for a tagged release. GitHub Releases are the
+canonical public announcement and release-history surface for the project once releases begin.
 
 - [Highlights](#highlights)
 - [Breaking Changes](#breaking-changes)
@@ -34,6 +35,8 @@ Use this template when drafting GitHub release notes for a tagged release.
 
 - Note meaningful documentation, automation, packaging, security, or contributor-facing
   improvements.
+- State whether packaging or release-automation changes affect installation, artifact contents, or
+  the repository's canonical metadata source.
 
 ## Upgrade Notes
 
@@ -49,3 +52,4 @@ Use this template when drafting GitHub release notes for a tagged release.
 - Reconcile generated notes with the merged pull requests and changelog.
 - Ensure breaking changes and deprecations are called out explicitly.
 - Confirm the tag and documented version refer to the authoritative release commit.
+- Confirm published assets, if any, were built and validated from that tag.
