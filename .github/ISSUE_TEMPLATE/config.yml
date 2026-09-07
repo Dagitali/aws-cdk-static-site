@@ -8,6 +8,16 @@
 #
 # Maintainer Notes
 # - Keep links aligned with the repository's supported reporting surfaces.
+#
+# References
+# - GitHub issue template chooser configuration:
+#   https://docs.github.com/en/repositories/
+#   managing-your-repositorys-settings-and-features/
+#   customizing-your-repository/configuring-issue-templates-for-your-repository
+# - GitHub issue forms syntax:
+#   https://docs.github.com/en/repositories/
+#   managing-your-repositorys-settings-and-features/
+#   customizing-your-repository/syntax-for-issue-forms
 
 ---
 blank_issues_enabled: false
