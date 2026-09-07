@@ -1,0 +1,55 @@
+# CODEOWNERS
+# aws-cdk-static-site
+#
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# GitHub CODEOWNERS configuration for repository review ownership.
+#
+# Responsibilities
+# - Assign review ownership for repository automation, release packaging,
+#   security, community health, and published documentation surfaces.
+# - Keep ownership routing aligned with protected-branch review expectations.
+#
+# Maintainer Notes
+# - GitHub applies the last matching pattern when multiple CODEOWNERS patterns
+#   match a changed file.
+# - Keep governance and release-critical ownership broad enough to preserve
+#   review coverage for CI, packaging, and documentation changes.
+#
+# References
+# - GitHub CODEOWNERS documentation:
+#   https://docs.github.com/en/repositories/
+#   managing-your-repositorys-settings-and-features/
+#   customizing-your-repository/about-code-owners
+
+# Default ownership until a Dagitali maintainers team is established.
+* @djrlj694
+
+# Repository automation and governance
+/.github/                         @djrlj694
+
+# Community health and agent guidance
+/AGENTS.md                        @djrlj694
+/CODE_OF_CONDUCT.md               @djrlj694
+/CONTRIBUTING.md                  @djrlj694
+/README.md                        @djrlj694
+/REFERENCES.md                    @djrlj694
+/RELEASE-CHECKLIST.md             @djrlj694
+/RELEASE-POLICY.md                @djrlj694
+/SECURITY.md                      @djrlj694
+/SUPPORT.md                       @djrlj694
+
+# Development and packaging policy
+/.pre-commit-config.yaml          @djrlj694
+/.python-version                  @djrlj694
+/LICENSE                          @djrlj694
+/Makefile                         @djrlj694
+/NOTICE                           @djrlj694
+/pyproject.toml                   @djrlj694
+
+# Source, tests, tooling, examples, and documentation
+/docs/                            @djrlj694
+/examples/                        @djrlj694
+/scripts/                         @djrlj694
+/src/                             @djrlj694
+/tests/                           @djrlj694

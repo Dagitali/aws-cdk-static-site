@@ -1,0 +1,119 @@
+# pyproject.toml
+# aws-cdk-static-site
+#
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# Python project configuration and canonical package metadata.
+#
+# Responsibilities
+# - Define build-system requirements and setuptools backend configuration.
+# - Declare canonical package metadata, runtime dependencies, optional extras,
+#   and package data.
+# - Configure Python tooling that reads project settings from pyproject.toml.
+#
+# Maintainer Notes
+# - Treat this file as the canonical source for packaging metadata.
+# - Derive package versions from annotated Git release tags through
+#   setuptools-scm; do not add a second version source.
+#
+# References
+# - setuptools pyproject configuration:
+#   https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+# - pyproject.toml specification:
+#   https://packaging.python.org/en/latest/specifications/pyproject-toml/
+# - PEP 621 project metadata:
+#   https://peps.python.org/pep-0621/
+
+[build-system]
+# Use a modern setuptools that supports PEP 621 & editable installs (PEP 660).
+requires = ["setuptools>=80", "setuptools-scm>=9.2,<10", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aws-cdk-static-site"
+dynamic = ["version"]
+description = "A secure, cost-conscious AWS CDK construct for static websites"
+readme = "README.md"
+requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "Dagitali LLC"}]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: AWS CDK",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = [
+  "aws-cdk-lib>=2.267.0,<3.0.0",
+  "constructs>=10.8.1,<11.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.3,<2",
+  "mypy>=2.0,<3",
+  "pre-commit>=4.0,<5",
+  "pytest>=9.0,<10",
+  "pytest-cov>=7.0,<8",
+  "ruff>=0.16,<0.17",
+  "twine>=6.2,<7",
+]
+
+[project.urls]
+Changelog = "https://github.com/Dagitali/aws-cdk-static-site/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/Dagitali/aws-cdk-static-site"
+Issues = "https://github.com/Dagitali/aws-cdk-static-site/issues"
+Repository = "https://github.com/Dagitali/aws-cdk-static-site"
+
+[tool.coverage.run]
+branch = true
+source = ["aws_cdk_static_site"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+skip_empty = true
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+packages = ["aws_cdk_static_site"]
+mypy_path = "src"
+
+[tool.pytest]
+minversion = "9.0"
+addopts = [
+  "-ra",
+  "--import-mode=importlib",
+  "--strict-config",
+  "--strict-markers",
+  "--cov=aws_cdk_static_site",
+  "--cov-report=term-missing",
+  "--cov-fail-under=90",
+]
+testpaths = ["tests"]
+markers = ["unit: isolated CDK synthesis tests"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP", "W"]
+
+[tool.setuptools.package-data]
+aws_cdk_static_site = ["py.typed"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["aws_cdk_static_site*"]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
+parentdir_prefix_version = "aws-cdk-static-site-"

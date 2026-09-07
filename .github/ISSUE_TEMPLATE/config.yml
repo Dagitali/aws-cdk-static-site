@@ -1,0 +1,30 @@
+# config.yml
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# GitHub issue template configuration.
+#
+# Responsibilities
+# - Disable blank issues and direct users toward the supported support paths.
+#
+# Maintainer Notes
+# - Keep links aligned with the repository's supported reporting surfaces.
+#
+# References
+# - GitHub issue template chooser configuration:
+#   https://docs.github.com/en/repositories/
+#   managing-your-repositorys-settings-and-features/
+#   customizing-your-repository/configuring-issue-templates-for-your-repository
+# - GitHub issue forms syntax:
+#   https://docs.github.com/en/repositories/
+#   managing-your-repositorys-settings-and-features/
+#   customizing-your-repository/syntax-for-issue-forms
+
+---
+blank_issues_enabled: false
+contact_links:
+  - name: Support and usage questions
+    url: https://github.com/Dagitali/aws-cdk-static-site/blob/main/SUPPORT.md
+    about: Review the support policy and available help channels before opening an issue.
+  - name: Security disclosures
+    url: https://github.com/Dagitali/aws-cdk-static-site/security/policy
+    about: Report security issues privately under the repository security policy.
