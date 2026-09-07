@@ -10,9 +10,9 @@
 
 ## Support Policy
 
-AWS CDK Static Site is maintained as an open source project with best-effort community support.
-Before `v1.0.0`, its public API may change between minor releases as the construct is validated in
-additional consuming applications.
+This project is maintained as open source software with best-effort community support. Before
+`v1.0.0`, its public API may change between minor releases as the package is validated in additional
+consuming applications.
 
 ## Supported Versions
 
@@ -22,8 +22,12 @@ to work but should not be assumed to receive routine fixes or compatibility upda
 ## Supported Surface
 
 The support boundary includes the latest release, Python versions declared in `pyproject.toml`, and
-the documented public API exported by `aws_cdk_static_site`. Examples, internal modules, generated
-CDK logical IDs, and behavior explicitly marked experimental are not compatibility promises.
+the documented public API exported through the package root. Examples, internal modules, generated
+identifiers, and behavior explicitly marked experimental are not compatibility promises.
+
+For this package, the support boundary also includes documented synthesized infrastructure
+behavior. Generated CDK logical IDs remain implementation details unless explicitly documented as a
+contract.
 
 AWS service behavior, quotas, pricing, and end-of-support policies remain governed by AWS. Consumers
 are responsible for reviewing synthesized templates and deployed resources for their own security,

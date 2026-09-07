@@ -13,8 +13,7 @@ system-level instructions take precedence.
 - Treat `pyproject.toml` as the canonical source for package metadata and Python-tool configuration.
 - Derive package versions from Git tags through `setuptools-scm`; do not add a second version
   source.
-- Preserve the `src/` package layout and the intentional public exports in
-  `aws_cdk_static_site.__all__`.
+- Preserve the `src/` package layout and the intentional exports in the package root's `__all__`.
 - Keep reusable construct behavior separate from consumer-owned CDK app configuration, website
   content, deployment identity, monitoring, and account-wide controls.
 - Preserve unrelated working-tree changes and generated or user-owned files.

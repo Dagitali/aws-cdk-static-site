@@ -55,9 +55,10 @@ that bypass the pull-request review surface. The complete branch map and require
 
 ## Public API and Type Checking
 
-The names exported from `aws_cdk_static_site.__all__` form the intentional package-level public API.
-Treat changes to their names, signatures, defaults, validation, and synthesized behavior as
-compatibility decisions rather than internal refactors.
+Names exported through the package root's `__all__` form its intentional package-level public API.
+Treat changes to their names, signatures, defaults, validation, and documented behavior as
+compatibility decisions rather than internal refactors. For an infrastructure library, documented
+synthesized behavior is also part of that compatibility review.
 
 The package ships a `py.typed` marker and runs mypy in strict mode. When contributing Python code:
 

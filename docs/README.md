@@ -4,8 +4,17 @@ Use this directory for maintained project guides and reference material. Reposit
 community policies remain at the repository root or under `.github/` so their conventional paths
 are discoverable by contributors and GitHub.
 
+- [Document Scope](#document-scope)
 - [Guides](#guides)
 - [Related Repository Documents](#related-repository-documents)
+
+## Document Scope
+
+Root-level community and lifecycle documents define conventions that can be shared across projects,
+with repository-specific names, links, support boundaries, and release state supplied locally. Files
+under `.github/` describe GitHub-facing policy and must remain synchronized with actual workflow and
+ruleset names. Guides in `docs/` describe this package and should not be generalized at the expense
+of accurate product behavior.
 
 ## Guides
 
