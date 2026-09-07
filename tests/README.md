@@ -3,8 +3,10 @@
 Tests are organized by scope and labeled with pytest markers.
 
 - [Current Layout](#current-layout)
+- [Discovery and Selection](#discovery-and-selection)
+- [Dependency Prerequisites](#dependency-prerequisites)
 - [Design Rules](#design-rules)
-- [Commands](#commands)
+- [Common Commands](#common-commands)
 - [Future Test Levels](#future-test-levels)
 
 ## Current Layout
@@ -15,6 +17,29 @@ Tests are organized by scope and labeled with pytest markers.
 
 The marker registry and default discovery paths are defined in `pyproject.toml`.
 
+## Discovery and Selection
+
+The default `pytest` invocation discovers tests under `tests/`. Select the current scope by path or
+marker:
+
+```bash
+python -m pytest tests/unit
+python -m pytest -m unit
+```
+
+Keep path-based scope and scope-marker selection equivalent as new test levels are introduced.
+
+## Dependency Prerequisites
+
+Install the development dependency group before running tests:
+
+```bash
+python -m pip install -e '.[dev]'
+```
+
+The unit suite synthesizes CDK constructs locally and does not require AWS credentials, a
+bootstrapped account, or network access.
+
 ## Design Rules
 
 - Name test modules after the production module they exercise.
@@ -23,7 +48,7 @@ The marker registry and default discovery paths are defined in `pyproject.toml`.
 - Keep unit tests deterministic and independent of AWS credentials and network access.
 - Use fixtures for shared setup without hiding the behavior under test.
 
-## Commands
+## Common Commands
 
 ```bash
 make test
@@ -31,7 +56,9 @@ make test-unit
 make test-full
 ```
 
-Run `make check` for the complete local quality gate.
+Use `make test-unit` for the current focused scope, `make test` for default pytest discovery, and
+`make test-full` for every test target available to the project. Run `make check` for the complete
+local quality gate.
 
 ## Future Test Levels
 

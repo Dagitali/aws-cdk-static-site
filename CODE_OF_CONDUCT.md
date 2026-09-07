@@ -1,5 +1,7 @@
 # Code of Conduct
 
+All project contributors and participants are expected to follow this Code of Conduct.
+
 - [Our Pledge](#our-pledge)
 - [Our Standards](#our-standards)
 - [Enforcement Responsibilities](#enforcement-responsibilities)
@@ -14,38 +16,56 @@
 
 ## Our Pledge
 
-We pledge to make participation in this community a harassment-free experience for everyone,
-regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics,
-gender identity and expression, level of experience, education, socioeconomic status, nationality,
-personal appearance, race, religion, or sexual identity and orientation.
+We as members, contributors, and leaders pledge to make participation in our community a
+harassment-free experience for everyone, regardless of age, body size, visible or invisible
+disability, ethnicity, sex characteristics, gender identity and expression, level of experience,
+education, socioeconomic status, nationality, personal appearance, race, religion, or sexual
+identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and
 healthy community.
 
 ## Our Standards
 
-Positive behavior includes demonstrating empathy, respecting differing views, giving and accepting
-constructive feedback, accepting responsibility, and focusing on what is best for the community.
+Examples of behavior that contributes to a positive environment include:
 
-Unacceptable behavior includes sexualized language or attention, trolling, insults, personal or
-political attacks, harassment, publishing another person's private information without permission,
-or other conduct that would reasonably be considered inappropriate in a professional setting.
+- Demonstrating empathy and kindness toward other people
+- Respecting differing opinions, viewpoints, and experiences
+- Giving and gracefully accepting constructive feedback
+- Accepting responsibility, apologizing to those affected by mistakes, and learning from the
+  experience
+- Focusing on what is best for the community
+
+Examples of unacceptable behavior include:
+
+- Sexualized language or imagery, and sexual attention or advances of any kind
+- Trolling, insulting or derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing another person's private information without explicit permission
+- Other conduct that would reasonably be considered inappropriate in a professional setting
 
 ## Enforcement Responsibilities
 
-Community leaders are responsible for clarifying and enforcing these standards. They may remove,
-edit, or reject contributions that do not align with this Code of Conduct and will communicate
+Community leaders are responsible for clarifying and enforcing these standards and will take fair
+corrective action in response to behavior they deem inappropriate, threatening, offensive, or
+harmful.
+
+Community leaders may remove, edit, or reject comments, commits, code, wiki edits, issues, and other
+contributions that do not align with this Code of Conduct and will communicate reasons for
 moderation decisions when appropriate.
 
 ## Scope
 
-This Code of Conduct applies in project spaces and when an individual officially represents the
-project in public spaces.
+This Code of Conduct applies within all project spaces and when an individual officially represents
+the project in public. Examples include using an official email address, posting through an
+official social-media account, or acting as an appointed representative at an online or offline
+event.
 
 ## Enforcement
 
-Report unacceptable behavior to support@dagitali.com. Reports will be reviewed promptly and fairly,
-with respect for the privacy and security of the reporter.
+Report abusive, harassing, or otherwise unacceptable behavior to `support@dagitali.com`. Complaints
+will be reviewed and investigated promptly and fairly. Community leaders must respect the privacy
+and security of anyone reporting an incident.
 
 ## Enforcement Guidelines
 
