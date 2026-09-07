@@ -38,6 +38,10 @@ The `Generate CycloneDX SBOM` job is advisory. It runs after relevant protected-
 should not be configured as a pull-request requirement unless its workflow triggers are expanded to
 cover every protected pull-request and merge-queue event.
 
+The `Smoke install on macos-latest` and `Smoke install on windows-latest` jobs are advisory
+cross-platform packaging checks. Promote them to required checks only after weighing their added
+runner time and availability against the repository's merge policy.
+
 ## Shared Protection Baseline
 
 Protect both `main` and `develop` with a GitHub ruleset that:
