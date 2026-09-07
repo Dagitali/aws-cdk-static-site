@@ -5,7 +5,7 @@ deploying resources or calling AWS. These are unit tests because the external AW
 represented by CDK constructs and assertions.
 
 - [Set Up Development](#set-up-development)
-- [Run checks](#run-checks)
+- [Run Checks](#run-checks)
 - [Test Design](#test-design)
 - [Future Test Levels](#future-test-levels)
 
@@ -24,7 +24,7 @@ tag receive a development version; an authoritative release build must come from
 make dev
 ```
 
-## Run checks
+## Run Checks
 
 Run the complete local gate:
 
@@ -64,6 +64,9 @@ project's linting policy.
 
 `tests/unit/test_construct.py` verifies storage, delivery, deployment, DNS, certificate, and logging
 behavior. `tests/unit/test_props.py` verifies configuration defaults and invalid combinations.
+
+See the [tests overview](../tests/README.md) for the directory contract and guidance for adding
+future test scopes.
 
 ## Future Test Levels
 

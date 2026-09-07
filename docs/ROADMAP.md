@@ -1,12 +1,12 @@
 # Extraction Roadmap
 
-- [Completed In the Initial Scaffold](#completed-in-the-initial-scaffold)
+- [Completed in the Initial Scaffold](#completed-in-the-initial-scaffold)
 - [Phase 2: Integrate the First Consumer](#phase-2-integrate-the-first-consumer)
 - [Phase 3: Validate Generality](#phase-3-validate-generality)
 - [Phase 4: Prepare a Public Release](#phase-4-prepare-a-public-release)
 - [Relationship to cookiecutter-aws-website](#relationship-to-cookiecutter-aws-website)
 
-## Completed In the Initial Scaffold
+## Completed in the Initial Scaffold
 
 - Establish an independent Git repository and Python package.
 - Extract private S3, CloudFront OAC, security headers, cache behavior, optional content deployment,
