@@ -5,6 +5,11 @@
 - [Enforcement Responsibilities](#enforcement-responsibilities)
 - [Scope](#scope)
 - [Enforcement](#enforcement)
+- [Enforcement Guidelines](#enforcement-guidelines)
+  - [1. Correction](#1-correction)
+  - [2. Warning](#2-warning)
+  - [3. Temporary Ban](#3-temporary-ban)
+  - [4. Permanent Ban](#4-permanent-ban)
 - [Attribution](#attribution)
 
 ## Our Pledge
@@ -42,8 +47,47 @@ project in public spaces.
 Report unacceptable behavior to support@dagitali.com. Reports will be reviewed promptly and fairly,
 with respect for the privacy and security of the reporter.
 
+## Enforcement Guidelines
+
+Community leaders will use these Community Impact Guidelines to determine consequences for conduct
+that violates this Code of Conduct.
+
+### 1. Correction
+
+**Community Impact**: Inappropriate language or other behavior considered unprofessional or
+unwelcome in the community.
+
+**Consequence**: A private written warning that explains the violation and why the behavior was
+inappropriate. A public apology may be requested.
+
+### 2. Warning
+
+**Community Impact**: A violation through a single incident or series of actions.
+
+**Consequence**: A warning with consequences for continued behavior. The participant must avoid
+interaction with the people involved, including unsolicited interaction with those enforcing the
+Code of Conduct, for a specified period. Violating these terms may lead to a temporary or permanent
+ban.
+
+### 3. Temporary Ban
+
+**Community Impact**: A serious violation of community standards, including sustained inappropriate
+behavior.
+
+**Consequence**: A temporary ban from interaction or public communication with the community for a
+specified period. Violating these terms may lead to a permanent ban.
+
+### 4. Permanent Ban
+
+**Community Impact**: A pattern of violations, harassment of an individual, or aggression toward or
+disparagement of classes of individuals.
+
+**Consequence**: A permanent ban from public interaction within the community.
+
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant], version 2.0.
+This Code of Conduct is adapted from the [Contributor Covenant], version 2.0. Community Impact
+Guidelines were inspired by [Mozilla's code of conduct enforcement ladder][Mozilla CoC].
 
 [Contributor Covenant]: https://www.contributor-covenant.org/version/2/0/code_of_conduct.html
+[Mozilla CoC]: https://github.com/mozilla/diversity
