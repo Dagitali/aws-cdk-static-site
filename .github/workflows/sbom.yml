@@ -6,8 +6,8 @@
 # GitHub Actions workflow for Software Bill of Materials (SBOM) generation.
 #
 # Responsibilities
-# - Generate CycloneDX SBOMs for the Python and npm dependency surfaces.
-# - Upload both documents as short-lived workflow artifacts for inspection.
+# - Generate a CycloneDX SBOM for the installed Python dependency surface.
+# - Validate and upload the document as a short-lived workflow artifact.
 #
 # Maintainer Notes
 # - Global permissions are intentionally omitted; each job declares the minimum
@@ -20,8 +20,6 @@
 # References
 # - CycloneDX Python tooling:
 #   https://cyclonedx.org/tool-center/python/
-# - npm SBOM documentation:
-#   https://docs.npmjs.com/cli/commands/npm-sbom
 # - GitHub Actions artifact documentation:
 #   https://docs.github.com/en/actions/using-workflows/
 #   storing-workflow-data-as-artifacts
@@ -38,7 +36,9 @@ run-name: >-
 
 on:
   push:
-    branches: [develop, main]
+    branches:
+      - develop
+      - main
     paths:
       - pyproject.toml
       - src/**
@@ -50,6 +50,7 @@ permissions: {}
 env:
   ARTIFACT_RETENTION_DAYS: "14"
   CYCLONEDX_BOM_VERSION: "7.2.2"
+  DEFAULT_PYTHON_VERSION: "3.13"
   PYTHON_SBOM_FILENAME: python-sbom.json
   SBOM_ARTIFACT_NAME: python-sbom
 
@@ -58,8 +59,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  generate:
-    name: Generate Python SBOM
+  generate-sbom:
+    name: Generate CycloneDX SBOM
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -69,17 +70,17 @@ jobs:
         shell: bash
     steps:
       - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # Pinned v6.0.3
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Generate Python SBOM
-        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516
+        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516  # Pinned v0.1.2
         with:
           phase: sbom
-          python-version: "3.13"
-          pip-install: .
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          pip-install: "."
           working-directory: .
           sbom-tool-version: ${{ env.CYCLONEDX_BOM_VERSION }}
           sbom-output-file: ${{ env.PYTHON_SBOM_FILENAME }}
