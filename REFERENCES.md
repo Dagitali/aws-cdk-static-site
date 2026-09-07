@@ -1,10 +1,10 @@
 # References
 
 - [AWS Infrastructure](#aws-infrastructure)
-- [Python Packaging And Testing](#python-packaging-and-testing)
+- [Python Packaging and Testing](#python-packaging-and-testing)
 - [Repository Automation](#repository-automation)
 - [Documentation Formats](#documentation-formats)
-- [Version Control And Collaboration](#version-control-and-collaboration)
+- [Version Control and Collaboration](#version-control-and-collaboration)
 - [Project Governance](#project-governance)
 
 ## AWS Infrastructure
@@ -17,7 +17,7 @@
 - [ACM DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html)
 - [Route 53 alias records](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html)
 
-## Python Packaging And Testing
+## Python Packaging and Testing
 
 - [Python Packaging User Guide](https://packaging.python.org/)
 - [Writing `pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
@@ -39,7 +39,7 @@
 - [YAML specification](https://yaml.org/spec/)
 - [EditorConfig](https://editorconfig.org/)
 
-## Version Control And Collaboration
+## Version Control and Collaboration
 
 - [Git documentation](https://git-scm.com/doc)
 - [GitHub pull request documentation](https://docs.github.com/en/pull-requests)
