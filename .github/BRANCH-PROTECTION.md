@@ -45,6 +45,7 @@ Protect both `main` and `develop` with a GitHub ruleset that:
 - Requires pull requests;
 - Requires the `Validate package` and `Test on Python 3.14` status checks from
   `.github/workflows/ci.yml`, which depend on the `Guard PR target branch` job;
+- Requires branches to be up to date before merging when merge queue is not enabled;
 - Requires conversations to be resolved;
 - Blocks force pushes and branch deletion;
 - Prevents direct updates, including by administrators unless a documented
@@ -64,11 +65,14 @@ document version changes, compatibility, validation, release notes, and rollback
 requests document urgency and the plan to synchronize the correction back to `develop`.
 
 Do not require a merge queue until every required workflow handles the `merge_group` event and a
-representative queued pull request has succeeded.
+representative queued pull request has succeeded. When enabling merge queue, review whether the
+separate up-to-date branch requirement remains useful rather than retaining redundant controls by
+default.
 
 ## Protection Checklist for `develop`
 
 - [ ] Require pull requests and the `Validate package` and `Test on Python 3.14` status checks.
+- [ ] Require branches to be up to date before merging unless merge queue is enabled.
 - [ ] Require conversation resolution.
 - [ ] Block force pushes, deletion, and direct updates.
 - [ ] Accept routine topic branches and `sync/*` branches under the documented branch map.
@@ -78,6 +82,7 @@ representative queued pull request has succeeded.
 
 - [ ] Require pull requests and the `Validate package` and
   `Test on Python 3.14` status checks.
+- [ ] Require branches to be up to date before merging unless merge queue is enabled.
 - [ ] Require conversation resolution.
 - [ ] Block force pushes, deletion, and direct updates.
 - [ ] Accept only `release/*` and `hotfix/*` pull requests under the documented branch map.
