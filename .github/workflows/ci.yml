@@ -9,6 +9,7 @@
 # - Enforce supported GitFlow pull-request targets.
 # - Validate changes proposed for or pushed to long-lived GitFlow branches.
 # - Run the repository's linting, type, policy, test, and package-build gates.
+# - Exercise every explicitly supported Python version.
 #
 # Maintainer Notes
 # - Global permissions are intentionally omitted; each job declares the minimum
@@ -17,6 +18,8 @@
 #   chain risk.
 # - The dynamic run name is part of the workflow contract: it should identify
 #   the event and relevant branch for review clarity.
+# - The default Python version runs the complete validation gate; compatibility
+#   jobs cover additional versions declared by the package metadata.
 #
 # References
 # - GitHub Actions Python guide:
@@ -152,3 +155,24 @@ jobs:
 
       - name: Check distributions
         run: python -m twine check dist/*
+
+  test-python-314:
+    name: Test on Python 3.14
+    needs: guard-pr-target
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # Pinned v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Run tests
+        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516  # Pinned v0.1.2
+        with:
+          phase: test
+          python-version: "3.14"
+          pip-install: "-e .[dev]"
+          pytest-args: "-q"
