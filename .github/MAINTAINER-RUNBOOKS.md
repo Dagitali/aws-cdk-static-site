@@ -1,13 +1,27 @@
 # Maintainer Runbooks
 
+- [Operating Model](#operating-model)
 - [Start Repository Work](#start-repository-work)
 - [Develop a Feature or Bug Fix](#develop-a-feature-or-bug-fix)
 - [Prepare a Release](#prepare-a-release)
 - [Apply a Hotfix](#apply-a-hotfix)
+- [Synchronize `main` Back to `develop`](#synchronize-main-back-to-develop)
+- [Tag a Release](#tag-a-release)
 - [Investigate Failed Checks](#investigate-failed-checks)
 - [Recover a Release](#recover-a-release)
 - [Clean Up](#clean-up)
+- [Solo-Maintainer Notes](#solo-maintainer-notes)
 - [Keep Private Elsewhere](#keep-private-elsewhere)
+
+## Operating Model
+
+Working branches hold proposed changes; protected branches move through GitHub pull requests.
+`develop` is the integration branch, `main` is the release branch, and annotated release tags point
+to authoritative commits already merged into `main`.
+
+Use `git flow ... start` or equivalent Git commands to create working branches. Do not use
+`git flow ... finish` as the authoritative integration or cleanup operation because it performs
+local merges outside the protected pull-request surface.
 
 ## Start Repository Work
 
@@ -59,6 +73,28 @@ publishing credentials until a reviewed release workflow and protected PyPI envi
 5. Tag the merged commit only if it represents a release.
 6. Synchronize the merged fix back to `develop` through a pull request.
 
+## Synchronize `main` Back to `develop`
+
+After every release or hotfix:
+
+1. Fetch current remote state for `main` and `develop`.
+2. Create `sync/main-into-develop` from current `develop`.
+3. Merge `origin/main` into the sync branch and resolve conflicts there.
+4. Run `make check`.
+5. Push the sync branch and open a pull request targeting `develop`.
+6. Merge through GitHub after required checks pass.
+
+## Tag a Release
+
+1. Fetch the merged remote `main` commit.
+2. Confirm the commit contains the intended changelog and release scope.
+3. Create an annotated `vMAJOR.MINOR.PATCH` tag on that exact commit.
+4. Verify the tag target and annotation locally.
+5. Push the tag once; never move or reuse a published version.
+
+The [release policy](../RELEASE-POLICY.md) defines version semantics, and the
+[release checklist](../RELEASE-CHECKLIST.md) defines the complete readiness gate.
+
 ## Investigate Failed Checks
 
 1. Identify the first meaningful failing step.
@@ -77,6 +113,13 @@ and document the consumer impact.
 
 After confirming the authoritative merge, delete the remote topic branch, prune remote references,
 and remove the local branch. Retain release tags and avoid rewriting shared history.
+
+## Solo-Maintainer Notes
+
+Pull requests remain useful without a second maintainer because they run checks against the proposed
+merge and keep GitHub as the authoritative integration surface. Required human approvals may remain
+disabled until another reviewer is consistently available. Keep any administrator bypass narrow,
+intentional, and documented in the branch-protection policy.
 
 ## Keep Private Elsewhere
 

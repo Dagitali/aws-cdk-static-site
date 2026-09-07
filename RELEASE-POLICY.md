@@ -3,6 +3,10 @@
 - [Scope](#scope)
 - [Versioning Model](#versioning-model)
 - [Pre-1.0 Stability](#pre-10-stability)
+- [Patch Releases](#patch-releases)
+- [Minor Releases](#minor-releases)
+- [Major Releases](#major-releases)
+- [Deprecation Policy](#deprecation-policy)
 - [Release Artifacts](#release-artifacts)
 - [Release Notes](#release-notes)
 - [Supported Releases](#supported-releases)
@@ -28,6 +32,33 @@ commit. Package versions are derived from Git metadata by `setuptools-scm`.
 While the package is in `v0.x`, a minor release may change documented APIs or synthesized behavior.
 Patch releases should remain backward compatible. Breaking changes should be explicit in release
 notes and include migration guidance when practical.
+
+## Patch Releases
+
+Patch releases are appropriate for backward-compatible bug fixes, packaging corrections,
+documentation repairs, dependency updates, and workflow changes that preserve the documented public
+contract. A patch must not intentionally change required inputs or synthesized infrastructure in a
+breaking way.
+
+## Minor Releases
+
+Before `v1.0.0`, minor releases may refine the public API or synthesized behavior and must document
+breaking changes. After `v1.0.0`, minor releases should add backward-compatible capabilities such as
+new optional properties, supported configurations, or additive resource behavior.
+
+## Major Releases
+
+Major releases are appropriate for intentional breaking changes to documented public interfaces or
+synthesized behavior. They should identify affected consumers and provide migration guidance.
+
+## Deprecation Policy
+
+Before `v1.0.0`, deprecation periods are best effort. After `v1.0.0`, a documented public interface
+should normally remain available for at least one minor release after its deprecation notice. An
+accelerated removal requires a security, correctness, legal, or ecosystem-compatibility reason.
+
+Internal modules, generated CDK identifiers, and undocumented implementation details are excluded
+from this policy.
 
 ## Release Artifacts
 

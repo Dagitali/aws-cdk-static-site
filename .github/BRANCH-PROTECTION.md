@@ -12,10 +12,31 @@ This repository uses GitFlow-style branch roles:
 - `develop` is the protected integration branch.
 - `main` is the protected release branch and source of release tags.
 
+- [Purpose](#purpose)
+- [Recommended Required Checks](#recommended-required-checks)
 - [Shared Protection Baseline](#shared-protection-baseline)
 - [Branch-Specific Policy](#branch-specific-policy)
+- [Protection Checklist for `develop`](#protection-checklist-for-develop)
+- [Protection Checklist for `main`](#protection-checklist-for-main)
+- [Preventing Direct Pushes](#preventing-direct-pushes)
 - [Maintaining Required Checks](#maintaining-required-checks)
 - [References](#references)
+
+## Purpose
+
+Branch protection makes GitHub the authoritative integration surface for long-lived branches. It
+ensures that proposed changes follow the repository's branch map, pass repeatable validation, and
+retain a reviewable pull-request record before `develop` or `main` moves.
+
+## Recommended Required Checks
+
+Require the `Validate package` status check from `.github/workflows/ci.yml`. It depends on the
+`Guard PR target branch` job, so a valid pull-request route and the package quality gate must both
+succeed.
+
+The `Generate CycloneDX SBOM` job is advisory. It runs after relevant protected-branch pushes and
+should not be configured as a pull-request requirement unless its workflow triggers are expanded to
+cover every protected pull-request and merge-queue event.
 
 ## Shared Protection Baseline
 
@@ -45,6 +66,29 @@ requests document urgency and the plan to synchronize the correction back to `de
 Do not require a merge queue until every required workflow handles the `merge_group` event and a
 representative queued pull request has succeeded.
 
+## Protection Checklist for `develop`
+
+- [ ] Require pull requests and the `Validate package` status check.
+- [ ] Require conversation resolution.
+- [ ] Block force pushes, deletion, and direct updates.
+- [ ] Accept routine topic branches and `sync/*` branches under the documented branch map.
+- [ ] Add review and CODEOWNERS requirements when the maintainer team can satisfy them reliably.
+
+## Protection Checklist for `main`
+
+- [ ] Require pull requests and the `Validate package` status check.
+- [ ] Require conversation resolution.
+- [ ] Block force pushes, deletion, and direct updates.
+- [ ] Accept only `release/*` and `hotfix/*` pull requests under the documented branch map.
+- [ ] Restrict bypass permissions to documented recovery needs.
+
+## Preventing Direct Pushes
+
+Prefer repository rulesets targeted at `develop` and `main`. Require pull requests, disable force
+pushes and deletions, and do not grant broad bypass access. If administrators or automation require
+an exception, scope it narrowly, document why it exists, and test that ordinary users and tokens
+cannot update either protected branch directly.
+
 ## Maintaining Required Checks
 
 When a workflow or job name changes:
@@ -59,6 +103,10 @@ the job name `Validate package`.
 
 See the [CI/CD workflow map](../CI-CD-WORKFLOWS.md) for each workflow's public role and trigger
 model.
+
+Review the rulesets whenever branch names, workflow triggers, job names, merge-queue settings, or
+maintainer roles change. A required check that does not run for every protected event can leave a
+pull request permanently pending.
 
 ## References
 

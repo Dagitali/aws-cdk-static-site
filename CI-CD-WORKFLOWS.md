@@ -4,6 +4,7 @@
 - [Workflow Overview](#workflow-overview)
 - [CI](#ci)
 - [SBOM](#sbom)
+- [How the Workflows Interact](#how-the-workflows-interact)
 - [Required Checks](#required-checks)
 - [Future Release Automation](#future-release-automation)
 
@@ -43,6 +44,16 @@ The `Generate CycloneDX SBOM` job creates and validates a dependency SBOM, then 
 short-lived workflow artifact. It runs after relevant package or workflow changes are pushed to
 `develop` or `main`, and by manual dispatch. It does not attest to a deployed AWS environment or
 replace review of synthesized CloudFormation.
+
+## How the Workflows Interact
+
+The workflows do not form a publication pipeline:
+
+- `CI` is the required confidence gate for protected-branch integration.
+- `SBOM` is an advisory supply-chain artifact generated for relevant protected-branch changes.
+- Neither workflow deploys AWS resources or publishes a Python package.
+- A future release workflow must use an explicit release trigger rather than treating an ordinary
+  successful CI run as authorization to publish.
 
 ## Required Checks
 
