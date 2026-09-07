@@ -1,4 +1,4 @@
-# Contributor Covenant 3.0 Code of Conduct
+# Code of Conduct
 
 All project contributors and participants are expected to follow this Code of Conduct.
 
@@ -75,7 +75,12 @@ Not every conflict represents a code of conduct violation, and this Code of Cond
 encouraged behaviors and norms that can help avoid conflicts and minimize harm.
 
 When an incident does occur, it is important to report it promptly. To report a possible violation,
-**[NOTE: describe your means of reporting here.]**
+email `support@dagitali.com`. Do not report conduct violations through a public issue. Include the
+relevant community space, a description of what occurred, and any supporting links or records that
+can be shared safely.
+
+Community Moderators are the project maintainers designated by Dagitali LLC. They will protect the
+privacy and safety of reporters and participants while investigating a report.
 
 Community Moderators take reports of violations seriously and will make every effort to respond in a
 timely manner. They will investigate all reports of code of conduct violations, reviewing messages,
@@ -87,31 +92,36 @@ resolution.
 
 ## Addressing and Repairing Harm
 
-**[NOTE: The remedies and repairs outlined below are suggestions based on best practices in code of
-conduct enforcement. If your community has its own established enforcement process, be sure to edit
-this section to describe your own policies.]**
-
 If an investigation by the Community Moderators finds that this Code of Conduct has been violated,
 the following enforcement ladder may be used to determine how best to repair harm, based on the
 incident's impact on the individuals involved and the community as a whole. Depending on the
 severity of a violation, lower rungs on the ladder may be skipped.
 
-1) Warning
-   1) Event: A violation involving a single incident or series of incidents.
-   2) Consequence: A private, written warning from the Community Moderators.
-   3) Repair: Examples of repair include a private written apology, acknowledgement of responsibility, and seeking clarification on expectations.
-2) Temporarily Limited Activities
-   1) Event: A repeated incidence of a violation that previously resulted in a warning, or the first incidence of a more serious violation.
-   2) Consequence: A private, written warning with a time-limited cooldown period designed to underscore the seriousness of the situation and give the community members involved time to process the incident. The cooldown period may be limited to particular communication channels or interactions with particular community members.
-   3) Repair: Examples of repair may include making an apology, using the cooldown period to reflect on actions and impact, and being thoughtful about re-entering community spaces after the period is over.
-3) Temporary Suspension
-   1) Event: A pattern of repeated violation which the Community Moderators have tried to address with warnings, or a single serious violation.
-   2) Consequence: A private written warning with conditions for return from suspension. In general, temporary suspensions give the person being suspended time to reflect upon their behavior and possible corrective actions.
-   3) Repair: Examples of repair include respecting the spirit of the suspension, meeting the specified conditions for return, and being thoughtful about how to reintegrate with the community when the suspension is lifted.
-4) Permanent Ban
-   1) Event: A pattern of repeated code of conduct violations that other steps on the ladder have failed to resolve, or a violation so serious that the Community Moderators determine there is no way to keep the community safe with this person as a member.
-   2) Consequence: Access to all community spaces, tools, and communication channels is removed. In general, permanent bans should be rarely used, should have strong reasoning behind them, and should only be resorted to if working through other remedies has failed to change the behavior.
-   3) Repair: There is no possible repair in cases of this severity.
+1. **Warning**
+   - **Event:** A violation involving a single incident or series of incidents.
+   - **Consequence:** A private, written warning from the Community Moderators.
+   - **Repair:** A private written apology, acknowledgment of responsibility, or clarification of
+     expectations may be appropriate.
+2. **Temporarily Limited Activities**
+   - **Event:** A repeated violation that previously resulted in a warning, or the first occurrence
+     of a more serious violation.
+   - **Consequence:** A private, written warning with a time-limited cooldown period. The cooldown
+     may apply to specific communication channels or interactions with specific community members.
+   - **Repair:** An apology, reflection during the cooldown period, and thoughtful reentry into
+     community spaces may be appropriate.
+3. **Temporary Suspension**
+   - **Event:** A pattern of violations that prior warnings did not resolve, or a single serious
+     violation.
+   - **Consequence:** A private written notice with conditions for return from suspension.
+   - **Repair:** Respecting the suspension, meeting the conditions for return, and thoughtfully
+     reintegrating with the community may be appropriate.
+4. **Permanent Ban**
+   - **Event:** A pattern that other enforcement steps failed to resolve, or a violation so serious
+     that the Community Moderators cannot otherwise keep the community safe.
+   - **Consequence:** Access to community spaces, tools, and communication channels is removed.
+     Permanent bans should be rare, supported by strong reasoning, and used when other remedies
+     cannot make continued participation safe.
+   - **Repair:** There is no available path to return in cases of this severity.
 
 This enforcement ladder is intended as a guideline. It does not limit the ability of Community
 Managers to use their discretion and judgment, in keeping with the best interests of our community.
@@ -123,15 +133,12 @@ officially representing the community in public or other spaces. Examples of rep
 community include using an official email address, posting via an official social media account, or
 acting as an appointed representative at an online or offline event.
 
-
 ## Attribution
 
-This Code of Conduct is adapted from the Contributor Covenant, version 3.0, permanently available at
-[https://www.contributor-covenant.org/version/3/0/][CoC 3.0].
+This Code of Conduct is adapted from the [Contributor Covenant], version [3.0].
 
-Contributor Covenant is stewarded by the Organization for Ethical Source and licensed under CC BY-SA
-4.0. To view a copy of this license, visit [https://creativecommons.org/licenses/by-sa/4.0/][CC
-BY-SA 4.0]
+Contributor Covenant is stewarded by the Organization for Ethical Source and licensed under
+[CC BY-SA 4.0].
 
 For answers to common questions about Contributor Covenant, see the FAQ at
 [https://www.contributor-covenant.org/faq][FAQ]. Translations are provided at
