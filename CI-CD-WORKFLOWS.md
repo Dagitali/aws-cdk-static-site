@@ -19,7 +19,7 @@ Automation is separated by responsibility:
 
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
-| `.github/workflows/ci.yml` | Pull requests, protected-branch pushes, merge queue, manual | Validate the package and GitFlow target |
+| `.github/workflows/ci.yml` | Pull requests, protected-branch pushes, merge queue, manual | Validate the package, supported Python versions, and GitFlow target |
 | `.github/workflows/sbom.yml` | Relevant protected-branch pushes, manual | Generate an advisory CycloneDX SBOM |
 
 These workflows run independently. SBOM generation is supplementary and is not a publication
@@ -29,9 +29,11 @@ trigger.
 
 Workflow name: `CI`
 
-The `Guard PR target branch` job enforces the documented GitFlow branch map. The dependent
-`Validate package` job installs development dependencies, lints, type-checks, verifies repository
-policies, runs unit tests with coverage, and builds and checks distributions.
+The `Guard PR target branch` job enforces the documented GitFlow branch map. The dependent `Validate
+package` job installs development dependencies, lints, type-checks, verifies repository policies,
+runs unit tests with coverage, and builds and checks distributions. The dependent `Test on Python
+3.14` job verifies compatibility with the additional Python version declared by the package
+metadata.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
@@ -57,9 +59,9 @@ The workflows do not form a publication pipeline:
 
 ## Required Checks
 
-Protected branches should require `Validate package`. That job depends on `Guard PR target branch`,
-so both validation and the branch-routing policy must succeed. Workflow step names are not status
-check names.
+Protected branches should require `Validate package` and `Test on Python 3.14`. Both jobs depend on
+`Guard PR target branch`, so package validation, supported-version compatibility, and the
+branch-routing policy must succeed. Workflow step names are not status-check names.
 
 When renaming workflows or jobs, run the replacement on a representative pull request before
 updating the ruleset. See [.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md).
