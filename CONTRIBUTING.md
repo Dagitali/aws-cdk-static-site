@@ -72,10 +72,16 @@ Run `make typecheck` locally and include migration guidance for intentional brea
 
 ## Local Quality Gates
 
-Run the complete local gate with:
+Run the default local gate with:
 
 ```bash
 make check
+```
+
+Run the CI-equivalent gate, including the strict HTML documentation build, with:
+
+```bash
+make check-ci-local
 ```
 
 Useful focused targets include:
@@ -85,6 +91,8 @@ make fmt
 make lint
 make typecheck
 make test
+make docs-strict
+make docs-linkcheck
 make dist
 make workflow-pins
 make python-policy

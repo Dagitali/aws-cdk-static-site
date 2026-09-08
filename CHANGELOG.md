@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.2.6 - 2026-09-08](#026---2026-09-08)
 - [0.2.5 - 2026-09-08](#025---2026-09-08)
 - [0.2.4 - 2026-09-08](#024---2026-09-08)
 - [0.2.3 - 2026-09-08](#023---2026-09-08)
@@ -11,6 +12,19 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.2.6 - 2026-09-08
+
+- Add focused, independently synthesizable examples for generated CloudFront hostnames, external
+  DNS, Route 53, access logging, externally managed content, and customized security policy.
+- Add a lightweight local Sphinx site with generated API documentation, strict CI validation, and
+  deferred Read the Docs publication.
+- Standardize reusable package-metadata conventions, including an explicit README media type,
+  extensible author formatting, dependency-group intent, and a documentation source URL.
+- Align reusable Make targets for strict local CI documentation checks, HTML and EPUB builds, link
+  validation, and configurable documentation dependency installation.
+- Harmonize reusable contributor, CI/CD, documentation, release-history, and repository-navigation
+  guidance while retaining package-specific support and infrastructure boundaries.
 
 ## 0.2.5 - 2026-09-08
 

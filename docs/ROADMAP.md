@@ -35,17 +35,21 @@ has stable releases.
 - Add extension points only in response to demonstrated consumer requirements.
 - Decide whether contact APIs, budgets, and deployment workflows belong in separate packages or
   examples; do not add them to the core construct by default.
+- Keep the Sphinx documentation build local and validated by CI while the package is distributed
+  through GitHub release tags.
 
 ## Phase 4: Prepare PyPI Publication
 
 - Confirm the PyPI project name immediately before release.
 - Document the supported public API and compatibility policy.
-- Generate API documentation.
+- Review the locally generated API documentation as part of the public API stabilization process.
 - Retain the tag-triggered checks that build the sdist and wheel, run `twine check`, install each
   distribution in a clean environment, synthesize the representative example, and publish GitHub
   Release assets.
 - Configure PyPI Trusted Publishing with a protected GitHub environment.
 - Publish a prerelease before declaring a stable 1.0 API.
+- Configure and publish the existing Sphinx site through Read the Docs after regular PyPI
+  publication is established.
 
 ## Relationship to cookiecutter-aws-website
 

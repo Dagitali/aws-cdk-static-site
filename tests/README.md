@@ -14,6 +14,7 @@ Tests are organized by scope and labeled with pytest markers.
 | Marker | Path | Purpose |
 | --- | --- | --- |
 | `unit` | `tests/unit/` | Fast, isolated validation and CDK synthesis behavior |
+| `integration` | `tests/integration/` | Synthesis across the installed package and runnable examples |
 
 The marker registry and default discovery paths are defined in `pyproject.toml`.
 
@@ -25,6 +26,8 @@ marker:
 ```bash
 python -m pytest tests/unit
 python -m pytest -m unit
+python -m pytest tests/integration
+python -m pytest -m integration
 ```
 
 Keep path-based scope and scope-marker selection equivalent as new test levels are introduced.
@@ -37,8 +40,10 @@ Install the development dependency group before running tests:
 python -m pip install -e '.[dev]'
 ```
 
-The unit suite synthesizes CDK constructs locally and does not require AWS credentials, a
-bootstrapped account, or network access.
+The unit and integration suites synthesize CDK constructs locally and do not require AWS
+credentials, a bootstrapped account, or network access. The integration suite runs each documented
+example as an independent application. Its focused Make target disables in-process coverage because
+the package code runs in subprocesses; default discovery still enforces the configured threshold.
 
 ## Design Rules
 
@@ -54,17 +59,17 @@ bootstrapped account, or network access.
 ```bash
 make test
 make test-unit
+make test-integration
 make test-full
 ```
 
-Use `make test-unit` for the current focused scope, `make test` for default pytest discovery, and
-`make test-full` for every test target available to the project. Run `make check` for the complete
-local quality gate.
+Use `make test-unit` or `make test-integration` for a focused scope, `make test` for default pytest
+discovery, and `make test-full` for every test target available to the project. Run `make check` for
+the complete local quality gate.
 
 ## Future Test Levels
 
-Add `tests/integration/` when verifying interactions across package or consumer boundaries, and add
-`tests/e2e/` only for a bounded deployed fixture owned by this repository. Add `tests/meta/` for
+Add `tests/e2e/` only for a bounded deployed fixture owned by this repository. Add `tests/meta/` for
 repository-policy tests when those checks are better expressed in pytest than in focused scripts.
 
 Scope markers should describe where a test operates; intent markers such as `smoke` or `contract`

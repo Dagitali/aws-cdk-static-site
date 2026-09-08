@@ -33,10 +33,10 @@ Workflow name: `CI`
 The `Guard PR target branch` job enforces the documented GitFlow branch map. The dependent `Validate
 package` job verifies the dated changelog section for release and hotfix pull requests before it
 installs development dependencies, lints, type-checks, verifies repository policies, runs unit tests
-with coverage, and builds and checks distributions. The dependent `Test on Python 3.14` job verifies
-compatibility with the additional Python version declared by the package metadata. The advisory
-cross-platform jobs install the package and verify its public module can be imported on macOS and
-Windows runners.
+with coverage, builds the HTML documentation with warnings treated as errors, and builds and checks
+distributions. The dependent `Test on Python 3.14` job verifies compatibility with the additional
+Python version declared by the package metadata. The advisory cross-platform jobs install the
+package and verify its public module can be imported on macOS and Windows runners.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
@@ -77,6 +77,10 @@ The workflows have distinct validation and publication responsibilities:
 Protected branches should require `Validate package` and `Test on Python 3.14`. Both jobs depend on
 `Guard PR target branch`, so package validation, supported-version compatibility, and the
 branch-routing policy must succeed. Workflow step names are not status-check names.
+
+Run `make check-ci-local` to reproduce the primary package validation and strict HTML documentation
+build locally. Platform-specific smoke jobs still require their corresponding GitHub-hosted runner
+or an equivalent operating system.
 
 When renaming workflows or jobs, run the replacement on a representative pull request before
 updating the ruleset. See [.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md).

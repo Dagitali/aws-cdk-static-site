@@ -33,28 +33,33 @@ build-backend = "setuptools.build_meta"
 name = "aws-cdk-static-site"
 dynamic = ["version"]
 description = "A secure, cost-conscious AWS CDK construct for static websites"
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.13,<3.15"
 license = "MIT"
 license-files = ["LICENSE", "NOTICE"]
-authors = [{name = "Dagitali LLC"}]
+authors = [
+  {name = "Dagitali LLC"},
+]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Framework :: AWS CDK",
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
-  "Topic :: Software Development :: Libraries :: Python Modules",
   "Typing :: Typed",
 ]
+# Runtime dependencies define the complete supported construct surface; optional
+# groups below contain only contributor and documentation tooling.
 dependencies = [
   "aws-cdk-lib>=2.267.0,<3.0.0",
   "constructs>=10.8.1,<11.0.0",
 ]
 
 [project.optional-dependencies]
+# Development-only tools (install with: pip install -e '.[dev]')
 dev = [
   "build>=1.3,<2",
   "mypy>=2.0,<3",
@@ -64,9 +69,15 @@ dev = [
   "ruff>=0.16,<0.17",
   "twine>=6.2,<7",
 ]
+# Local documentation tools (install with: pip install -e '.[docs]')
+docs = [
+  "sphinx>=9.1,<10",
+  "sphinx-rtd-theme>=3.1,<4",
+]
 
 [project.urls]
 Changelog = "https://github.com/Dagitali/aws-cdk-static-site/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/Dagitali/aws-cdk-static-site/tree/main/docs"
 Homepage = "https://github.com/Dagitali/aws-cdk-static-site"
 Issues = "https://github.com/Dagitali/aws-cdk-static-site/issues"
 Repository = "https://github.com/Dagitali/aws-cdk-static-site"
@@ -99,7 +110,10 @@ addopts = [
 ]
 pythonpath = [".", "src"]
 testpaths = ["tests"]
-markers = ["unit: isolated CDK synthesis tests"]
+markers = [
+  "integration: interactions across package and example boundaries",
+  "unit: isolated CDK synthesis tests",
+]
 
 [tool.ruff]
 target-version = "py313"

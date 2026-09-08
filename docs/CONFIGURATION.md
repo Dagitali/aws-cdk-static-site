@@ -67,6 +67,8 @@ site = StaticSite(self, "Site")
 The hostname is available from
 `site.distribution.distribution_domain_name`.
 
+See the runnable [generated-hostname example](../examples/cloudfront-domain/app.py).
+
 ## Externally Managed DNS
 
 Import an ACM certificate and configure only the names served by CloudFront:
@@ -91,6 +93,8 @@ site = StaticSite(
 Create the required CNAME or equivalent record with the external DNS provider. The construct
 deliberately does not modify external DNS.
 
+See the runnable [external-DNS example](../examples/external-dns/app.py).
+
 ## Route 53 and ACM
 
 To manage aliases and certificate validation in the consuming stack:
@@ -114,6 +118,8 @@ therefore be deployed in `us-east-1`. Applications using another deployment regi
 the certificate separately in `us-east-1` and pass it through `certificate`. The construct rejects
 certificate creation when the stack region is unresolved or is not `us-east-1`.
 
+See the runnable [Route 53 example](../examples/route53-managed/app.py).
+
 ## Validation Rules
 
 Configuration fails before synthesis when it contains incomplete combinations,
@@ -133,3 +139,7 @@ The default Content Security Policy allows same-origin scripts, styles, fonts, i
 connections, plus `data:` images. A consuming site that uses external analytics, fonts, forms, or
 media must supply an explicit policy that permits only the required origins. Test the resulting
 headers in a representative environment before deploying production.
+
+See the runnable [custom-CSP example](../examples/custom-csp/app.py). Additional focused examples
+cover [access logging](../examples/access-logging/app.py) and
+[externally managed content](../examples/external-content/app.py).
