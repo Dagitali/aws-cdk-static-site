@@ -54,8 +54,8 @@ steps. The versioning and compatibility rules are defined in
 3. Move completed `Unreleased` entries into a dated `## <version> - YYYY-MM-DD` section in
    `CHANGELOG.md`, and review the public API and compatibility impact. Do not edit a package
    version: `setuptools-scm` derives it from Git tags.
-4. Build the sdist and wheel, run `twine check`, and install the wheel into a clean environment for
-   a preliminary import and synthesis smoke test.
+4. Build the sdist and wheel, run `twine check`, and install each distribution into a separate clean
+   environment for a preliminary import and synthesis smoke test.
 5. Open a pull request targeting `main` and merge through GitHub.
 6. Create an annotated `v<version>` tag on the authoritative merged `main` commit.
 7. Confirm the tag-triggered Release workflow builds and validates the authoritative distributions,
