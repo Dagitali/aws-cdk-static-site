@@ -59,7 +59,8 @@ The consumer test defaults to the adjacent `../dagitali.com` checkout. Set `DAGI
 `CONSUMER_PROJECT_DIR` when the consumer lives elsewhere. Because dagitali.com has not yet migrated
 to this package, this layer validates that the construct can synthesize its real site content and
 external-DNS delivery shape; it does not claim that dagitali.com's current stack imports the
-construct.
+construct. The dedicated CI job checks out the private consumer with the `DAGITALI_COM_READ_TOKEN`
+Actions secret, which must provide read-only Contents access to only that repository.
 
 ## Run Checks
 

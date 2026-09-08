@@ -41,7 +41,10 @@ with coverage, and builds the HTML documentation with warnings treated as errors
 `Test on Python 3.14` job verifies compatibility with the additional Python version declared by the
 package metadata. `Validate distributions` builds the wheel and sdist once, checks their contents,
 and installs each into a clean environment. `Test dagitali.com consumer` synthesizes the construct
-using the consumer's real site content. The advisory cross-platform jobs install the package and
+using the consumer's real site content. Because that repository is private, configure
+`DAGITALI_COM_READ_TOKEN` as an Actions secret containing a fine-grained personal access token with
+read-only Contents access to only `Dagitali/dagitali.com`; the current repository's `GITHUB_TOKEN`
+cannot read a private sibling repository. The advisory cross-platform jobs install the package and
 verify its public module can be imported on macOS and Windows runners.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
