@@ -258,3 +258,34 @@ class TestStorage:
                 'VersioningConfiguration': {'Status': 'Enabled'},
             },
         )
+
+    @pytest.mark.parametrize(
+        ('access_logs_enabled', 'expected_logical_ids'),
+        [
+            (False, {'SiteContentBucket7074C5C5'}),
+            (
+                True,
+                {
+                    'SiteAccessLogBucketD8C8E27D',
+                    'SiteContentBucket7074C5C5',
+                },
+            ),
+        ],
+        ids=('content-storage', 'content-and-log-storage'),
+    )
+    def test_preserves_stateful_bucket_logical_ids(
+        self,
+        template_factory: TemplateFactory,
+        access_logs_enabled: bool,
+        expected_logical_ids: set[str],
+    ) -> None:
+        template = template_factory(access_logs_enabled=access_logs_enabled)
+        resources = template.to_json()['Resources']
+
+        logical_ids = {
+            logical_id
+            for logical_id, resource in resources.items()
+            if resource['Type'] == 'AWS::S3::Bucket'
+        }
+
+        assert logical_ids == expected_logical_ids
