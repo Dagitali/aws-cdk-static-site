@@ -97,6 +97,7 @@ addopts = [
   "--cov-report=term-missing",
   "--cov-fail-under=90",
 ]
+pythonpath = [".", "src"]
 testpaths = ["tests"]
 markers = ["unit: isolated CDK synthesis tests"]
 
