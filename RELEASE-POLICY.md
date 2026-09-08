@@ -66,7 +66,7 @@ A public package release is expected to include:
 
 - An annotated Git tag;
 - A GitHub Release with reviewed notes;
-- Validated source and wheel distributions;
+- Validated sdist and wheel distributions;
 - SHA-256 checksums; and
 - A CycloneDX dependency SBOM.
 
