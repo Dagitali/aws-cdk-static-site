@@ -1,0 +1,48 @@
+# security.yml
+# aws-cdk-static-site
+#
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# Manually run optional synthesized-template security checks.
+#
+# Responsibilities
+# - Install the isolated security-check dependency group.
+# - Run the reviewed cdk-nag AWS Solutions baseline without AWS credentials.
+
+---
+name: Security checks
+
+run-name: Security checks from ${{ github.ref_name }}
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+env:
+  DEFAULT_PYTHON_VERSION: "3.13"
+
+jobs:
+  cdk-nag:
+    name: Check synthesized security findings
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install security-test dependencies
+        run: python -m pip install --disable-pip-version-check -e '.[dev,security]'
+
+      - name: Check synthesized security findings
+        run: python -m pytest --no-cov tests/meta/test_cdk_nag.py
