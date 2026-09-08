@@ -39,7 +39,9 @@ make lint
 make typecheck
 make test
 make test-unit
+make test-integration
 make test-full
+make docs-strict
 make dist
 make package
 make workflow-pins
@@ -51,7 +53,11 @@ mypy settings are centralized in `pyproject.toml`; pytest uses the native pytest
 table, and Ruff uses `[tool.ruff]` and its subtables as the canonical linting and formatting policy.
 The project does not duplicate these settings in `.coveragerc`, `pytest.toml`, `pytest.ini`,
 `ruff.toml`, or `.ruff.toml`. Flake8 is neither installed nor configured because Ruff provides the
-project's linting policy.
+project’s linting policy.
+
+The focused `make test-integration` target disables coverage because each example runs in a clean
+subprocess. The default `make test` target runs both scopes and continues to enforce the package's
+coverage threshold through the unit suite.
 
 ## Test Design
 
@@ -64,13 +70,16 @@ project's linting policy.
 
 `tests/unit/test_construct.py` verifies storage, delivery, deployment, DNS, certificate, and logging
 behavior. `tests/unit/test_props.py` verifies configuration defaults and invalid combinations.
+`tests/integration/test_examples.py` runs each documented example as an independent CDK application
+and verifies that it synthesizes without AWS access.
 
 See the [tests overview](../tests/README.md) for the directory contract and guidance for adding
 future test scopes.
 
 ## Future Test Levels
 
-Add integration tests when `dagitali.com` consumes the package. Those tests should compare relevant
-synthesized behavior before and after migration and smoke-test a wheel-installed consumer in a clean
-environment. Add deployed end-to-end tests only when this repository owns a bounded test fixture or
-example deployment; production website checks should otherwise remain in the consuming repository.
+Expand integration coverage when `dagitali.com` consumes the package. Those tests should compare
+relevant synthesized behavior before and after migration and smoke-test a wheel-installed consumer
+in a clean environment. Add deployed end-to-end tests only when this repository owns a bounded test
+fixture or example deployment; production website checks should otherwise remain in the consuming
+repository.
