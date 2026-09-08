@@ -16,7 +16,7 @@ maintained CDK construct that applications can compose inside their own stacks.
 - [Features](#features)
 - [Architecture](#architecture)
 - [Requirements](#requirements)
-- [Development Installation](#development-installation)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Design Boundaries](#design-boundaries)
 - [Documentation](#documentation)
@@ -58,9 +58,16 @@ flowchart LR
 - An AWS account bootstrapped for CDK deployments
 - An ACM certificate in `us-east-1` when using a custom CloudFront domain
 
-## Development Installation
+## Installation
 
-Until the first package release, install directly from a local checkout:
+Until the package is published to PyPI, install a selected GitHub release tag:
+
+```bash
+python -m pip install \
+  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.2.0"
+```
+
+For development, install from a local checkout with the development dependencies:
 
 ```bash
 python -m pip install -e '.[dev]'
