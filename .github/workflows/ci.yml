@@ -134,6 +134,17 @@ jobs:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
           cache: pip
 
+      - name: Verify release changelog
+        if: >-
+          github.event_name == 'pull_request' &&
+          (startsWith(github.head_ref, 'release/') ||
+          startsWith(github.head_ref, 'hotfix/'))
+        env:
+          RELEASE_BRANCH: ${{ github.head_ref }}
+        run: >-
+          python scripts/check_release_changelog.py
+          "${RELEASE_BRANCH#*/}"
+
       - name: Install development dependencies
         run: python -m pip install --disable-pip-version-check -e '.[dev]'
 
