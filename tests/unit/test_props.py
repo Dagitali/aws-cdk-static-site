@@ -59,6 +59,10 @@ class TestStaticSiteProps:
             ),
             ({'access_log_retention_days': 0}, 'greater than zero'),
             ({'deployment_cache_max_age_seconds': -1}, 'must not be negative'),
+            (
+                {'immutable_asset_cache_max_age_seconds': 0},
+                'greater than zero',
+            ),
             ({'content_security_policy': ''}, 'must not be empty'),
             (
                 {
@@ -76,6 +80,11 @@ class TestStaticSiteProps:
             ),
             ({'static_asset_paths': ('',)}, 'empty paths'),
             ({'static_asset_paths': ('assets/*', 'assets/*')}, 'duplicates'),
+            ({'immutable_asset_paths': ('',)}, 'empty paths'),
+            (
+                {'immutable_asset_paths': ('build/*', 'build/*')},
+                'duplicates',
+            ),
         ],
     )
     def test_rejects_invalid_configuration(

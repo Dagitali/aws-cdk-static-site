@@ -44,6 +44,7 @@ class StaticSiteProps:
         'favicon.ico',
         'og.png',
     )
+    immutable_asset_paths: tuple[str, ...] = ()
     content_security_policy: str = DEFAULT_CONTENT_SECURITY_POLICY
     price_class: cloudfront.PriceClass = cloudfront.PriceClass.PRICE_CLASS_100
     enable_access_logs: bool = False
@@ -51,6 +52,7 @@ class StaticSiteProps:
     bucket_removal_policy: RemovalPolicy = RemovalPolicy.RETAIN
     versioned: bool = True
     deployment_cache_max_age_seconds: int = 300
+    immutable_asset_cache_max_age_seconds: int = 31_536_000
 
     # !SECTION
 
@@ -84,6 +86,10 @@ class StaticSiteProps:
             raise ValueError(
                 'deployment_cache_max_age_seconds must not be negative',
             )
+        if self.immutable_asset_cache_max_age_seconds <= 0:
+            raise ValueError(
+                'immutable_asset_cache_max_age_seconds must be greater than zero',
+            )
         if not self.content_security_policy.strip():
             raise ValueError('content_security_policy must not be empty')
         if any(not name.strip() for name in self.domain_names):
@@ -94,6 +100,10 @@ class StaticSiteProps:
             raise ValueError('static_asset_paths must not contain empty paths')
         if len(set(self.static_asset_paths)) != len(self.static_asset_paths):
             raise ValueError('static_asset_paths must not contain duplicates')
+        if any(not path.strip() for path in self.immutable_asset_paths):
+            raise ValueError('immutable_asset_paths must not contain empty paths')
+        if len(set(self.immutable_asset_paths)) != len(self.immutable_asset_paths):
+            raise ValueError('immutable_asset_paths must not contain duplicates')
 
 
 # !SECTION
