@@ -3,7 +3,7 @@
 - [Completed in the Initial Scaffold](#completed-in-the-initial-scaffold)
 - [Phase 2: Integrate the First Consumer](#phase-2-integrate-the-first-consumer)
 - [Phase 3: Validate Generality](#phase-3-validate-generality)
-- [Phase 4: Prepare a Public Release](#phase-4-prepare-a-public-release)
+- [Phase 4: Prepare PyPI Publication](#phase-4-prepare-pypi-publication)
 - [Relationship to cookiecutter-aws-website](#relationship-to-cookiecutter-aws-website)
 
 ## Completed in the Initial Scaffold
@@ -36,13 +36,14 @@ has stable releases.
 - Decide whether contact APIs, budgets, and deployment workflows belong in separate packages or
   examples; do not add them to the core construct by default.
 
-## Phase 4: Prepare a Public Release
+## Phase 4: Prepare PyPI Publication
 
 - Confirm the PyPI project name immediately before release.
 - Document the supported public API and compatibility policy.
-- Generate API documentation and release notes.
-- Build the sdist and wheel, run `twine check`, and install the wheel in a clean environment for a
-  synthesis smoke test.
+- Generate API documentation.
+- Retain the tag-triggered checks that build the sdist and wheel, run `twine check`, install each
+  distribution in a clean environment, synthesize the representative example, and publish GitHub
+  Release assets.
 - Configure PyPI Trusted Publishing with a protected GitHub environment.
 - Publish a prerelease before declaring a stable 1.0 API.
 

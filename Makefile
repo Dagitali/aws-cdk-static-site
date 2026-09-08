@@ -32,8 +32,8 @@
 # 2) Run the local CI-equivalent checks.
 # $ make check
 #
-# 3) Run a focused test suite.
-# $ make test-unit
+# 3) Run the default test suite.
+# $ make test
 #
 # 4) Inspect the local environment.
 # $ make show-venv
@@ -46,6 +46,15 @@
 # SECTION: VARIABLES
 
 SHELL := /bin/bash
+
+### Environment ###
+
+# Load conventional local overrides when present. Override ENV_FILE with an
+# empty value to disable loading or with another Make-compatible env file.
+ENV_FILE ?= .env
+ifneq ($(strip $(ENV_FILE)),)
+-include $(ENV_FILE)
+endif
 
 ### Make ###
 
@@ -64,8 +73,16 @@ TESTS_DIR ?= tests
 PYTHON_POLICY_SCRIPT ?= $(SCRIPTS_DIR)/check_python_policy.py
 WORKFLOW_PINS_SCRIPT ?= $(SCRIPTS_DIR)/check_workflow_pins.py
 
-PACKAGE_OUTPUT ?= $(subst .,-,$(PROJECT_NAME))-repository.tar.gz
+PACKAGE_FORMAT ?= tar.gz
+PACKAGE_OUTPUT ?= $(subst .,-,$(PROJECT_NAME))-repository.$(PACKAGE_FORMAT)
 PACKAGE_PREFIX ?= $(PROJECT_NAME)/
+
+### Cleanup ###
+
+CLEAN_SEARCH_DIRS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR) $(EXAMPLES_DIR)
+CLEAN_REMOVE_PATHS ?= build .coverage coverage.xml htmlcov \
+	.mypy_cache .pytest_cache .ruff_cache $(PKG_DIR)/*.egg-info \
+	$(SOURCE_DIR)/*.egg-info
 
 ### Installation ###
 
@@ -74,6 +91,8 @@ RUNTIME_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(RUNTIME_INSTALL
 DEV_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(DEV_INSTALL_ARGS)
 RUNTIME_POST_INSTALL_COMMAND ?= true
 DEV_POST_INSTALL_COMMAND ?= $(RUNTIME_POST_INSTALL_COMMAND)
+
+HOOK_INSTALL_ARGS ?= --install-hooks
 
 ### Python ###
 
@@ -112,18 +131,25 @@ PIP_INSTALL_FLAGS ?= --disable-pip-version-check
 RUNTIME_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))"
 DEV_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[dev]"
 
-PYTHON_LINT_PATHS ?= .
+PYTHON_FORMAT_PATHS ?= .
+PYTHON_LINT_PATHS ?= $(PYTHON_FORMAT_PATHS)
 PYTHON_TYPECHECK_PATHS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR)
 
-### Packaging ###
+### Packaging (Git) ###
+
+PACKAGE_BUILD_COMMAND ?= git archive --format=$(PACKAGE_FORMAT) \
+	--prefix="$(PACKAGE_PREFIX)" --output="$(PACKAGE_OUTPUT)" HEAD
+
+### Packaging (Python) ###
 
 DIST_BUILD_COMMAND ?= $(PYTHON_BUILD) --outdir "$(PYTHON_DIST_DIR)"
 DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
 
 ### Quality ###
 
-CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test dist
-CHECK_PRE_PUSH_TARGETS ?= $(CHECK_TARGETS)
+BASE_CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test
+CHECK_TARGETS ?= $(BASE_CHECK_TARGETS) dist
+CHECK_PRE_PUSH_TARGETS ?= $(BASE_CHECK_TARGETS)
 CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS)
 CI_SMOKE_TARGETS ?= python-policy lint test-unit
 
@@ -150,6 +176,13 @@ define ASSERT_REPOSITORY_PATH
 	case "$(abspath $(1))" in \
 		"$(CURDIR)"/*) ;; \
 		*) echo "$(2) must be inside $(CURDIR)" >&2; exit 1 ;; \
+	esac
+endef
+
+define ASSERT_REPOSITORY_SEARCH_PATH
+	case "$(abspath $(1))" in \
+		"$(CURDIR)"|"$(CURDIR)"/*) ;; \
+		*) echo "$(2) must be $(CURDIR) or one of its children" >&2; exit 1 ;; \
 	esac
 endef
 
@@ -225,7 +258,7 @@ dev: venv ## Install development dependencies
 
 .PHONY: hooks
 hooks: dev ## Install pre-commit hooks
-	$(PRE_COMMIT) install --install-hooks
+	$(PRE_COMMIT) install $(HOOK_INSTALL_ARGS)
 	@$(call ECHO_OK,Installed pre-commit hooks)
 
 .PHONY: setup
@@ -233,22 +266,26 @@ setup: dev ## Install the development environment (compatibility alias)
 
 .PHONY: show-venv
 show-venv: ## Print virtual-environment and interpreter locations
-	@echo "PIP      = $(PIP)"
-	@echo "PY       = $(PY)"
-	@echo "PYTHON   = $(PYTHON)"
+	@echo "PKG_DIR  = $(PKG_DIR)"
 	@echo "VENV_BIN = $(VENV_BIN)"
 	@echo "VENV_DIR = $(VENV_DIR)"
+	@echo "PY       = $(PY)"
+	@echo "PYTHON   = $(PYTHON)"
+	@echo "PIP      = $(PIP)"
 
 .PHONY: clean
 clean: ## Remove generated build artifacts and caches
 	@$(call ASSERT_REPOSITORY_PATH,$(VENV_DIR),VENV_DIR)
 	@$(call ASSERT_REPOSITORY_PATH,$(PYTHON_DIST_DIR),PYTHON_DIST_DIR)
-	@find $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR) $(EXAMPLES_DIR) -type d \
+	@$(foreach path,$(CLEAN_REMOVE_PATHS),\
+		$(call ASSERT_REPOSITORY_PATH,$(path),CLEAN_REMOVE_PATHS);)
+	@$(foreach path,$(CLEAN_SEARCH_DIRS),\
+		$(call ASSERT_REPOSITORY_SEARCH_PATH,$(path),CLEAN_SEARCH_DIRS);)
+	@find $(CLEAN_SEARCH_DIRS) -type d \
 		\( -name '__pycache__' -o -name '.mypy_cache' \
 		-o -name '.pytest_cache' -o -name '.ruff_cache' \) \
 		-prune -exec rm -rf {} + 2>/dev/null || true
-	@rm -rf build "$(PYTHON_DIST_DIR)" .coverage coverage.xml htmlcov \
-		.mypy_cache .pytest_cache .ruff_cache $(SOURCE_DIR)/*.egg-info
+	@rm -rf $(CLEAN_REMOVE_PATHS) "$(PYTHON_DIST_DIR)"
 	@$(call ECHO_OK,Removed generated artifacts and caches)
 
 .PHONY: clean-venv
@@ -275,7 +312,7 @@ fix: python-policy ## Apply safe Ruff fixes to Python code
 
 .PHONY: fmt
 fmt: fix ## Format Python code with Ruff
-	$(call RUN_IN_PACKAGE,$(RUFF) format $(PYTHON_LINT_PATHS))
+	$(call RUN_IN_PACKAGE,$(RUFF) format $(PYTHON_FORMAT_PATHS))
 
 .PHONY: format
 format: fmt ## Format Python code (compatibility alias)
@@ -314,7 +351,7 @@ test-full: $(FULL_TEST_TARGETS) ## Run all available test suites
 ##@ CI
 
 .PHONY: ci-smoke
-ci-smoke: $(CI_SMOKE_TARGETS) ## Run fast environment, lint, and unit checks
+ci-smoke: $(CI_SMOKE_TARGETS) ## Run the fast CI smoke checks
 
 
 ##@ Packaging
@@ -332,8 +369,7 @@ build: dist ## Build Python distributions (compatibility alias)
 
 .PHONY: package
 package: python-policy ## Build a repository archive from the current commit
-	git archive --format=tar.gz --prefix=$(PACKAGE_PREFIX) \
-		--output=$(PACKAGE_OUTPUT) HEAD
+	$(PACKAGE_BUILD_COMMAND)
 	@$(call ECHO_OK,Built repository archive: $(PACKAGE_OUTPUT))
 
 # !SECTION
