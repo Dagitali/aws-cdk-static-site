@@ -20,16 +20,29 @@ of accurate product behavior.
 ## Build the Local Site
 
 The lightweight Sphinx site combines a short getting-started path, focused examples, and API
-documentation generated from package docstrings. Build it locally with warnings treated as errors:
+documentation generated from package docstrings. Build the HTML site locally with:
+
+```bash
+make docs
+```
+
+Use the CI-parity build, which treats warnings as errors, before proposing documentation changes:
 
 ```bash
 make docs-strict
 ```
 
-Open `docs/build/html/index.html` after the build completes. The generated site is ignored by Git.
-Read the Docs configuration and publication are intentionally deferred until this package has a
-regular PyPI release lifecycle; CI builds the same sources only to prevent documentation
-regressions.
+Additional builders exercise output formats and external links:
+
+```bash
+make docs-epub
+make docs-linkcheck
+```
+
+Open `docs/build/html/index.html` after an HTML build completes. Generated output under
+`docs/build/` is ignored by Git. Read the Docs configuration and publication are intentionally
+deferred until this package has a regular PyPI release lifecycle; CI builds the same HTML sources
+only to prevent documentation regressions.
 
 ## Guides
 
