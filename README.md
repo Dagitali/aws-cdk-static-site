@@ -64,7 +64,7 @@ Until the package is published to PyPI, install a selected GitHub release tag:
 
 ```bash
 python -m pip install \
-  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.2.0"
+  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.2.5"
 ```
 
 For development, install from a local checkout with the development dependencies:
@@ -137,9 +137,11 @@ one organization or deployment process.
 - [Focused examples](examples/README.md)
 - [Local Sphinx documentation](docs/README.md#build-the-local-site)
 - [CI/CD workflow map](CI-CD-WORKFLOWS.md)
+- [Changelog](CHANGELOG.md)
 - [Release policy](RELEASE-POLICY.md)
 - [Release checklist](RELEASE-CHECKLIST.md)
 - [Maintainer runbooks](.github/MAINTAINER-RUNBOOKS.md)
+- [Technical references](REFERENCES.md)
 
 ## Contributing and Support
 
