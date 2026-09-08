@@ -134,6 +134,8 @@ one organization or deployment process.
 - [Cost considerations](docs/COSTS.md)
 - [Testing guide](docs/TESTING.md)
 - [Extraction roadmap](docs/ROADMAP.md)
+- [Focused examples](examples/README.md)
+- [Local Sphinx documentation](docs/README.md#build-the-local-site)
 - [CI/CD workflow map](CI-CD-WORKFLOWS.md)
 - [Release policy](RELEASE-POLICY.md)
 - [Release checklist](RELEASE-CHECKLIST.md)
