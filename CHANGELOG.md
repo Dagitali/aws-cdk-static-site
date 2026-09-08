@@ -3,11 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.2.3 - 2026-09-08](#023---2026-09-08)
 - [0.2.2 - 2026-09-08](#022---2026-09-08)
 - [0.2.1 - 2026-09-08](#021---2026-09-08)
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.2.3 - 2026-09-08
+
+- Make repository-local test support and package sources importable under both `pytest` and
+  `python -m pytest` so the supported-version CI jobs use equivalent collection semantics.
 
 ## 0.2.2 - 2026-09-08
 
