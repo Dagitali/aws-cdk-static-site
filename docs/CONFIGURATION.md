@@ -5,6 +5,7 @@ consuming CDK application remains responsible for reading context, environment v
 configuration files and converting them into these typed properties.
 
 - [Properties](#properties)
+- [Cache Semantics](#cache-semantics)
 - [CloudFront-Only Domain](#cloudfront-only-domain)
 - [Externally Managed DNS](#externally-managed-dns)
 - [Route 53 and ACM](#route-53-and-acm)
@@ -24,13 +25,36 @@ configuration files and converting them into these typed properties.
 | `default_root_object` | `"index.html"` | Object CloudFront returns for the distribution root. |
 | `error_document` | `"404.html"` | Object returned with HTTP 404 for S3 403 and 404 responses. |
 | `static_asset_paths` | Common asset paths | CloudFront path patterns using optimized caching. |
+| `immutable_asset_paths` | `()` | Opt-in deployment filters for content-addressed assets that receive optimized CloudFront caching and immutable browser metadata. |
 | `content_security_policy` | Restrictive same-origin policy | Content Security Policy emitted through CloudFront. |
 | `price_class` | `PRICE_CLASS_100` | CloudFront edge-location price class. |
 | `enable_access_logs` | `False` | Create bounded S3 access-log storage and enable CloudFront standard logging. |
 | `access_log_retention_days` | `30` | Number of days access logs remain in S3. |
 | `bucket_removal_policy` | `RETAIN` | CloudFormation removal policy for the content bucket. |
 | `versioned` | `True` | Enable S3 object versioning. |
-| `deployment_cache_max_age_seconds` | `300` | Cache-Control maximum age applied by the optional content deployment. |
+| `deployment_cache_max_age_seconds` | `300` | Cache-Control maximum age applied to HTML and other mutable content. |
+| `immutable_asset_cache_max_age_seconds` | `31536000` | Cache-Control maximum age applied to paths in `immutable_asset_paths`. |
+
+## Cache Semantics
+
+The optional content deployment assigns `public, max-age=300, must-revalidate` to HTML and other
+mutable files. Paths explicitly listed in `immutable_asset_paths` are deployed separately with
+`public, max-age=31536000, immutable`; they also receive an optimized CloudFront cache behavior.
+Both deployments prune only the paths they manage and invalidate their corresponding CloudFront
+paths.
+
+Use the immutable policy only for content-addressed filenames, such as `build/app.a1b2c3.js`, whose
+URL changes whenever its bytes change:
+
+```python
+StaticSiteProps(
+    site_content_path="site",
+    immutable_asset_paths=("build/*",),
+)
+```
+
+Do not classify stable filenames such as `index.html`, `favicon.ico`, or `app.js` as immutable.
+Browsers may reuse those objects for the full configured lifetime without checking for updates.
 
 ## CloudFront-Only Domain
 
@@ -99,8 +123,9 @@ including:
 - Both `certificate` and `create_certificate=True`;
 - Certificate creation or Route 53 records without a hosted zone and domain names;
 - Certificate creation in an environment-agnostic stack or a region other than `us-east-1`;
-- Empty or duplicate domain and path patterns; or
-- Nonpositive log retention or negative cache lifetime values.
+- Empty or duplicate domain and path patterns;
+- Nonpositive log retention or immutable cache lifetime values; or
+- Negative mutable-content cache lifetime values.
 
 ## Security Policy Customization
 
