@@ -78,17 +78,7 @@ jobs:
       - name: Verify versioned changelog
         env:
           RELEASE_TAG: ${{ github.ref_name }}
-        run: |
-          set -euo pipefail
-
-          version="${RELEASE_TAG#v}"
-          escaped_version="${version//./\\.}"
-          if ! grep -Eq \
-            "^## ${escaped_version} - [0-9]{4}-[0-9]{2}-[0-9]{2}$" \
-            CHANGELOG.md; then
-            echo "CHANGELOG.md has no dated section for ${version}." >&2
-            exit 1
-          fi
+        run: python scripts/check_release_changelog.py "${RELEASE_TAG}"
 
       - name: Install release tools
         run: |

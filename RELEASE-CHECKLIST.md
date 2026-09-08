@@ -16,6 +16,8 @@ details, and incident procedures outside the repository.
 - [ ] Create `release/<version>` from current `develop`.
 - [ ] Move completed `Unreleased` entries into a dated `## <version> - YYYY-MM-DD`
       changelog section before tagging.
+- [ ] Run `make release-changelog RELEASE_VERSION=<version>` and resolve any failure before opening
+      the release pull request.
 - [ ] Confirm package metadata, supported Python versions, dependencies, and public exports.
 - [ ] Draft release notes from `.github/RELEASE-NOTES-TEMPLATE.md`.
 
