@@ -148,9 +148,10 @@ vulnerability reporting.
 ## PyPI Publication
 
 Novelty is not a PyPI requirement, but usefulness, a stable API, documentation, maintenance intent,
-and a non-conflicting project name matter. Before publishing, this project should be consumed by
-`dagitali.com` and at least one second site, complete its public API review, and automate build,
-wheel smoke testing, and trusted publishing. Git-based installation is sufficient during extraction.
+and a non-conflicting project name matter. The tag-triggered release workflow already builds and
+validates the sdist and wheel. Before publishing to PyPI, this project should be consumed by
+`dagitali.com` and at least one second site, complete its public API review, and add reviewed
+trusted publishing. Git-based installation is sufficient during extraction.
 
 ## License
 
