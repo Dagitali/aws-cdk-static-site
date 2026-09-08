@@ -35,10 +35,13 @@
 # 3) Run the default test suite.
 # $ make test
 #
-# 4) Inspect the local environment.
+# 4) Build the local documentation with CI-equivalent validation.
+# $ make docs-strict
+#
+# 5) Inspect the local environment.
 # $ make show-venv
 #
-# 5) Clean build artifacts or nuke the venv.
+# 6) Clean build artifacts or nuke the venv.
 # $ make clean
 # $ make clean-venv
 
@@ -98,6 +101,7 @@ SPHINX_STRICT_FLAGS ?= -T -W --keep-going
 VENV_READY_COMMAND ?= true
 RUNTIME_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(RUNTIME_INSTALL_ARGS)
 DEV_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(DEV_INSTALL_ARGS)
+DOCS_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(DOCS_INSTALL_ARGS)
 RUNTIME_POST_INSTALL_COMMAND ?= true
 DEV_POST_INSTALL_COMMAND ?= $(RUNTIME_POST_INSTALL_COMMAND)
 
@@ -161,7 +165,7 @@ DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
 BASE_CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test
 CHECK_TARGETS ?= $(BASE_CHECK_TARGETS) dist
 CHECK_PRE_PUSH_TARGETS ?= $(BASE_CHECK_TARGETS)
-CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS)
+CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS) docs-strict
 CI_SMOKE_TARGETS ?= python-policy lint test-unit
 
 ### Testing ###
@@ -214,7 +218,7 @@ define RUN_IN_PACKAGE
 endef
 
 define RUN_SPHINX_BUILD
-	$(PIP) install $(PIP_INSTALL_FLAGS) $(DOCS_INSTALL_ARGS)
+	$(DOCS_INSTALL_COMMAND)
 	@rm -rf "$(DOCS_BUILD_DIR)/$(1)" "$(DOCS_BUILD_DIR)/doctrees/$(1)"
 	$(SPHINX) $(2) -b $(1) -d "$(DOCS_BUILD_DIR)/doctrees/$(1)" \
 		"$(DOCS_SOURCE_DIR)" "$(DOCS_BUILD_DIR)/$(1)"
@@ -384,12 +388,20 @@ test-full: $(FULL_TEST_TARGETS) ## Run all available test suites
 ##@ Documentation
 
 .PHONY: docs
-docs: venv ## Build local HTML documentation with Sphinx
+docs: venv ## Build HTML documentation with Sphinx
 	$(call RUN_SPHINX_BUILD,html,)
 
 .PHONY: docs-strict
-docs-strict: venv ## Build local HTML documentation and fail on warnings
+docs-strict: venv ## Build HTML documentation with CI-parity warning checks
 	$(call RUN_SPHINX_BUILD,html,$(SPHINX_STRICT_FLAGS))
+
+.PHONY: docs-epub
+docs-epub: venv ## Build EPUB documentation with CI-parity warning checks
+	$(call RUN_SPHINX_BUILD,epub,$(SPHINX_STRICT_FLAGS))
+
+.PHONY: docs-linkcheck
+docs-linkcheck: venv ## Check documentation links with CI-parity warning checks
+	$(call RUN_SPHINX_BUILD,linkcheck,$(SPHINX_STRICT_FLAGS))
 
 
 ##@ CI
