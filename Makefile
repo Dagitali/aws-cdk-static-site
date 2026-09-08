@@ -83,9 +83,15 @@ PACKAGE_PREFIX ?= $(PROJECT_NAME)/
 ### Cleanup ###
 
 CLEAN_SEARCH_DIRS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR) $(EXAMPLES_DIR)
-CLEAN_REMOVE_PATHS ?= build .coverage coverage.xml htmlcov \
+CLEAN_REMOVE_PATHS ?= build .coverage coverage.xml htmlcov $(DOCS_BUILD_DIR) \
 	.mypy_cache .pytest_cache .ruff_cache $(PKG_DIR)/*.egg-info \
 	$(SOURCE_DIR)/*.egg-info
+
+### Documentation ###
+
+DOCS_SOURCE_DIR ?= docs/source
+DOCS_BUILD_DIR ?= docs/build
+SPHINX_STRICT_FLAGS ?= -T -W --keep-going
 
 ### Installation ###
 
@@ -128,11 +134,13 @@ PRE_COMMIT ?= $(PYTHON) -m pre_commit
 PYTEST ?= $(PYTHON) -m pytest
 RUFF ?= $(PYTHON) -m ruff
 PYTHON_BUILD ?= $(PYTHON) -m build
+SPHINX ?= $(PYTHON) -m sphinx
 TWINE ?= $(PYTHON) -m twine
 
 PIP_INSTALL_FLAGS ?= --disable-pip-version-check
 RUNTIME_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))"
 DEV_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[dev]"
+DOCS_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[docs]"
 
 PYTHON_FORMAT_PATHS ?= .
 PYTHON_LINT_PATHS ?= $(PYTHON_FORMAT_PATHS)
@@ -171,6 +179,10 @@ FULL_TEST_TARGETS ?= test
 UNIT_TEST_PATH ?= $(TESTS_DIR)/unit
 UNIT_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS) $(UNIT_TEST_PATH)
 
+INTEGRATION_TEST_PATH ?= $(TESTS_DIR)/integration
+INTEGRATION_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS) \
+	--no-cov $(INTEGRATION_TEST_PATH)
+
 # !SECTION
 
 # SECTION: MACROS
@@ -199,6 +211,14 @@ endef
 
 define RUN_IN_PACKAGE
 	cd "$(PKG_DIR)" && $(1)
+endef
+
+define RUN_SPHINX_BUILD
+	$(PIP) install $(PIP_INSTALL_FLAGS) $(DOCS_INSTALL_ARGS)
+	@rm -rf "$(DOCS_BUILD_DIR)/$(1)" "$(DOCS_BUILD_DIR)/doctrees/$(1)"
+	$(SPHINX) $(2) -b $(1) -d "$(DOCS_BUILD_DIR)/doctrees/$(1)" \
+		"$(DOCS_SOURCE_DIR)" "$(DOCS_BUILD_DIR)/$(1)"
+	@$(call ECHO_OK,Built $(1) documentation in $(DOCS_BUILD_DIR)/$(1))
 endef
 
 # !SECTION
@@ -353,8 +373,23 @@ test: python-policy ## Run the default test suite
 test-unit: python-policy ## Run isolated unit tests
 	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(UNIT_TEST_ARGS))
 
+.PHONY: test-integration
+test-integration: python-policy ## Run package and example integration tests
+	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(INTEGRATION_TEST_ARGS))
+
 .PHONY: test-full
 test-full: $(FULL_TEST_TARGETS) ## Run all available test suites
+
+
+##@ Documentation
+
+.PHONY: docs
+docs: venv ## Build local HTML documentation with Sphinx
+	$(call RUN_SPHINX_BUILD,html,)
+
+.PHONY: docs-strict
+docs-strict: venv ## Build local HTML documentation and fail on warnings
+	$(call RUN_SPHINX_BUILD,html,$(SPHINX_STRICT_FLAGS))
 
 
 ##@ CI
