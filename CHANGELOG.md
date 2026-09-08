@@ -3,9 +3,19 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.2.2 - 2026-09-08](#022---2026-09-08)
+- [0.2.1 - 2026-09-08](#021---2026-09-08)
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.2.2 - 2026-09-08
+
+- Add pre-tag release-changelog validation to prevent publishing a tag without its matching dated
+  changelog section.
+- Record the `v0.2.1` changes without moving or reusing its existing public tag.
+
+## 0.2.1 - 2026-09-08
 
 - Automate tagged GitHub Releases with once-built distributions, isolated artifact smoke tests,
   SHA-256 checksums, and a CycloneDX SBOM.
