@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.0 - 2026-09-08](#030---2026-09-08)
 - [0.2.9 - 2026-09-08](#029---2026-09-08)
 - [0.2.8 - 2026-09-08](#028---2026-09-08)
 - [0.2.7 - 2026-09-08](#027---2026-09-08)
@@ -15,6 +16,21 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.0 - 2026-09-08
+
+- Add distribution-content and metadata tests covering the wheel, source distribution, `py.typed`,
+  license files, Python support, and runtime dependencies.
+- Add clean-environment wheel and source-distribution installation tests with import, typing-marker,
+  metadata, and CDK synthesis smoke checks.
+- Add explicit example-synthesis and dagitali.com consumer-compatibility layers to CI.
+- Organize tests into unit, integration, end-to-end, and meta layers with shared helpers under
+  `tests/support`.
+- Add optional cdk-nag AWS Solutions checks with reviewed design-boundary acknowledgments.
+- Add a manually approved, OIDC-authenticated disposable AWS deployment workflow with a fixed
+  resource allowlist, unique stack name, cost boundaries, and automatic cleanup.
+- Align pre-commit automation around the modern Ruff hook, the project-wide 88-character limit,
+  standard test layers, and reusable Make-backed pre-push and manual CI gates.
 
 ## 0.2.9 - 2026-09-08
 
