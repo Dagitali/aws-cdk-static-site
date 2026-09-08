@@ -68,6 +68,7 @@ SHARED_MAKEFILE ?=
 ### Project ###
 
 PROJECT_NAME ?= $(notdir $(CURDIR))
+CONSUMER_PROJECT_DIR ?= ../dagitali.com
 EXAMPLES_DIR ?= examples
 SCRIPTS_DIR ?= scripts
 SOURCE_DIR ?= src
@@ -102,6 +103,7 @@ VENV_READY_COMMAND ?= true
 RUNTIME_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(RUNTIME_INSTALL_ARGS)
 DEV_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(DEV_INSTALL_ARGS)
 DOCS_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(DOCS_INSTALL_ARGS)
+SECURITY_INSTALL_COMMAND ?= $(PIP) install $(PIP_INSTALL_FLAGS) $(SECURITY_INSTALL_ARGS)
 RUNTIME_POST_INSTALL_COMMAND ?= true
 DEV_POST_INSTALL_COMMAND ?= $(RUNTIME_POST_INSTALL_COMMAND)
 
@@ -145,6 +147,7 @@ PIP_INSTALL_FLAGS ?= --disable-pip-version-check
 RUNTIME_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))"
 DEV_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[dev]"
 DOCS_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[docs]"
+SECURITY_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[security]"
 
 PYTHON_FORMAT_PATHS ?= .
 PYTHON_LINT_PATHS ?= $(PYTHON_FORMAT_PATHS)
@@ -165,7 +168,7 @@ DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
 BASE_CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test
 CHECK_TARGETS ?= $(BASE_CHECK_TARGETS) dist
 CHECK_PRE_PUSH_TARGETS ?= $(BASE_CHECK_TARGETS)
-CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS) docs-strict
+CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS) docs-strict test-distribution
 CI_SMOKE_TARGETS ?= python-policy lint test-unit
 
 ### Testing ###
@@ -178,7 +181,8 @@ PYTEST_MARK_ARGS = $(if $(strip $(TEST_MARK_EXPRESSION)),\
 	-m "$(TEST_MARK_EXPRESSION)")
 TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS)
 
-FULL_TEST_TARGETS ?= test
+FULL_TEST_TARGETS ?= test test-distribution test-installation test-consumer \
+	test-security
 
 UNIT_TEST_PATH ?= $(TESTS_DIR)/unit
 UNIT_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS) $(UNIT_TEST_PATH)
@@ -186,6 +190,23 @@ UNIT_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS) $(UNIT_TEST_PATH)
 INTEGRATION_TEST_PATH ?= $(TESTS_DIR)/integration
 INTEGRATION_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS) \
 	--no-cov $(INTEGRATION_TEST_PATH)
+
+EXAMPLE_TEST_PATH ?= $(TESTS_DIR)/integration/test_examples.py
+EXAMPLE_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov $(EXAMPLE_TEST_PATH)
+
+DISTRIBUTION_TEST_PATH ?= $(TESTS_DIR)/meta/test_package_artifacts.py
+DISTRIBUTION_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov \
+	--artifact-dir "$(abspath $(PYTHON_DIST_DIR))" $(DISTRIBUTION_TEST_PATH)
+
+INSTALLATION_TEST_PATH ?= $(TESTS_DIR)/e2e/test_distribution_installation.py
+INSTALLATION_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov \
+	--artifact-dir "$(abspath $(PYTHON_DIST_DIR))" $(INSTALLATION_TEST_PATH)
+
+CONSUMER_TEST_PATH ?= $(TESTS_DIR)/integration/test_dagitali_com.py
+CONSUMER_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov $(CONSUMER_TEST_PATH)
+
+SECURITY_TEST_PATH ?= $(TESTS_DIR)/meta/test_cdk_nag.py
+SECURITY_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov $(SECURITY_TEST_PATH)
 
 # !SECTION
 
@@ -380,6 +401,28 @@ test-unit: python-policy ## Run isolated unit tests
 .PHONY: test-integration
 test-integration: python-policy ## Run package and example integration tests
 	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(INTEGRATION_TEST_ARGS))
+
+.PHONY: test-examples
+test-examples: python-policy ## Synthesize every documented example application
+	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(EXAMPLE_TEST_ARGS))
+
+.PHONY: test-distribution
+test-distribution: dist ## Verify built distribution contents and metadata
+	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(DISTRIBUTION_TEST_ARGS))
+
+.PHONY: test-installation
+test-installation: dist ## Install and smoke-test wheel and sdist in clean environments
+	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(INSTALLATION_TEST_ARGS))
+
+.PHONY: test-consumer
+test-consumer: python-policy ## Test compatibility with the dagitali.com site content
+	$(call RUN_IN_PACKAGE,DAGITALI_COM_PATH="$(abspath $(CONSUMER_PROJECT_DIR))" \
+		$(TEST_ENV) $(PYTEST) $(CONSUMER_TEST_ARGS))
+
+.PHONY: test-security
+test-security: dev ## Run optional cdk-nag synthesized-template checks
+	$(SECURITY_INSTALL_COMMAND)
+	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(SECURITY_TEST_ARGS))
 
 .PHONY: test-full
 test-full: $(FULL_TEST_TARGETS) ## Run all available test suites
