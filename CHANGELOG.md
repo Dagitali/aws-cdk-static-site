@@ -3,12 +3,29 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.2.5 - 2026-09-08](#025---2026-09-08)
+- [0.2.4 - 2026-09-08](#024---2026-09-08)
 - [0.2.3 - 2026-09-08](#023---2026-09-08)
 - [0.2.2 - 2026-09-08](#022---2026-09-08)
 - [0.2.1 - 2026-09-08](#021---2026-09-08)
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.2.5 - 2026-09-08
+
+- Restore the omitted 0.2.4 release notes and add the versioned changelog section required by the
+  tag-triggered release workflow.
+
+## 0.2.4 - 2026-09-08
+
+- Align the README release badge with GitHub Releases, clarify the architecture diagram, and update
+  the installation example to the latest published tag.
+- Clarify the pre-1.0 compatibility contract, supported public surface, and boundaries for support
+  and vulnerability reporting.
+- Standardize reusable README guidance for getting started, development, testing, coverage,
+  quality checks, release validation, documentation, contributions, support, and licensing while
+  retaining package-specific CDK guidance.
 
 ## 0.2.3 - 2026-09-08
 
