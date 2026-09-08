@@ -38,6 +38,7 @@ def template_factory_fixture() -> TemplateFactory:
         deploy_content: bool = False,
         route53_enabled: bool = False,
         access_logs_enabled: bool = False,
+        immutable_asset_paths: tuple[str, ...] = (),
     ) -> assertions.Template:
         app = cdk.App()
         stack = cdk.Stack(
@@ -75,6 +76,7 @@ def template_factory_fixture() -> TemplateFactory:
                 create_certificate=route53_enabled,
                 create_route53_records=route53_enabled,
                 enable_access_logs=access_logs_enabled,
+                immutable_asset_paths=immutable_asset_paths,
             ),
         )
         return assertions.Template.from_stack(stack)
@@ -91,7 +93,7 @@ def template_factory_fixture() -> TemplateFactory:
 class TestDelivery:
     """Verify CloudFront and deployment behavior."""
 
-    def test_deploys_optional_content_with_cache_metadata(
+    def test_deploys_optional_content_with_revalidated_cache_metadata(
         self,
         template_factory: TemplateFactory,
     ) -> None:
@@ -103,6 +105,52 @@ class TestDelivery:
                 'Prune': True,
                 'SystemMetadata': {
                     'cache-control': 'public, max-age=300, must-revalidate',
+                },
+            },
+        )
+
+    def test_deploys_opt_in_immutable_assets_with_separate_cache_metadata(
+        self,
+        template_factory: TemplateFactory,
+    ) -> None:
+        template = template_factory(
+            deploy_content=True,
+            immutable_asset_paths=('build/*',),
+        )
+        template.resource_count_is('Custom::CDKBucketDeployment', 2)
+        template.has_resource_properties(
+            'Custom::CDKBucketDeployment',
+            {
+                'Exclude': ['build/*'],
+                'Prune': True,
+                'SystemMetadata': {
+                    'cache-control': 'public, max-age=300, must-revalidate',
+                },
+            },
+        )
+        template.has_resource_properties(
+            'Custom::CDKBucketDeployment',
+            {
+                'DistributionPaths': ['/build/*'],
+                'Exclude': ['*'],
+                'Include': ['build/*'],
+                'Prune': True,
+                'SystemMetadata': {
+                    'cache-control': 'public, max-age=31536000, immutable',
+                },
+            },
+        )
+        template.has_resource_properties(
+            'AWS::CloudFront::Distribution',
+            {
+                'DistributionConfig': {
+                    'CacheBehaviors': assertions.Match.array_with(
+                        [
+                            assertions.Match.object_like(
+                                {'PathPattern': 'build/*'},
+                            ),
+                        ],
+                    ),
                 },
             },
         )

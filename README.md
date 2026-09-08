@@ -33,7 +33,7 @@ not yet published to PyPI.
 
 - Private, encrypted, versioned S3 storage with Origin Access Control (OAC)
 - CloudFront delivery using TLS 1.2, HTTP/2 and HTTP/3, compression, and IPv6
-- Conservative HTML caching and optimized static-asset caching
+- Conservative HTML caching and opt-in immutable-asset deployment metadata
 - Security headers with a configurable Content Security Policy
 - Optional content deployment and CloudFront invalidation
 - Optional Route 53 aliases and DNS-validated ACM certificate creation
@@ -101,6 +101,10 @@ With external DNS, point the provider's CNAME for `www` at
 `site.distribution.distribution_domain_name`. For Route 53, supply a hosted zone and set
 `create_route53_records=True`. Set `create_certificate=True` to create a DNS-validated ACM
 certificate in the consuming stack.
+
+For content-addressed build output, set `immutable_asset_paths=("build/*",)` to deploy those files
+with a long-lived `immutable` browser policy. Keep stable filenames out of this setting so browsers
+can discover updates.
 
 ## Design Boundaries
 
