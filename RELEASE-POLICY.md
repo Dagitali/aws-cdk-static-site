@@ -75,10 +75,10 @@ protected environment exist, maintainers must not upload distributions manually.
 
 ## Release Notes
 
-Release notes should summarize user-visible changes, fixes, deprecations, breaking changes,
-compatibility effects, and required migration steps. Use
-[.github/RELEASE-NOTES-TEMPLATE.md](.github/RELEASE-NOTES-TEMPLATE.md), reconcile it with
-`CHANGELOG.md`, and avoid exposing private infrastructure or incident details.
+GitHub Releases are the canonical public release-history surface. Release notes should summarize
+user-visible changes, fixes, deprecations, breaking changes, compatibility effects, and required
+migration steps. Use [.github/RELEASE-NOTES-TEMPLATE.md](.github/RELEASE-NOTES-TEMPLATE.md),
+reconcile it with `CHANGELOG.md`, and avoid exposing private infrastructure or incident details.
 
 ## Supported Releases
 

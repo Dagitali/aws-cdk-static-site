@@ -5,6 +5,7 @@ community policies remain at the repository root or under `.github/` so their co
 are discoverable by contributors and GitHub.
 
 - [Document Scope](#document-scope)
+- [Build the Local Site](#build-the-local-site)
 - [Guides](#guides)
 - [Related Repository Documents](#related-repository-documents)
 
@@ -16,6 +17,33 @@ under `.github/` describe GitHub-facing policy and must remain synchronized with
 ruleset names. Guides in `docs/` describe this package and should not be generalized at the expense
 of accurate product behavior.
 
+## Build the Local Site
+
+The lightweight Sphinx site combines a short getting-started path, focused examples, and API
+documentation generated from package docstrings. Build the HTML site locally with:
+
+```bash
+make docs
+```
+
+Use the CI-parity build, which treats warnings as errors, before proposing documentation changes:
+
+```bash
+make docs-strict
+```
+
+Additional builders exercise output formats and external links:
+
+```bash
+make docs-epub
+make docs-linkcheck
+```
+
+Open `docs/build/html/index.html` after an HTML build completes. Generated output under
+`docs/build/` is ignored by Git. Read the Docs configuration and publication are intentionally
+deferred until this package has a regular PyPI release lifecycle; CI builds the same HTML sources
+only to prevent documentation regressions.
+
 ## Guides
 
 - [Configuration](CONFIGURATION.md) describes construct properties, valid combinations, and DNS
@@ -23,6 +51,7 @@ of accurate product behavior.
 - [Costs](COSTS.md) explains cost drivers and safeguards without promising fixed prices.
 - [Testing](TESTING.md) covers local quality gates and test design.
 - [Roadmap](ROADMAP.md) records the extraction and stabilization plan.
+- [Examples](../examples/README.md) demonstrates supported composition patterns.
 
 ## Related Repository Documents
 
