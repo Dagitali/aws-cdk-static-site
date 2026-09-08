@@ -77,6 +77,7 @@ permissions: {}
 
 env:
   DEFAULT_PYTHON_VERSION: "3.13"
+  PACKAGE_IMPORT_NAME: aws_cdk_static_site
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -204,4 +205,7 @@ jobs:
           pip-install: "."
 
       - name: Verify installed package import
-        run: python -c "import aws_cdk_static_site"
+        run: >-
+          python -c
+          'import importlib, os;
+          importlib.import_module(os.environ["PACKAGE_IMPORT_NAME"])'
