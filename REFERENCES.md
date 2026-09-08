@@ -16,6 +16,7 @@
 - [CloudFront alternate domain names and HTTPS](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-alternate-domain-names.html)
 - [ACM DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html)
 - [Route 53 alias records](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html)
+- [CloudFront standard logging](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/standard-logging.html)
 
 ## Python Packaging and Testing
 
@@ -43,6 +44,8 @@
 - [GitHub Flavored Markdown specification](https://github.github.com/gfm/)
 - [YAML specification](https://yaml.org/spec/)
 - [EditorConfig](https://editorconfig.org/)
+- [Sphinx documentation](https://www.sphinx-doc.org/)
+- [Read the Docs Sphinx theme](https://sphinx-rtd-theme.readthedocs.io/)
 
 ## Version Control and Collaboration
 
