@@ -14,7 +14,7 @@ invalidations, logging, and AWS pricing changes.
 | --- | --- | --- |
 | S3 content bucket | Stored bytes, requests, versioned objects, and data transfer | S3-managed encryption and expiration of noncurrent versions after 30 days |
 | CloudFront | Requests, data transfer, functions if later added, and excess invalidation paths | `PriceClass_100`, compressed responses, and optimized asset caching |
-| Bucket deployment | Lambda execution, staging assets, S3 requests, logs, and invalidation | Created only when `site_content_path` is supplied; 512 MB memory and one-week logs |
+| Bucket deployment | Lambda execution, staging assets, S3 requests, logs, and invalidation | Created only when `site_content_path` is supplied; immutable assets require a second filtered deployment |
 | Access-log bucket | Log delivery requests and retained log objects | Disabled by default with configurable retention when enabled |
 | Route 53 | Hosted zones and DNS queries | Records are created only when explicitly requested in an existing zone |
 | ACM public certificate | Certificate issuance is generally not the principal cost, but associated services remain billable | Created only when explicitly requested |
@@ -25,8 +25,9 @@ invalidations, logging, and AWS pricing changes.
   storage after a stack is removed.
 - Versioning improves recoverability but retains replaced objects until the 30-day
   noncurrent-version lifecycle rule expires them.
-- CloudFront invalidations use `/*` after an integrated content deployment. Review current free
-  allowances and pricing before increasing deployment frequency substantially.
+- CloudFront invalidations use `/*` after the mutable-content deployment. Configured immutable asset
+  paths are invalidated separately after their filtered deployment. Review current free allowances
+  and pricing before increasing deployment frequency substantially.
 - Disabling access logs avoids their storage and request costs but reduces operational evidence.
 - `PriceClass_100` reduces edge coverage as well as cost; applications needing broader geographic
   performance can select another price class deliberately.
