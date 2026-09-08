@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.2.9 - 2026-09-08](#029---2026-09-08)
+- [0.2.8 - 2026-09-08](#028---2026-09-08)
 - [0.2.7 - 2026-09-08](#027---2026-09-08)
 - [0.2.6 - 2026-09-08](#026---2026-09-08)
 - [0.2.5 - 2026-09-08](#025---2026-09-08)
@@ -13,6 +15,16 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.2.9 - 2026-09-08
+
+- Restore the omitted 0.2.8 release notes and add the versioned changelog section required for the
+  corrective 0.2.9 release.
+
+## 0.2.8 - 2026-09-08
+
+- Update `actions/checkout` from 6.0.3 to 7.0.1 and `softprops/action-gh-release` from 3.0.0 to
+  3.0.3 across the GitHub Actions workflows ([#3]).
 
 ## 0.2.7 - 2026-09-08
 
@@ -75,3 +87,4 @@ All notable changes to this project will be documented in this file.
 - Separate revalidated content and opt-in immutable-asset deployment cache policies.
 
 [#2]: https://github.com/Dagitali/aws-cdk-static-site/pull/2
+[#3]: https://github.com/Dagitali/aws-cdk-static-site/pull/3
