@@ -54,14 +54,15 @@ steps. The versioning and compatibility rules are defined in
 3. Move completed `Unreleased` entries into a dated `## <version> - YYYY-MM-DD` section in
    `CHANGELOG.md`, and review the public API and compatibility impact. Do not edit a package
    version: `setuptools-scm` derives it from Git tags.
-4. Build the sdist and wheel, run `twine check`, and install each distribution into a separate clean
+4. Run `make release-changelog RELEASE_VERSION=<version>` before opening the release pull request.
+5. Build the sdist and wheel, run `twine check`, and install each distribution into a separate clean
    environment for a preliminary import and synthesis smoke test.
-5. Open a pull request targeting `main` and merge through GitHub.
-6. Create an annotated `v<version>` tag on the authoritative merged `main` commit.
-7. Confirm the tag-triggered Release workflow builds and validates the authoritative distributions,
+6. Open a pull request targeting `main` and merge through GitHub.
+7. Create an annotated `v<version>` tag on the authoritative merged `main` commit.
+8. Confirm the tag-triggered Release workflow builds and validates the authoritative distributions,
    creates checksums and an SBOM, and attaches them to the GitHub Release.
-8. Verify that the distributions' derived version matches the tag and review the published assets.
-9. Synchronize `main` back into `develop` through a pull request.
+9. Verify that the distributions' derived version matches the tag and review the published assets.
+10. Synchronize `main` back into `develop` through a pull request.
 
 The repository does not yet publish to PyPI. Do not upload a package manually or configure
 publishing credentials until a reviewed release workflow and protected PyPI environment exist.
