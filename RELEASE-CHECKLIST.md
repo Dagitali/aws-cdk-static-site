@@ -22,9 +22,10 @@ details, and incident procedures outside the repository.
 ## Validate
 
 - [ ] Run `make check` from a clean development environment.
-- [ ] Build source and wheel distributions with `make dist`.
+- [ ] Build the sdist and wheel with `make dist`.
 - [ ] Inspect archive contents and confirm `twine check` succeeds.
-- [ ] Install the wheel in a clean environment and smoke-test imports and CDK synthesis.
+- [ ] Install each distribution in a separate clean environment and smoke-test imports and the
+      package's representative example.
 - [ ] Review synthesized changes for security, replacement risk, and cost implications.
 - [ ] Confirm required GitHub Actions are pinned and pass on the release pull request.
 
