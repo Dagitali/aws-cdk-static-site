@@ -50,6 +50,8 @@ only to prevent documentation regressions.
   ownership models.
 - [Costs](COSTS.md) explains cost drivers and safeguards without promising fixed prices.
 - [Testing](TESTING.md) covers local quality gates and test design.
+- [Disposable AWS deployment testing](DEPLOYMENT-TESTING.md) defines the manual test's identity,
+  resource, cost, and cleanup boundaries.
 - [Roadmap](ROADMAP.md) records the extraction and stabilization plan.
 - [Examples](../examples/README.md) demonstrates supported composition patterns.
 

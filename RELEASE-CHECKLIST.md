@@ -26,6 +26,7 @@ details, and incident procedures outside the repository.
 - [ ] Run `make check` from a clean development environment.
 - [ ] Build the sdist and wheel with `make dist`.
 - [ ] Inspect archive contents and confirm `twine check` succeeds.
+- [ ] Confirm wheel and sdist tests cover package files, `py.typed`, licenses, and metadata.
 - [ ] Install each distribution in a separate clean environment and smoke-test imports and the
       package's representative example.
 - [ ] Review synthesized changes for security, replacement risk, and cost implications.

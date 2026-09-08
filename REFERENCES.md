@@ -17,6 +17,8 @@
 - [ACM DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html)
 - [Route 53 alias records](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html)
 - [CloudFront standard logging](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/standard-logging.html)
+- [GitHub OIDC with AWS](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws)
+- [AWS CloudFormation stack operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html)
 
 ## Python Packaging and Testing
 
@@ -28,6 +30,7 @@
 - [pytest documentation](https://docs.pytest.org/)
 - [Ruff documentation](https://docs.astral.sh/ruff/)
 - [mypy documentation](https://mypy.readthedocs.io/)
+- [cdk-nag documentation](https://github.com/cdklabs/cdk-nag)
 
 ## Repository Automation
 

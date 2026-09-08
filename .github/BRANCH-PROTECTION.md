@@ -30,9 +30,10 @@ retain a reviewable pull-request record before `develop` or `main` moves.
 
 ## Recommended Required Checks
 
-Require the `Validate package` and `Test on Python 3.14` status checks from
-`.github/workflows/ci.yml`. Both depend on the `Guard PR target branch` job, so a valid pull-request
-route, the package quality gate, and compatibility with each declared Python version must succeed.
+Require the `Validate package`, `Test on Python 3.14`, and `Validate distributions` status checks
+from `.github/workflows/ci.yml`. All three depend on the `Guard PR target branch` job, so a valid
+pull-request route, the package quality gate, artifact contracts, clean installation, and
+compatibility with each declared Python version must succeed.
 
 The `Generate CycloneDX SBOM` job is advisory. It runs after relevant protected-branch pushes and
 should not be configured as a pull-request requirement unless its workflow triggers are expanded to
@@ -42,13 +43,16 @@ The `Smoke install on macos-latest` and `Smoke install on windows-latest` jobs a
 cross-platform packaging checks. Promote them to required checks only after weighing their added
 runner time and availability against the repository's merge policy.
 
+Keep `Test dagitali.com consumer` advisory until dagitali.com imports the package directly. The
+manual security and deployment-test workflows are not branch-protection checks.
+
 ## Shared Protection Baseline
 
 Protect both `main` and `develop` with a GitHub ruleset that:
 
 - Requires pull requests;
-- Requires the `Validate package` and `Test on Python 3.14` status checks from
-  `.github/workflows/ci.yml`, which depend on the `Guard PR target branch` job;
+- Requires the `Validate package`, `Test on Python 3.14`, and `Validate distributions` status
+  checks from `.github/workflows/ci.yml`, which depend on the `Guard PR target branch` job;
 - Requires branches to be up to date before merging when merge queue is not enabled;
 - Requires conversations to be resolved;
 - Blocks force pushes and branch deletion;
@@ -75,7 +79,8 @@ default.
 
 ## Protection Checklist for `develop`
 
-- [ ] Require pull requests and the `Validate package` and `Test on Python 3.14` status checks.
+- [ ] Require pull requests and the `Validate package`, `Test on Python 3.14`, and
+      `Validate distributions` status checks.
 - [ ] Require branches to be up to date before merging unless merge queue is enabled.
 - [ ] Require conversation resolution.
 - [ ] Block force pushes, deletion, and direct updates.
@@ -84,8 +89,8 @@ default.
 
 ## Protection Checklist for `main`
 
-- [ ] Require pull requests and the `Validate package` and
-  `Test on Python 3.14` status checks.
+- [ ] Require pull requests and the `Validate package`, `Test on Python 3.14`, and
+      `Validate distributions` status checks.
 - [ ] Require branches to be up to date before merging unless merge queue is enabled.
 - [ ] Require conversation resolution.
 - [ ] Block force pushes, deletion, and direct updates.
@@ -109,8 +114,9 @@ When a workflow or job name changes:
 4. Confirm it runs for every protected target and supported merge event.
 
 Workflow step names are not status-check names. This repository currently exposes the job names
-`Validate package` and `Test on Python 3.14`. Run a representative pull request successfully before
-adding a new job name to an active ruleset.
+`Validate package`, `Test on Python 3.14`, `Validate distributions`, and `Test dagitali.com
+consumer`. Run a representative pull request successfully before adding a new job name to an active
+ruleset.
 
 See the [CI/CD workflow map](../CI-CD-WORKFLOWS.md) for each workflow's public role and trigger
 model.

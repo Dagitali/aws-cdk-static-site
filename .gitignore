@@ -459,6 +459,11 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/dropbox,emacs,linux,macos,pycharm+all,python,vim,visualstudiocode,windows
 
+### AWS CDK ###
+
+# Synthesized cloud assemblies
+cdk.out/
+
 ### Python ###
 
 # Sphinx documentation
