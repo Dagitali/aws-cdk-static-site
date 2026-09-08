@@ -91,6 +91,10 @@ make fmt
 make lint
 make typecheck
 make test
+make test-distribution
+make test-installation
+make test-consumer
+make test-security
 make docs-strict
 make docs-linkcheck
 make dist
@@ -107,6 +111,11 @@ the type-checking gate, and settings shared by supported Python tools are centra
 Add tests for observable behavior and validation failures. Prefer stable public properties over
 generated implementation details such as CDK logical IDs unless an identifier is itself part of a
 compatibility contract. Unit tests must not require AWS credentials or network access.
+
+Keep artifact installation, consumer compatibility, optional security checks, and deployed tests in
+their documented layers so normal unit and integration runs remain deterministic. Never run or
+broaden the disposable AWS deployment test without reviewing its identity, resource, cost, and
+cleanup boundaries.
 
 See [docs/TESTING.md](docs/TESTING.md) and [tests/README.md](tests/README.md) for test organization,
 markers, and commands.

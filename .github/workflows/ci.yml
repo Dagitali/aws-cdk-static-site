@@ -11,6 +11,7 @@
 # - Run the repository's linting, type, policy, test, and package-build gates.
 # - Exercise every explicitly supported Python version.
 # - Smoke-test installation on each supported operating-system family.
+# - Validate built artifacts and compatibility with the dagitali.com consumer.
 #
 # Maintainer Notes
 # - Global permissions are intentionally omitted; each job declares the minimum
@@ -168,12 +169,6 @@ jobs:
           python -m sphinx -T -W --keep-going
           -b html docs/source docs/build/html
 
-      - name: Build distributions
-        run: python -m build
-
-      - name: Check distributions
-        run: python -m twine check dist/*
-
   test-python-314:
     name: Test on Python 3.14
     needs: guard-pr-target
@@ -225,3 +220,76 @@ jobs:
           python -c
           'import importlib, os;
           importlib.import_module(os.environ["PACKAGE_IMPORT_NAME"])'
+
+  validate-artifacts:
+    name: Validate distributions
+    needs: guard-pr-target
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install artifact-test dependencies
+        run: python -m pip install --disable-pip-version-check -e '.[dev]'
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Check distributions
+        run: python -m twine check dist/*
+
+      - name: Verify distribution contents
+        run: >-
+          python -m pytest --no-cov
+          --artifact-dir dist tests/meta/test_package_artifacts.py
+
+      - name: Install and smoke-test distributions
+        run: >-
+          python -m pytest --no-cov
+          --artifact-dir dist tests/e2e/test_distribution_installation.py
+
+  test-consumer:
+    name: Test dagitali.com consumer
+    needs: guard-pr-target
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check out dagitali.com
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
+        with:
+          repository: Dagitali/dagitali.com
+          path: consumer/dagitali.com
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install consumer-test dependencies
+        run: python -m pip install --disable-pip-version-check -e '.[dev]'
+
+      - name: Test consumer compatibility
+        env:
+          DAGITALI_COM_PATH: consumer/dagitali.com
+        run: python -m pytest --no-cov tests/integration/test_dagitali_com.py

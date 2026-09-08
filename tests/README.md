@@ -1,58 +1,72 @@
 # Tests Overview
 
-Tests are organized by scope and labeled with pytest markers.
+Tests are organized by scope rather than by feature. The root `conftest.py` assigns the matching
+pytest marker from each test module's top-level directory.
 
 - [Current Layout](#current-layout)
 - [Discovery and Selection](#discovery-and-selection)
 - [Dependency Prerequisites](#dependency-prerequisites)
 - [Design Rules](#design-rules)
 - [Common Commands](#common-commands)
-- [Future Test Levels](#future-test-levels)
 
 ## Current Layout
 
 | Marker | Path | Purpose |
 | --- | --- | --- |
-| `unit` | `tests/unit/` | Fast, isolated validation and CDK synthesis behavior |
-| `integration` | `tests/integration/` | Synthesis across the installed package and runnable examples |
+| `unit` | `tests/unit/` | Fast, isolated configuration and synthesized-template behavior |
+| `integration` | `tests/integration/` | Example synthesis and consumer compatibility |
+| `e2e` | `tests/e2e/` | Complete package workflows through a user-facing boundary |
+| `meta` | `tests/meta/` | Distribution, repository-policy, and security-policy contracts |
+| None | `tests/support/` | Shared constants, helpers, and fixtures; never collected as tests |
 
-The marker registry and default discovery paths are defined in `pyproject.toml`.
+The scope answers how much of the system a test crosses. Module names describe what the test covers:
+
+- `tests/integration/test_examples.py` synthesizes every example application;
+- `tests/integration/test_dagitali_com.py` uses real `dagitali.com` site content;
+- `tests/e2e/test_distribution_installation.py` installs each artifact in a clean environment;
+- `tests/meta/test_package_artifacts.py` checks wheel, sdist, typing, legal, and metadata contracts;
+- `tests/meta/test_cdk_nag.py` applies the optional synthesized-infrastructure policy.
 
 ## Discovery and Selection
 
-The default `pytest` invocation discovers tests under `tests/`. Select the current scope by path or
-marker:
+Default discovery includes `tests/unit/` and `tests/integration/`. Select another layer by path or
+select any collected layer by marker:
 
 ```bash
 python -m pytest tests/unit
-python -m pytest -m unit
-python -m pytest tests/integration
 python -m pytest -m integration
+python -m pytest --no-cov tests/meta/test_package_artifacts.py
+python -m pytest --no-cov tests/e2e/test_distribution_installation.py
 ```
 
-Keep path-based scope and scope-marker selection equivalent as new test levels are introduced.
+Artifact-oriented tests accept `--artifact-dir <path>` to reuse one wheel and one sdist. Without
+that option, fixtures from `tests/support/artifacts.py` build both distributions once without build
+isolation.
 
 ## Dependency Prerequisites
 
-Install the development dependency group before running tests:
+Install development dependencies before running default, artifact, or consumer tests:
 
 ```bash
 python -m pip install -e '.[dev]'
 ```
 
-The unit and integration suites synthesize CDK constructs locally and do not require AWS
-credentials, a bootstrapped account, or network access. The integration suite runs each documented
-example as an independent application. Its focused Make target disables in-process coverage because
-the package code runs in subprocesses; default discovery still enforces the configured threshold.
+Install `.[security]` before running `tests/meta/test_cdk_nag.py`. Clean-install tests create their
+own virtual environments and use the package index for runtime dependencies. Only the manually
+approved deployment workflow requires AWS credentials.
 
 ## Design Rules
 
-- Name test modules after the production module they exercise.
-- Group cohesive behavior in test classes and parameterize repeated contracts.
-- Assert stable public properties by default; pin generated logical IDs only for stateful resources
-  whose accidental replacement could risk persistent data.
-- Keep unit tests deterministic and independent of AWS credentials and network access.
-- Use fixtures for shared setup without hiding the behavior under test.
+- Classify tests by `unit`, `integration`, `e2e`, or `meta` scope; express the subject in the module
+  and test names.
+- Keep fixtures at the narrowest useful scope and put genuinely shared test code in `support`.
+- Name test modules for the production, integration, workflow, or repository contract they exercise.
+- Assert stable public properties by default; pin logical IDs only for stateful resources whose
+  replacement could risk persistent data.
+- Keep unit and integration tests deterministic and independent of credentials and network access.
+- Exercise built distributions outside the source checkout so editable imports cannot mask errors.
+- Document every `cdk-nag` acknowledgment and fail on unreviewed findings.
+- Use consumer repositories read-only and skip clearly when an optional local checkout is absent.
 
 ## Common Commands
 
@@ -60,17 +74,13 @@ the package code runs in subprocesses; default discovery still enforces the conf
 make test
 make test-unit
 make test-integration
+make test-examples
+make test-distribution
+make test-installation
+make test-consumer
+make test-security
 make test-full
 ```
 
-Use `make test-unit` or `make test-integration` for a focused scope, `make test` for default pytest
-discovery, and `make test-full` for every test target available to the project. Run `make check` for
-the complete local quality gate.
-
-## Future Test Levels
-
-Add `tests/e2e/` only for a bounded deployed fixture owned by this repository. Add `tests/meta/` for
-repository-policy tests when those checks are better expressed in pytest than in focused scripts.
-
-Scope markers should describe where a test operates; intent markers such as `smoke` or `contract`
-may be added later when multiple tests need that cross-cutting selection.
+See the [testing guide](../docs/TESTING.md) for layer ownership, CI placement, coverage semantics,
+and the deployed-resource boundary.

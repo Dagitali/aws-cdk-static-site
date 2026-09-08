@@ -24,6 +24,8 @@ Focused examples cover one composition decision at a time:
 - [`external-content/`](external-content/) leaves content upload and invalidation to another
   deployment system.
 - [`custom-csp/`](custom-csp/) supplies a site-specific Content Security Policy.
+- [`disposable-deployment/`](disposable-deployment/) synthesizes the fixed, empty resource set used
+  only by the manually approved AWS deployment test.
 
 The external-DNS and Route 53 examples use documentation-only identifiers. Replace every account ID,
 certificate ARN, hosted-zone ID, and domain name before deployment. CloudFront certificates must
@@ -47,3 +49,7 @@ Examples may omit production concerns that belong to the consuming application, 
 OIDC roles, budgets, monitoring, contact-form APIs, and organization-specific security policy. See
 the [configuration guide](../docs/CONFIGURATION.md) for supported construct options or build the
 [local Sphinx documentation](../docs/README.md) to browse every example with generated API docs.
+
+Do not deploy the disposable example directly. Use the guarded workflow documented in [Disposable
+AWS Deployment Testing](../docs/DEPLOYMENT-TESTING.md), which validates its resource allowlist and
+performs cleanup.
