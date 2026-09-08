@@ -52,7 +52,9 @@ class StaticSite(Construct):
         self.certificate = self._resolve_certificate(props)
         self.distribution = self._create_distribution(props)
         self.dns_records = self._create_dns_records(props)
-        self.deployment = self._create_deployment(props)
+        self.deployment, self.immutable_asset_deployment = self._create_deployments(
+            props,
+        )
 
     # !SECTION
 
@@ -179,12 +181,15 @@ class StaticSite(Construct):
             validation=acm.CertificateValidation.from_dns(hosted_zone),
         )
 
-    def _create_deployment(
+    def _create_deployments(
         self,
         props: StaticSiteProps,
-    ) -> s3deploy.BucketDeployment | None:
+    ) -> tuple[
+        s3deploy.BucketDeployment | None,
+        s3deploy.BucketDeployment | None,
+    ]:
         if props.site_content_path is None:
-            return None
+            return None, None
         site_content_path = Path(props.site_content_path).expanduser().resolve()
         if not site_content_path.is_dir():
             raise ValueError(
@@ -211,13 +216,44 @@ class StaticSite(Construct):
             ],
             distribution=self.distribution,
             distribution_paths=['/*'],
+            exclude=list(props.immutable_asset_paths) or None,
             prune=True,
             retain_on_delete=True,
             memory_limit=512,
             log_group=log_group,
         )
         deployment.node.add_dependency(self.distribution)
-        return deployment
+
+        if not props.immutable_asset_paths:
+            return deployment, None
+
+        immutable_asset_deployment = s3deploy.BucketDeployment(
+            self,
+            'ImmutableAssetDeployment',
+            sources=[s3deploy.Source.asset(str(site_content_path))],
+            destination_bucket=self.bucket,
+            cache_control=[
+                s3deploy.CacheControl.set_public(),
+                s3deploy.CacheControl.max_age(
+                    Duration.seconds(
+                        props.immutable_asset_cache_max_age_seconds,
+                    ),
+                ),
+                s3deploy.CacheControl.immutable(),
+            ],
+            distribution=self.distribution,
+            distribution_paths=[
+                f"/{path.lstrip('/')}" for path in props.immutable_asset_paths
+            ],
+            exclude=['*'],
+            include=list(props.immutable_asset_paths),
+            prune=True,
+            retain_on_delete=True,
+            memory_limit=512,
+            log_group=log_group,
+        )
+        immutable_asset_deployment.node.add_dependency(deployment)
+        return deployment, immutable_asset_deployment
 
     def _create_distribution(
         self,
@@ -240,9 +276,12 @@ class StaticSite(Construct):
             response_headers_policy=self.response_headers_policy,
             compress=True,
         )
+        asset_paths = dict.fromkeys(
+            (*props.static_asset_paths, *props.immutable_asset_paths),
+        )
         additional_behaviors = {
             '*.html': html_behavior,
-            **{path: asset_behavior for path in props.static_asset_paths},
+            **{path: asset_behavior for path in asset_paths},
         }
         return cloudfront.Distribution(
             self,
