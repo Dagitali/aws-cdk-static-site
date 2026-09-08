@@ -31,11 +31,12 @@ publication.
 Workflow name: `CI`
 
 The `Guard PR target branch` job enforces the documented GitFlow branch map. The dependent `Validate
-package` job installs development dependencies, lints, type-checks, verifies repository policies,
-runs unit tests with coverage, and builds and checks distributions. The dependent `Test on Python
-3.14` job verifies compatibility with the additional Python version declared by the package
-metadata. The advisory cross-platform jobs install the package and verify its public module can be
-imported on macOS and Windows runners.
+package` job verifies the dated changelog section for release and hotfix pull requests before it
+installs development dependencies, lints, type-checks, verifies repository policies, runs unit tests
+with coverage, and builds and checks distributions. The dependent `Test on Python 3.14` job verifies
+compatibility with the additional Python version declared by the package metadata. The advisory
+cross-platform jobs install the package and verify its public module can be imported on macOS and
+Windows runners.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
