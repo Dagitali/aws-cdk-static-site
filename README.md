@@ -133,6 +133,7 @@ one organization or deployment process.
 - [Configuration reference](docs/CONFIGURATION.md)
 - [Cost considerations](docs/COSTS.md)
 - [Testing guide](docs/TESTING.md)
+- [Disposable AWS deployment testing](docs/DEPLOYMENT-TESTING.md)
 - [Extraction roadmap](docs/ROADMAP.md)
 - [Focused examples](examples/README.md)
 - [Local Sphinx documentation](docs/README.md#build-the-local-site)
