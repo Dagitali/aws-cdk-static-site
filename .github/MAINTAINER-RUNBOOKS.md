@@ -126,6 +126,7 @@ intentional, and documented in the branch-protection policy.
 
 ## Keep Private Elsewhere
 
-Keep credentials, PyPI recovery codes, AWS account identifiers, emergency bypass procedures, private
-incident details, and embargoed vulnerability reports outside the repository. Public runbooks should
-explain policy and reproducible workflows without exposing privileged operational details.
+Keep credentials, package-index recovery codes, cloud or service account identifiers, emergency
+bypass procedures, private incident details, and embargoed vulnerability reports outside the
+repository. Public runbooks should explain policy and reproducible workflows without exposing
+privileged operational details.
