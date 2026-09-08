@@ -71,7 +71,10 @@ SOURCE_DIR ?= src
 TESTS_DIR ?= tests
 
 PYTHON_POLICY_SCRIPT ?= $(SCRIPTS_DIR)/check_python_policy.py
+RELEASE_CHANGELOG_SCRIPT ?= $(SCRIPTS_DIR)/check_release_changelog.py
 WORKFLOW_PINS_SCRIPT ?= $(SCRIPTS_DIR)/check_workflow_pins.py
+
+RELEASE_VERSION ?=
 
 PACKAGE_FORMAT ?= tar.gz
 PACKAGE_OUTPUT ?= $(subst .,-,$(PROJECT_NAME))-repository.$(PACKAGE_FORMAT)
@@ -332,6 +335,12 @@ workflow-pins: python-policy ## Verify remote GitHub Actions use immutable commi
 .PHONY: python-policy
 python-policy: ## Verify the repository-wide supported Python version policy
 	$(PYTHON) $(PYTHON_POLICY_SCRIPT)
+
+.PHONY: release-changelog
+release-changelog: ## Verify a dated changelog section (RELEASE_VERSION=x.y.z)
+	@test -n "$(strip $(RELEASE_VERSION))" || \
+		(echo "RELEASE_VERSION is required" >&2; exit 2)
+	$(PY) $(RELEASE_CHANGELOG_SCRIPT) "$(RELEASE_VERSION)"
 
 
 ##@ Testing
