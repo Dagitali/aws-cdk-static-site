@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.1 - 2026-09-08](#031---2026-09-08)
 - [0.3.0 - 2026-09-08](#030---2026-09-08)
 - [0.2.9 - 2026-09-08](#029---2026-09-08)
 - [0.2.8 - 2026-09-08](#028---2026-09-08)
@@ -16,6 +17,11 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.1 - 2026-09-08
+
+- Install the optional security dependencies in the primary CI job before mypy checks the complete
+  test tree, preventing missing-import failures for `cdk_nag`.
 
 ## 0.3.0 - 2026-09-08
 
