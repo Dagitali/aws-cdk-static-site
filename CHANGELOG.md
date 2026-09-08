@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.2.7 - 2026-09-08](#027---2026-09-08)
 - [0.2.6 - 2026-09-08](#026---2026-09-08)
 - [0.2.5 - 2026-09-08](#025---2026-09-08)
 - [0.2.4 - 2026-09-08](#024---2026-09-08)
@@ -12,6 +13,11 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.2.7 - 2026-09-08
+
+- Update the Python maintenance dependency constraints for `twine` and `setuptools-scm` to permit
+  their latest compatible versions ([#2]).
 
 ## 0.2.6 - 2026-09-08
 
@@ -67,3 +73,5 @@ All notable changes to this project will be documented in this file.
 - Limit package installation to the Python 3.13 and 3.14 versions exercised by CI.
 - Guard the logical IDs of stateful S3 resources against accidental replacement.
 - Separate revalidated content and opt-in immutable-asset deployment cache policies.
+
+[#2]: https://github.com/Dagitali/aws-cdk-static-site/pull/2
