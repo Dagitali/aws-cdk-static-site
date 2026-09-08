@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the repository-wide minimum Python version policy."""
+"""Verify the repository-wide supported Python version policy."""
 
 import argparse
 import re
@@ -10,14 +10,20 @@ from pathlib import Path
 # SECTION: CONSTANTS
 
 
+MAXIMUM_PYTHON = (3, 15)
 MINIMUM_PYTHON = (3, 13)
 MINIMUM_PYTHON_TEXT = '3.13'
+SUPPORTED_PYTHON_SPECIFIER = '>=3.13,<3.15'
 
 
 # !SECTION
 
 
 # SECTION: PROTECTED FUNCTIONS
+
+
+def _is_supported_python(version: tuple[int, int]) -> bool:
+    return MINIMUM_PYTHON <= version < MAXIMUM_PYTHON
 
 
 def _normalize_yaml_scalar(
@@ -85,15 +91,20 @@ def validate(
 
     failures: list[str] = []
     version = running_python or sys.version_info[:2]
-    if version < MINIMUM_PYTHON:
+    if not _is_supported_python(version):
         failures.append(
             'checker runtime: Python '
-            f"{MINIMUM_PYTHON_TEXT}+ is required; received {version[0]}.{version[1]}",
+            f"{SUPPORTED_PYTHON_SPECIFIER} is required; "
+            f"received {version[0]}.{version[1]}",
         )
 
     pyproject = tomllib.loads((root / 'pyproject.toml').read_text(encoding='utf-8'))
     expected_values = (
-        (pyproject['project']['requires-python'], '>=3.13', 'project.requires-python'),
+        (
+            pyproject['project']['requires-python'],
+            SUPPORTED_PYTHON_SPECIFIER,
+            'project.requires-python',
+        ),
         (
             pyproject['tool']['mypy']['python_version'],
             '3.13',
@@ -130,6 +141,7 @@ def validate(
     make_requirements = (
         'PY ?= python3',
         'MINIMUM_PYTHON_VERSION ?= 3.13',
+        'MAXIMUM_PYTHON_VERSION ?= 3.15',
         'python-policy:',
     )
     for expected in make_requirements:
@@ -146,7 +158,7 @@ def validate(
         ]
         for configured_version in configured_versions:
             parsed_version = _parse_python_version(configured_version)
-            if parsed_version is None or parsed_version < MINIMUM_PYTHON:
+            if parsed_version is None or not _is_supported_python(parsed_version):
                 failures.append(
                     f"{path.relative_to(root)}: unsupported Python version "
                     f"{configured_version!r}",
@@ -181,7 +193,7 @@ def main(argv: list[str] | None = None) -> int:
         for failure in failures:
             print(f"FAIL: {failure}")
         return 1
-    print(f"PASS: repository requires Python {MINIMUM_PYTHON_TEXT} or newer")
+    print(f"PASS: repository supports Python {SUPPORTED_PYTHON_SPECIFIER}")
     return 0
 
 

@@ -145,7 +145,7 @@ jobs:
       - name: Verify GitHub Actions pins
         run: python scripts/check_workflow_pins.py
 
-      - name: Verify minimum Python version policy
+      - name: Verify supported Python version policy
         run: python scripts/check_python_policy.py
 
       - name: Run unit tests

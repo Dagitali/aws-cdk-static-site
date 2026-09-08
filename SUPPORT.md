@@ -19,6 +19,9 @@ consuming applications.
 Before `v1.0.0`, the latest released version is the maintenance target. Older releases may continue
 to work but should not be assumed to receive routine fixes or compatibility updates.
 
+The current package supports Python 3.13 and 3.14. A newer Python release is not supported until it
+is included in package metadata and continuous-integration coverage.
+
 ## Supported Surface
 
 The support boundary includes the latest release, Python versions declared in `pyproject.toml`, and
