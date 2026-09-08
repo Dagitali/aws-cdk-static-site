@@ -64,9 +64,11 @@ from this policy.
 
 A public package release is expected to include:
 
-- an annotated Git tag;
-- a GitHub Release with reviewed notes; and
-- validated source and wheel distributions.
+- An annotated Git tag;
+- A GitHub Release with reviewed notes;
+- Validated sdist and wheel distributions;
+- SHA-256 checksums; and
+- A CycloneDX dependency SBOM.
 
 The repository does not publish to PyPI yet. Until a reviewed trusted-publishing workflow and
 protected environment exist, maintainers must not upload distributions manually.

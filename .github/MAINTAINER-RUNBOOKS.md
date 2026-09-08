@@ -51,15 +51,17 @@ steps. The versioning and compatibility rules are defined in
 
 1. Confirm `develop` contains the intended scope and passes CI.
 2. Create `release/<version>` from `develop`.
-3. Finalize `CHANGELOG.md`, and review the public API and compatibility impact. Do not edit a
-   package version: `setuptools-scm` derives it from Git tags.
-4. Build the sdist and wheel, run `twine check`, and install the wheel into a clean environment for
-   a preliminary import and synthesis smoke test.
+3. Move completed `Unreleased` entries into a dated `## <version> - YYYY-MM-DD` section in
+   `CHANGELOG.md`, and review the public API and compatibility impact. Do not edit a package
+   version: `setuptools-scm` derives it from Git tags.
+4. Build the sdist and wheel, run `twine check`, and install each distribution into a separate clean
+   environment for a preliminary import and synthesis smoke test.
 5. Open a pull request targeting `main` and merge through GitHub.
 6. Create an annotated `v<version>` tag on the authoritative merged `main` commit.
-7. Check out the tag, build the authoritative release distributions, verify that their derived
-   version matches the tag, and repeat the clean-environment smoke test.
-8. Synchronize `main` back into `develop` through a pull request.
+7. Confirm the tag-triggered Release workflow builds and validates the authoritative distributions,
+   creates checksums and an SBOM, and attaches them to the GitHub Release.
+8. Verify that the distributions' derived version matches the tag and review the published assets.
+9. Synchronize `main` back into `develop` through a pull request.
 
 The repository does not yet publish to PyPI. Do not upload a package manually or configure
 publishing credentials until a reviewed release workflow and protected PyPI environment exist.
@@ -88,9 +90,10 @@ After every release or hotfix:
 
 1. Fetch the merged remote `main` commit.
 2. Confirm the commit contains the intended changelog and release scope.
-3. Create an annotated `vMAJOR.MINOR.PATCH` tag on that exact commit.
-4. Verify the tag target and annotation locally.
-5. Push the tag once; never move or reuse a published version.
+3. Confirm `CHANGELOG.md` contains a dated section matching the intended version.
+4. Create an annotated `vMAJOR.MINOR.PATCH` tag on that exact commit.
+5. Verify the tag target and annotation locally.
+6. Push the tag once; never move or reuse a published version.
 
 The [release policy](../RELEASE-POLICY.md) defines version semantics, and the
 [release checklist](../RELEASE-CHECKLIST.md) defines the complete readiness gate.
@@ -123,6 +126,7 @@ intentional, and documented in the branch-protection policy.
 
 ## Keep Private Elsewhere
 
-Keep credentials, PyPI recovery codes, AWS account identifiers, emergency bypass procedures, private
-incident details, and embargoed vulnerability reports outside the repository. Public runbooks should
-explain policy and reproducible workflows without exposing privileged operational details.
+Keep credentials, package-index recovery codes, cloud or service account identifiers, emergency
+bypass procedures, private incident details, and embargoed vulnerability reports outside the
+repository. Public runbooks should explain policy and reproducible workflows without exposing
+privileged operational details.

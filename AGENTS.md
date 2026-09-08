@@ -38,7 +38,7 @@ Preserve these release safeguards unless the user explicitly changes the policy:
 
 - build both the source distribution and wheel;
 - validate distributions with `twine check`;
-- smoke-test the built wheel in a clean environment;
+- smoke-test each built distribution in an isolated clean environment;
 - create annotated release tags on authoritative commits merged into `main`; and
 - publish through reviewed automation and trusted identity rather than long-lived credentials.
 

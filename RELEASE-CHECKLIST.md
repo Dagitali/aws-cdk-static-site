@@ -14,16 +14,18 @@ details, and incident procedures outside the repository.
 - [ ] Confirm the intended version and compatibility impact under the
       [release policy].
 - [ ] Create `release/<version>` from current `develop`.
-- [ ] Finalize user-facing changes, tests, documentation, and `CHANGELOG.md`.
+- [ ] Move completed `Unreleased` entries into a dated `## <version> - YYYY-MM-DD`
+      changelog section before tagging.
 - [ ] Confirm package metadata, supported Python versions, dependencies, and public exports.
 - [ ] Draft release notes from `.github/RELEASE-NOTES-TEMPLATE.md`.
 
 ## Validate
 
 - [ ] Run `make check` from a clean development environment.
-- [ ] Build source and wheel distributions with `make dist`.
+- [ ] Build the sdist and wheel with `make dist`.
 - [ ] Inspect archive contents and confirm `twine check` succeeds.
-- [ ] Install the wheel in a clean environment and smoke-test imports and CDK synthesis.
+- [ ] Install each distribution in a separate clean environment and smoke-test imports and the
+      package's representative example.
 - [ ] Review synthesized changes for security, replacement risk, and cost implications.
 - [ ] Confirm required GitHub Actions are pinned and pass on the release pull request.
 
@@ -39,11 +41,11 @@ details, and incident procedures outside the repository.
 
 - [ ] Build authoritative artifacts from the tag rather than an untagged working tree.
 - [ ] Verify the derived package version matches the tag.
-- [ ] Publish the GitHub Release and attach artifacts when the release process supports it.
+- [ ] Confirm the tag-triggered workflow publishes the GitHub Release with its sdist, wheel,
+      checksums, and SBOM.
 - [ ] Publish to PyPI only through an approved trusted-publishing workflow.
 
-The final two publication items remain intentionally inactive until release automation is reviewed
-and enabled.
+PyPI publication remains intentionally inactive until trusted publishing is reviewed and enabled.
 
 ## Close Out
 

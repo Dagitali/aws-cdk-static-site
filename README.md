@@ -16,7 +16,7 @@ maintained CDK construct that applications can compose inside their own stacks.
 - [Features](#features)
 - [Architecture](#architecture)
 - [Requirements](#requirements)
-- [Development Installation](#development-installation)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Design Boundaries](#design-boundaries)
 - [Documentation](#documentation)
@@ -58,9 +58,16 @@ flowchart LR
 - An AWS account bootstrapped for CDK deployments
 - An ACM certificate in `us-east-1` when using a custom CloudFront domain
 
-## Development Installation
+## Installation
 
-Until the first package release, install directly from a local checkout:
+Until the package is published to PyPI, install a selected GitHub release tag:
+
+```bash
+python -m pip install \
+  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.2.0"
+```
+
+For development, install from a local checkout with the development dependencies:
 
 ```bash
 python -m pip install -e '.[dev]'
@@ -141,9 +148,10 @@ vulnerability reporting.
 ## PyPI Publication
 
 Novelty is not a PyPI requirement, but usefulness, a stable API, documentation, maintenance intent,
-and a non-conflicting project name matter. Before publishing, this project should be consumed by
-`dagitali.com` and at least one second site, complete its public API review, and automate build,
-wheel smoke testing, and trusted publishing. Git-based installation is sufficient during extraction.
+and a non-conflicting project name matter. The tag-triggered release workflow already builds and
+validates the sdist and wheel. Before publishing to PyPI, this project should be consumed by
+`dagitali.com` and at least one second site, complete its public API review, and add reviewed
+trusted publishing. Git-based installation is sufficient during extraction.
 
 ## License
 
