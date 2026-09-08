@@ -11,7 +11,7 @@ represented by CDK constructs and assertions.
 
 ## Set Up Development
 
-The package metadata in `pyproject.toml` supports Python 3.13 and newer, while `.python-version`
+The package metadata in `pyproject.toml` supports Python 3.13 and 3.14, while `.python-version`
 selects Python 3.13 as the consistent local development version for compatible tools such as pyenv
 and uv. The files are complementary: one declares package compatibility, and the other selects an
 interpreter.

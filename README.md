@@ -52,7 +52,7 @@ flowchart LR
 
 ## Requirements
 
-- Python 3.13 or newer (`.python-version` selects Python 3.13 for compatible
+- Python 3.13 or 3.14 (`.python-version` selects Python 3.13 for compatible
   local version managers)
 - AWS CDK v2
 - An AWS account bootstrapped for CDK deployments
