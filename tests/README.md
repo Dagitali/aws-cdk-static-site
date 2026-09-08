@@ -44,7 +44,8 @@ bootstrapped account, or network access.
 
 - Name test modules after the production module they exercise.
 - Group cohesive behavior in test classes and parameterize repeated contracts.
-- Assert stable public properties instead of generated logical IDs.
+- Assert stable public properties by default; pin generated logical IDs only for stateful resources
+  whose accidental replacement could risk persistent data.
 - Keep unit tests deterministic and independent of AWS credentials and network access.
 - Use fixtures for shared setup without hiding the behavior under test.
 
