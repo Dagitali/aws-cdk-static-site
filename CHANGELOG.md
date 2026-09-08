@@ -23,6 +23,8 @@ All notable changes to this project will be documented in this file.
   extensible author formatting, dependency-group intent, and a documentation source URL.
 - Align reusable Make targets for strict local CI documentation checks, HTML and EPUB builds, link
   validation, and configurable documentation dependency installation.
+- Harmonize reusable contributor, CI/CD, documentation, release-history, and repository-navigation
+  guidance while retaining package-specific support and infrastructure boundaries.
 
 ## 0.2.5 - 2026-09-08
 
