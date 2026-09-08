@@ -32,8 +32,8 @@
 # 2) Run the local CI-equivalent checks.
 # $ make check
 #
-# 3) Run a focused test suite.
-# $ make test-unit
+# 3) Run the default test suite.
+# $ make test
 #
 # 4) Inspect the local environment.
 # $ make show-venv
@@ -81,7 +81,8 @@ PACKAGE_PREFIX ?= $(PROJECT_NAME)/
 
 CLEAN_SEARCH_DIRS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR) $(EXAMPLES_DIR)
 CLEAN_REMOVE_PATHS ?= build .coverage coverage.xml htmlcov \
-	.mypy_cache .pytest_cache .ruff_cache $(SOURCE_DIR)/*.egg-info
+	.mypy_cache .pytest_cache .ruff_cache $(PKG_DIR)/*.egg-info \
+	$(SOURCE_DIR)/*.egg-info
 
 ### Installation ###
 
@@ -130,7 +131,8 @@ PIP_INSTALL_FLAGS ?= --disable-pip-version-check
 RUNTIME_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))"
 DEV_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[dev]"
 
-PYTHON_LINT_PATHS ?= .
+PYTHON_FORMAT_PATHS ?= .
+PYTHON_LINT_PATHS ?= $(PYTHON_FORMAT_PATHS)
 PYTHON_TYPECHECK_PATHS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR)
 
 ### Packaging (Git) ###
@@ -145,8 +147,9 @@ DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
 
 ### Quality ###
 
-CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test dist
-CHECK_PRE_PUSH_TARGETS ?= $(CHECK_TARGETS)
+BASE_CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test
+CHECK_TARGETS ?= $(BASE_CHECK_TARGETS) dist
+CHECK_PRE_PUSH_TARGETS ?= $(BASE_CHECK_TARGETS)
 CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS)
 CI_SMOKE_TARGETS ?= python-policy lint test-unit
 
@@ -263,11 +266,12 @@ setup: dev ## Install the development environment (compatibility alias)
 
 .PHONY: show-venv
 show-venv: ## Print virtual-environment and interpreter locations
-	@echo "PIP      = $(PIP)"
-	@echo "PY       = $(PY)"
-	@echo "PYTHON   = $(PYTHON)"
+	@echo "PKG_DIR  = $(PKG_DIR)"
 	@echo "VENV_BIN = $(VENV_BIN)"
 	@echo "VENV_DIR = $(VENV_DIR)"
+	@echo "PY       = $(PY)"
+	@echo "PYTHON   = $(PYTHON)"
+	@echo "PIP      = $(PIP)"
 
 .PHONY: clean
 clean: ## Remove generated build artifacts and caches
@@ -308,7 +312,7 @@ fix: python-policy ## Apply safe Ruff fixes to Python code
 
 .PHONY: fmt
 fmt: fix ## Format Python code with Ruff
-	$(call RUN_IN_PACKAGE,$(RUFF) format $(PYTHON_LINT_PATHS))
+	$(call RUN_IN_PACKAGE,$(RUFF) format $(PYTHON_FORMAT_PATHS))
 
 .PHONY: format
 format: fmt ## Format Python code (compatibility alias)
