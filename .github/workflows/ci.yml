@@ -269,17 +269,31 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+    env:
+      DAGITALI_COM_READ_TOKEN: ${{ secrets.DAGITALI_COM_READ_TOKEN }}
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
         with:
           persist-credentials: false
 
+      - name: Require consumer repository token
+        env:
+          TOKEN: ${{ env.DAGITALI_COM_READ_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -z "$TOKEN" ]]; then
+            echo "DAGITALI_COM_READ_TOKEN is not configured." >&2
+            exit 1
+          fi
+
       - name: Check out dagitali.com
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
         with:
           repository: Dagitali/dagitali.com
+          ref: main
           path: consumer/dagitali.com
+          token: ${{ env.DAGITALI_COM_READ_TOKEN }}
           persist-credentials: false
 
       - name: Set up Python
