@@ -82,6 +82,7 @@ DEV_POST_INSTALL_COMMAND ?= $(RUNTIME_POST_INSTALL_COMMAND)
 #   make dev PY=python3.14
 PY ?= python3
 MINIMUM_PYTHON_VERSION ?= 3.13
+MAXIMUM_PYTHON_VERSION ?= 3.15
 
 # Package root (where pyproject.toml lives)
 PKG_DIR ?= .
@@ -184,9 +185,9 @@ help: ## Show this help
 	/^##@/ {printf "\n\033[1m%s\033[0m\n", substr($$0, 5)}' $(MAKEFILE_LIST)
 
 .PHONY: check-python-runtime
-check-python-runtime: ## Require Python 3.13 or newer for local project commands
+check-python-runtime: ## Require a supported Python version for local project commands
 	@$(PY) -c \
-		'import sys; required=tuple(map(int, "$(MINIMUM_PYTHON_VERSION)".split("."))); raise SystemExit(0 if sys.version_info >= required else "Python $(MINIMUM_PYTHON_VERSION) or newer is required")'
+		'import sys; minimum=tuple(map(int, "$(MINIMUM_PYTHON_VERSION)".split("."))); maximum=tuple(map(int, "$(MAXIMUM_PYTHON_VERSION)".split("."))); current=sys.version_info[:2]; raise SystemExit(0 if minimum <= current < maximum else "Python >=$(MINIMUM_PYTHON_VERSION),<$(MAXIMUM_PYTHON_VERSION) is required")'
 
 .PHONY: venv
 venv: check-python-runtime ## Create the Python virtual environment
@@ -292,7 +293,7 @@ workflow-pins: python-policy ## Verify remote GitHub Actions use immutable commi
 	$(PYTHON) $(WORKFLOW_PINS_SCRIPT)
 
 .PHONY: python-policy
-python-policy: ## Verify the repository-wide minimum Python version policy
+python-policy: ## Verify the repository-wide supported Python version policy
 	$(PYTHON) $(PYTHON_POLICY_SCRIPT)
 
 
