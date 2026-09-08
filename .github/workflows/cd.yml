@@ -42,8 +42,11 @@ env:
   ARTIFACT_RETENTION_DAYS: "14"
   CYCLONEDX_BOM_VERSION: "7.2.2"
   DEFAULT_PYTHON_VERSION: "3.13"
+  PACKAGE_DISTRIBUTION_NAME: aws-cdk-static-site
+  PACKAGE_IMPORT_NAME: aws_cdk_static_site
   RELEASE_ARTIFACT_NAME: release-artifacts
   SBOM_FILENAME: python-sbom.json
+  SYNTHESIS_EXAMPLE: examples/basic/app.py
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -121,14 +124,15 @@ jobs:
               --disable-pip-version-check "$artifact"
             actual_version="$(
               "$environment/bin/python" -c \
-                'from importlib.metadata import version; print(version("aws-cdk-static-site"))'
+                'import os; from importlib.metadata import version; print(version(os.environ["PACKAGE_DISTRIBUTION_NAME"]))'
             )"
             if [[ "$actual_version" != "$expected_version" ]]; then
               echo "Expected version ${expected_version}; found ${actual_version}." >&2
               exit 1
             fi
-            "$environment/bin/python" -c "import aws_cdk_static_site"
-            "$environment/bin/python" examples/basic/app.py
+            "$environment/bin/python" -c \
+              'import importlib, os; importlib.import_module(os.environ["PACKAGE_IMPORT_NAME"])'
+            "$environment/bin/python" "$SYNTHESIS_EXAMPLE"
             index=$((index + 1))
           done
 
