@@ -26,7 +26,7 @@
 
 [build-system]
 # Use a modern setuptools that supports PEP 621 & editable installs (PEP 660).
-requires = ["setuptools>=80", "setuptools-scm>=9.2,<10", "wheel"]
+requires = ["setuptools>=80", "setuptools-scm>=9.2,<11", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -67,7 +67,7 @@ dev = [
   "pytest>=9.0,<10",
   "pytest-cov>=7.0,<8",
   "ruff>=0.16,<0.17",
-  "twine>=6.2,<7",
+  "twine>=6.2,<8",
 ]
 # Local documentation tools (install with: pip install -e '.[docs]')
 docs = [
