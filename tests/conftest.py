@@ -18,7 +18,9 @@ pytest_plugins = ('tests.support.artifacts',)
 # SECTION: PYTEST HOOKS
 
 
-def pytest_addoption(parser: pytest.Parser) -> None:
+def pytest_addoption(
+    parser: pytest.Parser,
+) -> None:
     """Register options shared by artifact-oriented test layers."""
     parser.addoption(
         '--artifact-dir',
@@ -27,7 +29,9 @@ def pytest_addoption(parser: pytest.Parser) -> None:
     )
 
 
-def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+def pytest_collection_modifyitems(
+    items: list[pytest.Item],
+) -> None:
     """Apply each test directory's layer marker during collection."""
     for item in items:
         try:

@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.4 - 2026-09-09](#034---2026-09-09)
 - [0.3.3 - 2026-09-09](#033---2026-09-09)
 - [0.3.2 - 2026-09-08](#032---2026-09-08)
 - [0.3.1 - 2026-09-08](#031---2026-09-08)
@@ -19,6 +20,12 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.4 - 2026-09-09
+
+- Configure Ruff to prefer single quotes, including nested Python 3.13 f-string expressions.
+- Apply the enforced formatting consistently across Python code and documentation examples without
+  changing package behavior.
 
 ## 0.3.3 - 2026-09-09
 

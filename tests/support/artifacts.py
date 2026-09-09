@@ -61,7 +61,9 @@ def sdist_path(
 
 
 @pytest.fixture(scope='session')
-def wheel_path(distribution_directory: Path) -> Path:
+def wheel_path(
+    distribution_directory: Path,
+) -> Path:
     """Return the session's single wheel artifact."""
     return _single_artifact(distribution_directory, '*.whl')
 

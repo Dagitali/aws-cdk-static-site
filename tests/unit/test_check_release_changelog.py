@@ -13,13 +13,20 @@ class TestValidate:
     """Verify release-version and changelog-section validation."""
 
     @pytest.mark.parametrize('release', ['0.2.2', 'v0.2.2'])
-    def test_accepts_dated_section(self, tmp_path: Path, release: str) -> None:
+    def test_accepts_dated_section(
+        self,
+        tmp_path: Path,
+        release: str,
+    ) -> None:
         changelog = tmp_path / 'CHANGELOG.md'
         changelog.write_text('## 0.2.2 - 2026-09-08\n', encoding='utf-8')
 
         assert validate(changelog, release) == []
 
-    def test_rejects_invalid_calendar_date(self, tmp_path: Path) -> None:
+    def test_rejects_invalid_calendar_date(
+        self,
+        tmp_path: Path,
+    ) -> None:
         changelog = tmp_path / 'CHANGELOG.md'
         changelog.write_text('## 0.2.2 - 2026-02-30\n', encoding='utf-8')
 
@@ -43,12 +50,18 @@ class TestValidate:
     ) -> None:
         assert expected in validate(tmp_path / 'CHANGELOG.md', release)[0]
 
-    def test_rejects_missing_changelog(self, tmp_path: Path) -> None:
+    def test_rejects_missing_changelog(
+        self,
+        tmp_path: Path,
+    ) -> None:
         failures = validate(tmp_path / 'CHANGELOG.md', '0.2.2')
 
-        assert failures == [f"changelog does not exist: {tmp_path / 'CHANGELOG.md'}"]
+        assert failures == [f'changelog does not exist: {tmp_path / 'CHANGELOG.md'}']
 
-    def test_rejects_missing_release_section(self, tmp_path: Path) -> None:
+    def test_rejects_missing_release_section(
+        self,
+        tmp_path: Path,
+    ) -> None:
         changelog = tmp_path / 'CHANGELOG.md'
         changelog.write_text('## Unreleased\n', encoding='utf-8')
 
