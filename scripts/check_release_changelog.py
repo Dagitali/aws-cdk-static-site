@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Verify that a release version has a dated changelog section."""
+"""
+:mod:`scripts.check_release_changelog` module.
+
+Validate that a semantic release version has a corresponding dated section in
+the project changelog.
+"""
 
 import argparse
 import re
@@ -25,7 +30,21 @@ def validate(
     changelog: Path,
     release: str,
 ) -> list[str]:
-    """Return every release-changelog validation failure."""
+    """
+    Return every release-changelog validation failure.
+
+    Parameters
+    ----------
+    changelog : pathlib.Path
+        Changelog file to inspect.
+    release : str
+        Semantic version with an optional leading ``v``.
+
+    Returns
+    -------
+    list[str]
+        Human-readable failures; empty when a valid dated section exists.
+    """
     match = RELEASE_VERSION_PATTERN.fullmatch(release)
     if match is None:
         return [
@@ -59,7 +78,20 @@ def validate(
 def parse_args(
     argv: list[str] | None = None,
 ) -> argparse.Namespace:
-    """Parse command-line arguments."""
+    """
+    Parse command-line arguments.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name. Uses ``sys.argv`` when
+        omitted.
+
+    Returns
+    -------
+    argparse.Namespace
+        Parsed release version and changelog path.
+    """
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('release', help='Release version or tag')
@@ -75,7 +107,19 @@ def parse_args(
 def main(
     argv: list[str] | None = None,
 ) -> int:
-    """Run release-changelog validation and return a stable process status."""
+    """
+    Run release-changelog validation and return a stable process status.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name.
+
+    Returns
+    -------
+    int
+        Zero when validation succeeds; one when validation fails.
+    """
     args = parse_args(argv)
     failures = validate(args.changelog.resolve(), args.release)
     if failures:

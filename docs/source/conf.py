@@ -1,4 +1,9 @@
-"""Configure the local Sphinx documentation build."""
+"""
+Sphinx documentation configuration.
+
+Configure the local API-documentation build, NumPy docstring rendering, and
+Read the Docs-compatible HTML theme.
+"""
 
 from importlib.metadata import version as distribution_version
 

@@ -1,4 +1,8 @@
-"""Unit tests for the release-changelog policy checker."""
+"""
+:mod:`tests.unit.test_check_release_changelog` module.
+
+Unit tests for semantic-version parsing and dated changelog-section policy.
+"""
 
 from pathlib import Path
 
@@ -10,7 +14,12 @@ from scripts.check_release_changelog import validate
 
 
 class TestValidate:
-    """Verify release-version and changelog-section validation."""
+    """
+    Verify release-version and changelog-section validation.
+
+    The suite covers accepted tag forms, malformed versions, invalid dates,
+    missing files, and missing versioned sections.
+    """
 
     @pytest.mark.parametrize('release', ['0.2.2', 'v0.2.2'])
     def test_accepts_dated_section(

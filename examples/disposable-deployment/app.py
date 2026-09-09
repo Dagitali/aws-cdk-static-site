@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Synthesize the tightly bounded manual AWS deployment-test stack."""
+"""
+Disposable deployment-test application.
+
+Synthesize the tightly bounded AWS stack used by the manually approved
+deployment test.
+
+Notes
+-----
+The deployment workflow supplies the account, region, stack name, and output
+directory through environment variables and destroys the stack after testing.
+"""
 
 import os
 
