@@ -11,7 +11,7 @@
 # - Run the repository's linting, type, policy, test, and package-build gates.
 # - Exercise every explicitly supported Python version.
 # - Smoke-test installation on each supported operating-system family.
-# - Validate built artifacts and compatibility with the dagitali.com consumer.
+# - Validate built artifacts and documented example applications.
 #
 # Maintainer Notes
 # - Global permissions are intentionally omitted; each job declares the minimum
@@ -261,51 +261,3 @@ jobs:
         run: >-
           python -m pytest --no-cov
           --artifact-dir dist tests/e2e/test_distribution_installation.py
-
-  test-consumer:
-    name: Test dagitali.com consumer
-    needs: guard-pr-target
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    env:
-      DAGITALI_COM_READ_TOKEN: ${{ secrets.DAGITALI_COM_READ_TOKEN }}
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Require consumer repository token
-        env:
-          TOKEN: ${{ env.DAGITALI_COM_READ_TOKEN }}
-        shell: bash
-        run: |
-          if [[ -z "$TOKEN" ]]; then
-            echo "DAGITALI_COM_READ_TOKEN is not configured." >&2
-            exit 1
-          fi
-
-      - name: Check out dagitali.com
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
-        with:
-          repository: Dagitali/dagitali.com
-          ref: main
-          path: consumer/dagitali.com
-          token: ${{ env.DAGITALI_COM_READ_TOKEN }}
-          persist-credentials: false
-
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
-        with:
-          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
-          cache: pip
-
-      - name: Install consumer-test dependencies
-        run: python -m pip install --disable-pip-version-check -e '.[dev]'
-
-      - name: Test consumer compatibility
-        env:
-          DAGITALI_COM_PATH: consumer/dagitali.com
-        run: python -m pytest --no-cov tests/integration/test_dagitali_com.py
