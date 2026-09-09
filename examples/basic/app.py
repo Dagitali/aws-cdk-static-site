@@ -1,4 +1,9 @@
-"""Minimal CDK application using the reusable construct."""
+"""
+Basic static-site example application.
+
+Demonstrate the smallest CDK application that synthesizes the reusable
+construct with local site content and a generated CloudFront hostname.
+"""
 
 import aws_cdk as cdk
 

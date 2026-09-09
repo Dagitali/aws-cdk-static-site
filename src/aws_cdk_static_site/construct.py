@@ -1,4 +1,13 @@
-"""Reusable AWS CDK construct for private static-site delivery."""
+"""
+:mod:`aws_cdk_static_site.construct` module.
+
+Reusable AWS CDK construct for private S3 storage and CloudFront static-site
+delivery.
+
+The construct composes storage, origin access control, security headers,
+cache-aware content deployment, and optional certificate, DNS, and access-log
+resources behind a single consumer-facing abstraction.
+"""
 
 from pathlib import Path
 from typing import cast
@@ -30,6 +39,45 @@ _CLOUDFRONT_CERTIFICATE_REGION = 'us-east-1'
 class StaticSite(Construct):
     """
     Provision secure storage, delivery, and optional DNS for a static site.
+
+    Parameters
+    ----------
+    scope : constructs.Construct
+        Parent construct that owns the site resources.
+    construct_id : str
+        Construct identifier unique within *scope*.
+    props : StaticSiteProps | None, optional
+        Validated site configuration. Uses conservative defaults when omitted.
+
+    Attributes
+    ----------
+    bucket : aws_cdk.aws_s3.Bucket
+        Private, encrypted content bucket used as the CloudFront origin.
+    access_log_bucket : aws_cdk.aws_s3.Bucket | None
+        Retained access-log bucket when logging is enabled.
+    response_headers_policy : aws_cdk.aws_cloudfront.ResponseHeadersPolicy
+        Browser security headers attached to every cache behavior.
+    certificate : aws_cdk.aws_certificatemanager.ICertificate | None
+        Imported or construct-created certificate used by CloudFront.
+    distribution : aws_cdk.aws_cloudfront.Distribution
+        CloudFront distribution serving the site.
+    dns_records : tuple[route53.ARecord | route53.AaaaRecord, ...]
+        Optional Route 53 alias records created for configured domain names.
+    deployment : aws_cdk.aws_s3_deployment.BucketDeployment | None
+        Revalidated-content deployment when local content is configured.
+    immutable_asset_deployment : aws_cdk.aws_s3_deployment.BucketDeployment | None
+        Long-lived immutable-asset deployment when matching paths are configured.
+
+    Raises
+    ------
+    ValueError
+        If certificate creation lacks an explicit ``us-east-1`` stack region
+        or the configured site-content directory does not exist.
+
+    Notes
+    -----
+    Stateful S3 buckets use retained removal policies by default. The construct
+    never makes its origin bucket public.
     """
 
     # SECTION: Magic Methods (Object Lifecycle)
@@ -41,7 +89,18 @@ class StaticSite(Construct):
         *,
         props: StaticSiteProps | None = None,
     ) -> None:
-        """Create the static-site resources."""
+        """
+        Create the static-site resources.
+
+        Parameters
+        ----------
+        scope : constructs.Construct
+            Parent construct that owns the site resources.
+        construct_id : str
+            Construct identifier unique within *scope*.
+        props : StaticSiteProps | None, optional
+            Validated site configuration. Uses default properties when omitted.
+        """
         super().__init__(scope, construct_id)
         props = props or StaticSiteProps()
         self._validate_certificate_region(props)
@@ -64,6 +123,19 @@ class StaticSite(Construct):
         self,
         props: StaticSiteProps,
     ) -> s3.Bucket | None:
+        """
+        Create retained storage for CloudFront access logs when enabled.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Validated site configuration.
+
+        Returns
+        -------
+        aws_cdk.aws_s3.Bucket | None
+            Access-log bucket, or ``None`` when logging is disabled.
+        """
         if not props.enable_access_logs:
             return None
         return s3.Bucket(
@@ -86,6 +158,19 @@ class StaticSite(Construct):
         self,
         props: StaticSiteProps,
     ) -> s3.Bucket:
+        """
+        Create the private, encrypted, and optionally versioned origin bucket.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Validated site configuration.
+
+        Returns
+        -------
+        aws_cdk.aws_s3.Bucket
+            Content bucket configured for CloudFront origin access control.
+        """
         return s3.Bucket(
             self,
             'ContentBucket',
@@ -108,6 +193,19 @@ class StaticSite(Construct):
         self,
         props: StaticSiteProps,
     ) -> cloudfront.ResponseHeadersPolicy:
+        """
+        Create the CloudFront browser-security response-headers policy.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Site configuration containing the Content Security Policy.
+
+        Returns
+        -------
+        aws_cdk.aws_cloudfront.ResponseHeadersPolicy
+            Policy shared by all distribution cache behaviors.
+        """
         return cloudfront.ResponseHeadersPolicy(
             self,
             'SecurityHeaders',
@@ -168,6 +266,19 @@ class StaticSite(Construct):
         self,
         props: StaticSiteProps,
     ) -> acm.ICertificate | None:
+        """
+        Select an imported certificate or create one through DNS validation.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Site configuration controlling certificate behavior.
+
+        Returns
+        -------
+        aws_cdk.aws_certificatemanager.ICertificate | None
+            Certificate supplied to CloudFront, or ``None`` for its hostname.
+        """
         if props.certificate:
             return props.certificate
         if not props.create_certificate:
@@ -188,6 +299,24 @@ class StaticSite(Construct):
         s3deploy.BucketDeployment | None,
         s3deploy.BucketDeployment | None,
     ]:
+        """
+        Create separate revalidated-content and immutable-asset deployments.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Site configuration containing local content and cache settings.
+
+        Returns
+        -------
+        tuple[BucketDeployment | None, BucketDeployment | None]
+            General content deployment and optional immutable-asset deployment.
+
+        Raises
+        ------
+        ValueError
+            If the configured site-content path is not a directory.
+        """
         if props.site_content_path is None:
             return None, None
         site_content_path = Path(props.site_content_path).expanduser().resolve()
@@ -259,6 +388,19 @@ class StaticSite(Construct):
         self,
         props: StaticSiteProps,
     ) -> cloudfront.Distribution:
+        """
+        Create the CloudFront distribution and cache behaviors.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Site configuration controlling domains, errors, price, and logging.
+
+        Returns
+        -------
+        aws_cdk.aws_cloudfront.Distribution
+            Distribution backed by the private content bucket.
+        """
         origin = origins.S3BucketOrigin.with_origin_access_control(self.bucket)
         html_behavior = cloudfront.BehaviorOptions(
             origin=origin,
@@ -312,6 +454,19 @@ class StaticSite(Construct):
         self,
         props: StaticSiteProps,
     ) -> tuple[route53.ARecord | route53.AaaaRecord, ...]:
+        """
+        Create optional IPv4 and IPv6 Route 53 aliases for each domain.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Site configuration controlling Route 53 integration.
+
+        Returns
+        -------
+        tuple[aws_cdk.aws_route53.ARecord | aws_cdk.aws_route53.AaaaRecord, ...]
+            Created alias records, or an empty tuple when DNS is external.
+        """
         if not props.create_route53_records:
             return ()
         hosted_zone = cast('route53.IHostedZone', props.hosted_zone)
@@ -342,6 +497,19 @@ class StaticSite(Construct):
         return tuple(records)
 
     def _validate_certificate_region(self, props: StaticSiteProps) -> None:
+        """
+        Require a concrete ``us-east-1`` region for certificate creation.
+
+        Parameters
+        ----------
+        props : StaticSiteProps
+            Site configuration controlling certificate creation.
+
+        Raises
+        ------
+        ValueError
+            If certificate creation uses an unresolved or incompatible region.
+        """
         if not props.create_certificate:
             return
 

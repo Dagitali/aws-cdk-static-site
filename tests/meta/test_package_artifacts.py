@@ -1,4 +1,9 @@
-"""Distribution-content and metadata contract tests."""
+"""
+:mod:`tests.meta.test_package_artifacts` module.
+
+Distribution-content and metadata contract tests for source archives and
+wheels.
+"""
 
 import tarfile
 from email import policy
@@ -19,7 +24,12 @@ PACKAGE_PATH = 'aws_cdk_static_site'
 
 
 class TestSourceDistributionContents:
-    """Verify source releases remain buildable and legally complete."""
+    """
+    Verify source releases remain buildable and legally complete.
+
+    The suite checks build metadata, typing information, and legal files in
+    the source archive.
+    """
 
     def test_contains_build_typing_and_legal_files(
         self,
@@ -40,7 +50,12 @@ class TestSourceDistributionContents:
 
 
 class TestWheelContents:
-    """Verify the wheel contains the public package and legal metadata."""
+    """
+    Verify the wheel contains the public package and legal metadata.
+
+    Runtime modules, the typing marker, license, and notice must survive wheel
+    construction.
+    """
 
     def test_contains_license_and_notice(
         self,
@@ -68,7 +83,12 @@ class TestWheelContents:
 
 
 class TestWheelMetadata:
-    """Verify installed-package metadata reflects the public support contract."""
+    """
+    Verify wheel metadata reflects the public support contract.
+
+    Identity, licensing, Python compatibility, and runtime dependencies are
+    treated as release-level contracts.
+    """
 
     def test_declares_identity_license_and_python_support(
         self,

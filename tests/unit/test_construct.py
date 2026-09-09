@@ -1,4 +1,9 @@
-"""CDK assertion tests for the reusable static-site construct."""
+"""
+:mod:`tests.unit.test_construct` module.
+
+CDK assertion tests for isolated static-site construct behavior and stable
+stateful-resource identities.
+"""
 
 from collections.abc import Callable
 from pathlib import Path
@@ -31,7 +36,14 @@ SITE_PATH = Path(__file__).parents[2] / 'examples' / 'basic' / 'site'
 
 @pytest.fixture(name='template_factory', scope='module')
 def template_factory_fixture() -> TemplateFactory:
-    """Return a factory that synthesizes a construct in a test stack."""
+    """
+    Return a factory that synthesizes a construct in a test stack.
+
+    Returns
+    -------
+    TemplateFactory
+        Configurable factory producing CDK assertion templates.
+    """
 
     def factory(
         *,
@@ -40,6 +52,25 @@ def template_factory_fixture() -> TemplateFactory:
         access_logs_enabled: bool = False,
         immutable_asset_paths: tuple[str, ...] = (),
     ) -> assertions.Template:
+        """
+        Synthesize a representative construct configuration.
+
+        Parameters
+        ----------
+        deploy_content : bool, optional
+            Include local content deployment and an imported certificate.
+        route53_enabled : bool, optional
+            Create a certificate and alias records with Route 53.
+        access_logs_enabled : bool, optional
+            Create bounded CloudFront access-log storage.
+        immutable_asset_paths : tuple[str, ...], optional
+            Paths assigned immutable deployment and cache metadata.
+
+        Returns
+        -------
+        aws_cdk.assertions.Template
+            Synthesized CloudFormation template.
+        """
         app = cdk.App()
         stack = cdk.Stack(
             app,
@@ -91,7 +122,12 @@ def template_factory_fixture() -> TemplateFactory:
 
 
 class TestDelivery:
-    """Verify CloudFront and deployment behavior."""
+    """
+    Verify CloudFront and deployment behavior.
+
+    The suite covers cache metadata, origin access control, security headers,
+    cost-conscious defaults, and invalid content paths.
+    """
 
     def test_deploys_optional_content_with_revalidated_cache_metadata(
         self,
@@ -199,7 +235,12 @@ class TestDelivery:
 
 
 class TestOptionalIntegrations:
-    """Verify DNS, certificate, and logging remain opt-in."""
+    """
+    Verify DNS, certificate, and logging remain opt-in.
+
+    Optional resources are synthesized only when their corresponding
+    properties are explicitly enabled.
+    """
 
     def test_creates_bounded_access_log_storage_when_requested(
         self,
@@ -278,7 +319,12 @@ class TestOptionalIntegrations:
 
 
 class TestStorage:
-    """Verify the private origin's durability and security controls."""
+    """
+    Verify the private origin's durability and security controls.
+
+    The suite also protects stateful bucket logical IDs from accidental
+    replacement during construct evolution.
+    """
 
     def test_creates_private_encrypted_versioned_bucket(
         self,

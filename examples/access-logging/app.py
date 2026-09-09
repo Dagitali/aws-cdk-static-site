@@ -1,4 +1,9 @@
-"""Retain CloudFront access logs for a bounded period."""
+"""
+Access-logging example application.
+
+Demonstrate how to retain CloudFront access logs in a dedicated private S3
+bucket for a bounded period.
+"""
 
 import aws_cdk as cdk
 

@@ -1,4 +1,9 @@
-"""Unit tests for static-site configuration validation."""
+"""
+:mod:`tests.unit.test_props` module.
+
+Unit tests for accepted defaults and rejected static-site configuration
+combinations.
+"""
 
 from typing import cast
 
@@ -22,7 +27,12 @@ FAKE_HOSTED_ZONE = cast('route53.IHostedZone', object())
 
 
 class TestStaticSiteProps:
-    """Verify invalid configuration combinations fail early."""
+    """
+    Verify configuration defaults and invalid option combinations.
+
+    Validation failures are asserted before any construct attempts to
+    synthesize AWS resources.
+    """
 
     def test_accepts_cloudfront_domain_without_custom_alias(self) -> None:
         assert StaticSiteProps().domain_names == ()

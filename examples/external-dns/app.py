@@ -1,4 +1,13 @@
-"""Use an external DNS provider and an imported ACM certificate."""
+"""
+External-DNS example application.
+
+Configure a custom hostname with an imported ACM certificate while leaving
+authoritative DNS records under the consumer's external provider.
+
+Notes
+-----
+CloudFront requires the imported ACM certificate to exist in ``us-east-1``.
+"""
 
 import aws_cdk as cdk
 from aws_cdk import aws_certificatemanager as acm

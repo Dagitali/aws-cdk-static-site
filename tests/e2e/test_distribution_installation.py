@@ -1,4 +1,9 @@
-"""End-to-end installation tests for built distributions."""
+"""
+:mod:`tests.e2e.test_distribution_installation` module.
+
+End-to-end tests that install each built distribution into a clean virtual
+environment, import the public package, and synthesize a representative stack.
+"""
 
 import os
 import subprocess
@@ -34,7 +39,12 @@ assert version('aws-cdk-static-site')
 
 
 class TestDistributionInstallation:
-    """Verify each published distribution installs and synthesizes in isolation."""
+    """
+    Verify each published distribution installs and synthesizes in isolation.
+
+    The suite exercises both the wheel and source distribution through the
+    same consumer-visible installation boundary.
+    """
 
     @pytest.mark.parametrize(
         'artifact_fixture',

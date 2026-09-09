@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Update or verify the versioned GitHub installation snippet."""
+"""
+:mod:`scripts.update_release_snippet` module.
+
+Render, update, or verify the README installation snippet associated with a
+semantic release tag.
+"""
 
 import argparse
 import re
@@ -25,7 +30,24 @@ START_MARKER = '<!-- release-install:start -->'
 def render(
     release: str,
 ) -> str:
-    """Render the complete marked installation snippet for a release."""
+    """
+    Render the complete marked installation snippet for a release.
+
+    Parameters
+    ----------
+    release : str
+        Semantic version with an optional leading ``v``.
+
+    Returns
+    -------
+    str
+        Markdown marker pair and installation command for the normalized tag.
+
+    Raises
+    ------
+    ValueError
+        If *release* is not a semantic ``major.minor.patch`` version.
+    """
     match = RELEASE_PATTERN.fullmatch(release)
     if match is None:
         raise ValueError(
@@ -51,7 +73,28 @@ def update(
     *,
     check: bool = False,
 ) -> list[str]:
-    """Update the marked snippet or return validation failures in check mode."""
+    """
+    Update the marked snippet or return validation failures in check mode.
+
+    Parameters
+    ----------
+    readme : pathlib.Path
+        README containing one release-installation marker pair.
+    release : str
+        Semantic version with an optional leading ``v``.
+    check : bool, optional
+        Validate existing content without writing when ``True``.
+
+    Returns
+    -------
+    list[str]
+        Human-readable failures; empty after a successful update or check.
+
+    Raises
+    ------
+    ValueError
+        If *release* is not a semantic ``major.minor.patch`` version.
+    """
     if not readme.is_file():
         return [f'readme does not exist: {readme}']
 
@@ -78,7 +121,20 @@ def update(
 def parse_args(
     argv: list[str] | None = None,
 ) -> argparse.Namespace:
-    """Parse command-line arguments."""
+    """
+    Parse command-line arguments.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name. Uses ``sys.argv`` when
+        omitted.
+
+    Returns
+    -------
+    argparse.Namespace
+        Parsed release, mode, and README path.
+    """
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('release', help='Release version or tag')
@@ -95,7 +151,19 @@ def parse_args(
 def main(
     argv: list[str] | None = None,
 ) -> int:
-    """Update or verify the release installation snippet."""
+    """
+    Update or verify the release installation snippet.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name.
+
+    Returns
+    -------
+    int
+        Zero when the update or check succeeds; one when validation fails.
+    """
     args = parse_args(argv)
     try:
         failures = update(args.readme.resolve(), args.release, check=args.check)

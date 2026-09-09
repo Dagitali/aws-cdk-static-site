@@ -1,4 +1,9 @@
-"""Meta tests for synthesized infrastructure security policy."""
+"""
+:mod:`tests.meta.test_cdk_nag` module.
+
+Meta tests that apply the reviewed ``cdk-nag`` AWS Solutions policy to
+synthesized infrastructure.
+"""
 
 import aws_cdk as cdk
 from aws_cdk import aws_certificatemanager as acm
@@ -11,7 +16,12 @@ from tests.support.aws import TEST_ACCOUNT, TEST_CERTIFICATE_ARN
 
 
 class TestAwsSolutions:
-    """Fail when cdk-nag reports an unreviewed AWS Solutions finding."""
+    """
+    Fail when ``cdk-nag`` reports an unreviewed AWS Solutions finding.
+
+    Reviewed design-boundary suppressions remain explicit in the synthesized
+    test stack so new findings cannot pass silently.
+    """
 
     def test_has_no_unreviewed_findings(self) -> None:
         app = cdk.App()
