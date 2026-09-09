@@ -48,8 +48,8 @@ URL changes whenever its bytes change:
 
 ```python
 StaticSiteProps(
-    site_content_path="site",
-    immutable_asset_paths=("build/*",),
+    site_content_path='site',
+    immutable_asset_paths=('build/*',),
 )
 ```
 
@@ -61,7 +61,7 @@ Browsers may reuse those objects for the full configured lifetime without checki
 Omit domain and certificate properties to use the generated CloudFront hostname:
 
 ```python
-site = StaticSite(self, "Site")
+site = StaticSite(self, 'Site')
 ```
 
 The hostname is available from
@@ -76,16 +76,16 @@ Import an ACM certificate and configure only the names served by CloudFront:
 ```python
 certificate = acm.Certificate.from_certificate_arn(
     self,
-    "Certificate",
+    'Certificate',
     certificate_arn,
 )
 site = StaticSite(
     self,
-    "Site",
+    'Site',
     props=StaticSiteProps(
-        domain_names=("www.example.com",),
+        domain_names=('www.example.com',),
         certificate=certificate,
-        site_content_path="site",
+        site_content_path='site',
     ),
 )
 ```
@@ -102,13 +102,13 @@ To manage aliases and certificate validation in the consuming stack:
 ```python
 site = StaticSite(
     self,
-    "Site",
+    'Site',
     props=StaticSiteProps(
-        domain_names=("example.com", "www.example.com"),
+        domain_names=('example.com', 'www.example.com'),
         hosted_zone=hosted_zone,
         create_certificate=True,
         create_route53_records=True,
-        site_content_path="site",
+        site_content_path='site',
     ),
 )
 ```
