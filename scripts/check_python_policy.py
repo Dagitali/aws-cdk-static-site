@@ -134,8 +134,17 @@ def validate(
     pre_commit = (root / '.pre-commit-config.yaml').read_text(encoding='utf-8')
     if re.search(r'^\s*python:\s*python3\s*$', pre_commit, re.MULTILINE) is None:
         failures.append('.pre-commit-config.yaml: default Python must be python3')
-    if 'entry: python3 scripts/check_python_policy.py' not in pre_commit:
-        failures.append('.pre-commit-config.yaml: Python policy hook is missing')
+    policy_hook = re.search(
+        r'^\s*- id: check-python-policy\s*$'
+        r'.*?^\s+entry: python scripts/check_python_policy\.py\s*$'
+        r'.*?^\s+language: python\s*$',
+        pre_commit,
+        re.MULTILINE | re.DOTALL,
+    )
+    if policy_hook is None:
+        failures.append(
+            '.pre-commit-config.yaml: Python policy hook must use managed Python',
+        )
 
     makefile = (root / 'Makefile').read_text(encoding='utf-8')
     make_requirements = (

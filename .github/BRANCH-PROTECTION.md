@@ -43,8 +43,7 @@ The `Smoke install on macos-latest` and `Smoke install on windows-latest` jobs a
 cross-platform packaging checks. Promote them to required checks only after weighing their added
 runner time and availability against the repository's merge policy.
 
-Keep `Test dagitali.com consumer` advisory until dagitali.com imports the package directly. The
-manual security and deployment-test workflows are not branch-protection checks.
+The manual security and deployment-test workflows are not branch-protection checks.
 
 ## Shared Protection Baseline
 
