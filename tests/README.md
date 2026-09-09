@@ -14,7 +14,7 @@ pytest marker from each test module's top-level directory.
 | Marker | Path | Purpose |
 | --- | --- | --- |
 | `unit` | `tests/unit/` | Fast, isolated configuration and synthesized-template behavior |
-| `integration` | `tests/integration/` | Example synthesis and consumer compatibility |
+| `integration` | `tests/integration/` | Package behavior across documented example boundaries |
 | `e2e` | `tests/e2e/` | Complete package workflows through a user-facing boundary |
 | `meta` | `tests/meta/` | Distribution, repository-policy, and security-policy contracts |
 | None | `tests/support/` | Shared constants, helpers, and fixtures; never collected as tests |
@@ -22,7 +22,6 @@ pytest marker from each test module's top-level directory.
 The scope answers how much of the system a test crosses. Module names describe what the test covers:
 
 - `tests/integration/test_examples.py` synthesizes every example application;
-- `tests/integration/test_dagitali_com.py` uses real `dagitali.com` site content;
 - `tests/e2e/test_distribution_installation.py` installs each artifact in a clean environment;
 - `tests/meta/test_package_artifacts.py` checks wheel, sdist, typing, legal, and metadata contracts;
 - `tests/meta/test_cdk_nag.py` applies the optional synthesized-infrastructure policy.
@@ -45,7 +44,7 @@ isolation.
 
 ## Dependency Prerequisites
 
-Install development dependencies before running default, artifact, or consumer tests:
+Install development dependencies before running default or artifact tests:
 
 ```bash
 python -m pip install -e '.[dev]'
@@ -66,7 +65,7 @@ approved deployment workflow requires AWS credentials.
 - Keep unit and integration tests deterministic and independent of credentials and network access.
 - Exercise built distributions outside the source checkout so editable imports cannot mask errors.
 - Document every `cdk-nag` acknowledgment and fail on unreviewed findings.
-- Use consumer repositories read-only and skip clearly when an optional local checkout is absent.
+- Keep integration fixtures local and independent of sibling repositories.
 
 ## Common Commands
 
@@ -77,7 +76,6 @@ make test-integration
 make test-examples
 make test-distribution
 make test-installation
-make test-consumer
 make test-security
 make test-full
 ```

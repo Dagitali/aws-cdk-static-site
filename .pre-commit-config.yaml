@@ -187,15 +187,15 @@ repos:
     hooks:
       - id: check-workflow-pins
         name: Check GitHub Actions pins
-        entry: python3 scripts/check_workflow_pins.py
-        language: system
+        entry: python scripts/check_workflow_pins.py
+        language: python
         files: ^\.github/workflows/.*\.ya?ml$
         pass_filenames: false
 
       - id: check-python-policy
         name: Check supported Python version policy
-        entry: python3 scripts/check_python_policy.py
-        language: system
+        entry: python scripts/check_python_policy.py
+        language: python
         files: >-
           ^(?:\.python-version|\.pre-commit-config\.yaml|Makefile|README\.md|CONTRIBUTING\.md|pyproject\.toml|\.github/workflows/.*\.ya?ml|scripts/check_python_policy\.py)$
         pass_filenames: false

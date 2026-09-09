@@ -31,7 +31,7 @@ python -m pip install -e '.[security]'
 | Layer | Path | Contract | Default |
 | --- | --- | --- | --- |
 | Unit | `tests/unit/` | Isolated package behavior and synthesized resource properties | Yes |
-| Integration | `tests/integration/` | Interactions with examples and consumer content | Yes |
+| Integration | `tests/integration/` | Interactions across package and example boundaries | Yes |
 | End to end | `tests/e2e/` | Complete local package workflows across process boundaries | Explicit CI job |
 | Meta | `tests/meta/` | Distribution, repository-policy, and security-policy contracts | By suite |
 | Support | `tests/support/` | Shared non-test constants, helpers, and fixtures | Never collected |
@@ -45,7 +45,6 @@ The `support` directory is importable test infrastructure, not another test laye
 | Suite | Location | Execution |
 | --- | --- | --- |
 | Example synthesis | `tests/integration/test_examples.py` | Default suite |
-| `dagitali.com` consumer | `tests/integration/test_dagitali_com.py` | Default skip or dedicated CI job |
 | Artifact installation | `tests/e2e/test_distribution_installation.py` | Distribution CI job |
 | Artifact contracts | `tests/meta/test_package_artifacts.py` | Distribution and release jobs |
 | `cdk-nag` policy | `tests/meta/test_cdk_nag.py` | Optional manual security job |
@@ -54,13 +53,6 @@ The `support` directory is importable test infrastructure, not another test laye
 Artifact installation and contract tests accept `--artifact-dir` to reuse distributions built once
 by CI or the release workflow. Fixtures and helpers for this behavior live in
 `tests/support/artifacts.py`.
-
-The consumer test defaults to the adjacent `../dagitali.com` checkout. Set `DAGITALI_COM_PATH` or
-`CONSUMER_PROJECT_DIR` when the consumer lives elsewhere. Because dagitali.com has not yet migrated
-to this package, this layer validates that the construct can synthesize its real site content and
-external-DNS delivery shape; it does not claim that dagitali.com's current stack imports the
-construct. The dedicated CI job checks out the private consumer with the `DAGITALI_COM_READ_TOKEN`
-Actions secret, which must provide read-only Contents access to only that repository.
 
 ## Run Checks
 
@@ -79,7 +71,6 @@ make test-integration
 make test-examples
 make test-distribution
 make test-installation
-make test-consumer
 make test-security
 make test-full
 ```
@@ -103,7 +94,7 @@ duplicate these settings in `.coveragerc`, `pytest.toml`, `pytest.ini`, `ruff.to
 - Keep unit and integration tests independent of AWS credentials and network access.
 - Build distributions once per test session and install them outside the source checkout.
 - Treat every security acknowledgment as a reviewed design decision with a concrete reason.
-- Keep consumer fixtures read-only and make missing local consumers an explicit skip.
+- Keep integration fixtures local, deterministic, and independent of sibling repositories.
 
 ## AWS Deployment Boundary
 
