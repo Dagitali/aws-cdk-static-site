@@ -193,7 +193,7 @@ class StaticSite(Construct):
         site_content_path = Path(props.site_content_path).expanduser().resolve()
         if not site_content_path.is_dir():
             raise ValueError(
-                f"site_content_path must identify a directory: {site_content_path}",
+                f'site_content_path must identify a directory: {site_content_path}',
             )
 
         log_group = logs.LogGroup(
@@ -243,7 +243,7 @@ class StaticSite(Construct):
             ],
             distribution=self.distribution,
             distribution_paths=[
-                f"/{path.lstrip('/')}" for path in props.immutable_asset_paths
+                f'/{path.lstrip('/')}' for path in props.immutable_asset_paths
             ],
             exclude=['*'],
             include=list(props.immutable_asset_paths),
@@ -301,7 +301,7 @@ class StaticSite(Construct):
                 cloudfront.ErrorResponse(
                     http_status=status,
                     response_http_status=404,
-                    response_page_path=f"/{props.error_document}",
+                    response_page_path=f'/{props.error_document}',
                     ttl=Duration.minutes(5),
                 )
                 for status in (403, 404)
@@ -325,14 +325,14 @@ class StaticSite(Construct):
                 (
                     route53.ARecord(
                         self,
-                        f"AliasA{index}",
+                        f'AliasA{index}',
                         zone=hosted_zone,
                         record_name=domain_name,
                         target=target,
                     ),
                     route53.AaaaRecord(
                         self,
-                        f"AliasAaaa{index}",
+                        f'AliasAaaa{index}',
                         zone=hosted_zone,
                         record_name=domain_name,
                         target=target,

@@ -30,27 +30,27 @@ def validate(
     if match is None:
         return [
             'release version must use vMAJOR.MINOR.PATCH or '
-            f"MAJOR.MINOR.PATCH: {release!r}",
+            f'MAJOR.MINOR.PATCH: {release!r}',
         ]
 
     if not changelog.is_file():
-        return [f"changelog does not exist: {changelog}"]
+        return [f'changelog does not exist: {changelog}']
 
     version = match.group('version')
     heading_pattern = re.compile(
-        rf"^## {re.escape(version)} - (?P<date>\d{{4}}-\d{{2}}-\d{{2}})$",
+        rf'^## {re.escape(version)} - (?P<date>\d{{4}}-\d{{2}}-\d{{2}})$',
         re.MULTILINE,
     )
     heading = heading_pattern.search(changelog.read_text(encoding='utf-8'))
     if heading is None:
-        return [f"{changelog.name} has no dated section for {version}"]
+        return [f'{changelog.name} has no dated section for {version}']
 
     try:
         date.fromisoformat(heading.group('date'))
     except ValueError:
         return [
-            f"{changelog.name} has an invalid date for {version}: "
-            f"{heading.group('date')}",
+            f'{changelog.name} has an invalid date for {version}: '
+            f'{heading.group('date')}',
         ]
 
     return []
@@ -80,10 +80,10 @@ def main(
     failures = validate(args.changelog.resolve(), args.release)
     if failures:
         for failure in failures:
-            print(f"FAIL: {failure}")
+            print(f'FAIL: {failure}')
         return 1
     version = args.release.removeprefix('v')
-    print(f"PASS: CHANGELOG.md contains a dated section for {version}")
+    print(f'PASS: CHANGELOG.md contains a dated section for {version}')
     return 0
 
 
