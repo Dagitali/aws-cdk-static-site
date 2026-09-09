@@ -25,7 +25,7 @@ Automation is separated by responsibility:
 | `.github/workflows/security.yml` | Manual | Run optional `cdk-nag` checks against synthesized infrastructure |
 | `.github/workflows/deployment-test.yml` | Manual on `main` with protected environment | Create and destroy a bounded AWS test stack |
 | `.github/workflows/sbom.yml` | Relevant protected-branch pushes, manual | Generate an advisory CycloneDX SBOM |
-| `.github/workflows/cd.yml` | Semantic-version tag pushes | Validate artifacts and publish a GitHub Release |
+| `.github/workflows/cd.yml` | Semantic-version tag pushes or explicit historical backfill | Validate tagged artifacts and publish a GitHub Release |
 
 CI and advisory SBOM generation run independently. Only a semantic-version tag triggers release
 publication.
@@ -77,14 +77,17 @@ replace review of synthesized CloudFormation.
 
 Workflow name: `Release`
 
-The `Build and validate release artifacts` job requires a dated changelog section matching the tag,
-builds the sdist and wheel once, runs `twine check`, verifies distribution contents and metadata,
+The `Build and validate release artifacts` job requires a dated changelog section matching the tag.
+For new tag pushes it also verifies that the generated README installation snippet names that tag.
+It builds the sdist and wheel once, runs `twine check`, verifies distribution contents and metadata,
 and installs each distribution into a separate clean environment for an import and basic CDK
 synthesis test. It then generates SHA-256 checksums and a CycloneDX SBOM. The dependent `Publish
 GitHub release` job downloads that single validated artifact bundle and attaches every file to the
 GitHub Release associated with the existing tag.
 
-The workflow does not create, move, or recreate tags and does not publish to PyPI.
+Manual dispatch can recover a missing historical release by checking out an explicitly named,
+existing annotated tag. Historical recovery never moves a tag or marks the backfilled release as
+latest. The workflow does not create, move, or recreate tags and does not publish to PyPI.
 
 ## How the Workflows Interact
 

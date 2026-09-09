@@ -3,15 +3,17 @@
 #
 # Copyright © 2026 Dagitali LLC. All rights reserved.
 #
-# GitHub Actions workflow for tagged GitHub Releases.
+# GitHub Actions workflow for tagged and historical GitHub Releases.
 #
 # Responsibilities
 # - Build the tagged source and wheel distributions exactly once.
 # - Check and smoke-test each distribution in an isolated environment.
 # - Generate checksums and a CycloneDX SBOM for release attachment.
 # - Publish validated artifacts to the GitHub Release for the existing tag.
+# - Recover missing historical releases from explicitly selected immutable tags.
 #
 # Maintainer Notes
+# - Manual runs backfill an existing tag and never mark it as the latest release.
 # - This workflow publishes GitHub Releases but does not publish to PyPI.
 # - Global permissions are intentionally omitted; each job declares the minimum
 #   permissions it needs.
@@ -29,12 +31,23 @@
 ---
 name: Release
 
-run-name: Release ${{ github.ref_name }}
+run-name: >-
+  ${{
+    github.event_name == 'workflow_dispatch' &&
+    format('Backfill release {0}', inputs.release_tag) ||
+    format('Release {0}', github.ref_name)
+  }}
 
 on:
   push:
     tags:
       - v*.*.*
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing semantic-version tag to backfill
+        required: true
+        type: string
 
 permissions: {}
 
@@ -45,11 +58,12 @@ env:
   PACKAGE_DISTRIBUTION_NAME: aws-cdk-static-site
   PACKAGE_IMPORT_NAME: aws_cdk_static_site
   RELEASE_ARTIFACT_NAME: release-artifacts
+  RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
   SBOM_FILENAME: python-sbom.json
   SYNTHESIS_EXAMPLE: examples/basic/app.py
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ inputs.release_tag || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -68,6 +82,25 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ env.RELEASE_TAG }}
+
+      - name: Verify immutable release tag
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$RELEASE_TAG" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "Release tag must use vMAJOR.MINOR.PATCH: $RELEASE_TAG" >&2
+            exit 1
+          fi
+          if [[ "$(git cat-file -t "refs/tags/$RELEASE_TAG")" != "tag" ]]; then
+            echo "Release tag must be annotated: $RELEASE_TAG" >&2
+            exit 1
+          fi
+          tagged_commit="$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+          if [[ "$tagged_commit" != "$GITHUB_SHA" && "$tagged_commit" != "$(git rev-parse HEAD)" ]]; then
+            echo "Checked-out commit does not match $RELEASE_TAG." >&2
+            exit 1
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
@@ -76,15 +109,18 @@ jobs:
           cache: pip
 
       - name: Verify versioned changelog
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
         run: python scripts/check_release_changelog.py "${RELEASE_TAG}"
+
+      - name: Verify release installation snippet
+        if: github.event_name == 'push'
+        run: python scripts/update_release_snippet.py --check "${RELEASE_TAG}"
 
       - name: Install release tools
         run: |
           python -m pip install --disable-pip-version-check \
             "build>=1.3,<2" \
             "pytest>=9.0,<10" \
+            "pytest-cov>=7.0,<8" \
             "twine>=6.2,<8"
 
       - name: Build distributions
@@ -99,8 +135,6 @@ jobs:
           --artifact-dir dist tests/meta/test_package_artifacts.py
 
       - name: Smoke-test each distribution
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           shopt -s nullglob
@@ -200,3 +234,5 @@ jobs:
             dist/SHA256SUMS
             dist/${{ env.SBOM_FILENAME }}
           generate_release_notes: true
+          make_latest: ${{ github.event_name == 'push' }}
+          tag_name: ${{ env.RELEASE_TAG }}
