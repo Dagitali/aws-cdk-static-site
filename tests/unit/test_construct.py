@@ -18,7 +18,7 @@ type TemplateFactory = Callable[..., assertions.Template]
 
 ACCOUNT = '111111111111'
 CERTIFICATE_ARN = (
-    f"arn:aws:acm:us-east-1:{ACCOUNT}:certificate/00000000-0000-0000-0000-000000000000"
+    f'arn:aws:acm:us-east-1:{ACCOUNT}:certificate/00000000-0000-0000-0000-000000000000'
 )
 SITE_PATH = Path(__file__).parents[2] / 'examples' / 'basic' / 'site'
 

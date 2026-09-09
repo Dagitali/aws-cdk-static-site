@@ -35,8 +35,7 @@ class TestSourceDistributionContents:
             f'/src/{PACKAGE_PATH}/py.typed',
         }
         assert all(
-            any(name.endswith(suffix) for name in names)
-            for suffix in expected_suffixes
+            any(name.endswith(suffix) for name in names) for suffix in expected_suffixes
         )
 
 

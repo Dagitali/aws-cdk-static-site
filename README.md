@@ -92,15 +92,15 @@ class SiteStack(Stack):
 
         certificate = acm.Certificate.from_certificate_arn(
             self,
-            "Certificate",
-            "arn:aws:acm:us-east-1:111111111111:certificate/example",
+            'Certificate',
+            'arn:aws:acm:us-east-1:111111111111:certificate/example',
         )
         StaticSite(
             self,
-            "Site",
+            'Site',
             props=StaticSiteProps(
-                site_content_path="site",
-                domain_names=("www.example.com",),
+                site_content_path='site',
+                domain_names=('www.example.com',),
                 certificate=certificate,
             ),
         )

@@ -22,7 +22,9 @@ START_MARKER = '<!-- release-install:start -->'
 # SECTION: FUNCTIONS
 
 
-def render(release: str) -> str:
+def render(
+    release: str,
+) -> str:
     """Render the complete marked installation snippet for a release."""
     match = RELEASE_PATTERN.fullmatch(release)
     if match is None:
@@ -30,7 +32,7 @@ def render(release: str) -> str:
             'release version must use vMAJOR.MINOR.PATCH or MAJOR.MINOR.PATCH: '
             f'{release!r}',
         )
-    tag = f"v{match.group('version')}"
+    tag = f'v{match.group('version')}'
     return (
         f'{START_MARKER}\n'
         '```bash\n'
@@ -43,7 +45,12 @@ def render(release: str) -> str:
     )
 
 
-def update(readme: Path, release: str, *, check: bool = False) -> list[str]:
+def update(
+    readme: Path,
+    release: str,
+    *,
+    check: bool = False,
+) -> list[str]:
     """Update the marked snippet or return validation failures in check mode."""
     if not readme.is_file():
         return [f'readme does not exist: {readme}']
@@ -68,7 +75,9 @@ def update(readme: Path, release: str, *, check: bool = False) -> list[str]:
     return []
 
 
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+def parse_args(
+    argv: list[str] | None = None,
+) -> argparse.Namespace:
     """Parse command-line arguments."""
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
@@ -83,7 +92,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(
+    argv: list[str] | None = None,
+) -> int:
     """Update or verify the release installation snippet."""
     args = parse_args(argv)
     try:

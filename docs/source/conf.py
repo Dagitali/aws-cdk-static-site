@@ -28,5 +28,5 @@ napoleon_google_docstring = False
 napoleon_numpy_docstring = True
 
 html_theme = 'sphinx_rtd_theme'
-html_title = f"{project} {release}"
+html_title = f'{project} {release}'
 html_theme_options = {'navigation_depth': 3}

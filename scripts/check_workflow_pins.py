@@ -21,10 +21,12 @@ USES_PATTERN = re.compile(
 # SECTION: FUNCTIONS
 
 
-def validate(workflow_dir: Path) -> list[str]:
+def validate(
+    workflow_dir: Path,
+) -> list[str]:
     """Return every mutable or malformed remote action reference."""
     if not workflow_dir.is_dir():
-        return [f"workflow directory does not exist: {workflow_dir}"]
+        return [f'workflow directory does not exist: {workflow_dir}']
 
     failures: list[str] = []
     paths = (*workflow_dir.glob('*.yml'), *workflow_dir.glob('*.yaml'))
@@ -44,13 +46,15 @@ def validate(workflow_dir: Path) -> list[str]:
                 or not FULL_COMMIT_PATTERN.fullmatch(revision)
             ):
                 failures.append(
-                    f"{path}:{line_number}: remote action must use a full "
-                    f"40-character commit SHA: {reference}",
+                    f'{path}:{line_number}: remote action must use a full '
+                    f'40-character commit SHA: {reference}',
                 )
     return failures
 
 
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+def parse_args(
+    argv: list[str] | None = None,
+) -> argparse.Namespace:
     """Parse command-line arguments."""
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
@@ -63,16 +67,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(
+    argv: list[str] | None = None,
+) -> int:
     """Run workflow pin validation and return a stable process status."""
     args = parse_args(argv)
     workflow_dir = args.workflow_dir.resolve()
     failures = validate(workflow_dir)
     if failures:
         for failure in failures:
-            print(f"FAIL: {failure}")
+            print(f'FAIL: {failure}')
         return 1
-    print(f"PASS: remote actions are immutably pinned in {workflow_dir}")
+    print(f'PASS: remote actions are immutably pinned in {workflow_dir}')
     return 0
 
 

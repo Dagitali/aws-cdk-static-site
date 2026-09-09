@@ -95,4 +95,5 @@ class TestStaticSiteProps:
         with pytest.raises(ValueError, match=message):
             StaticSiteProps(**overrides)  # type: ignore[arg-type]
 
+
 # !SECTION

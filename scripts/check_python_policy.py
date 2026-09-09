@@ -22,7 +22,9 @@ SUPPORTED_PYTHON_SPECIFIER = '>=3.13,<3.15'
 # SECTION: PROTECTED FUNCTIONS
 
 
-def _is_supported_python(version: tuple[int, int]) -> bool:
+def _is_supported_python(
+    version: tuple[int, int],
+) -> bool:
     return MINIMUM_PYTHON <= version < MAXIMUM_PYTHON
 
 
@@ -52,7 +54,7 @@ def _require_value(
     location: str,
 ) -> None:
     if actual != expected:
-        failures.append(f"{location}: expected {expected!r}, received {actual!r}")
+        failures.append(f'{location}: expected {expected!r}, received {actual!r}')
 
 
 def _resolve_workflow_env(
@@ -87,15 +89,15 @@ def validate(
 ) -> list[str]:
     """Return every repository Python-policy violation."""
     if not root.is_dir():
-        return [f"repository root does not exist: {root}"]
+        return [f'repository root does not exist: {root}']
 
     failures: list[str] = []
     version = running_python or sys.version_info[:2]
     if not _is_supported_python(version):
         failures.append(
             'checker runtime: Python '
-            f"{SUPPORTED_PYTHON_SPECIFIER} is required; "
-            f"received {version[0]}.{version[1]}",
+            f'{SUPPORTED_PYTHON_SPECIFIER} is required; '
+            f'received {version[0]}.{version[1]}',
         )
 
     pyproject = tomllib.loads((root / 'pyproject.toml').read_text(encoding='utf-8'))
@@ -121,7 +123,7 @@ def validate(
             failures,
             actual=actual,
             expected=expected,
-            location=f"pyproject.toml {location}",
+            location=f'pyproject.toml {location}',
         )
 
     _require_value(
@@ -155,7 +157,7 @@ def validate(
     )
     for expected in make_requirements:
         if expected not in makefile:
-            failures.append(f"Makefile: missing {expected!r}")
+            failures.append(f'Makefile: missing {expected!r}')
 
     version_pattern = re.compile(r'^\s*python-version:\s*(.+?)\s*$', re.MULTILINE)
     workflow_dir = root / '.github' / 'workflows'
@@ -169,19 +171,21 @@ def validate(
             parsed_version = _parse_python_version(configured_version)
             if parsed_version is None or not _is_supported_python(parsed_version):
                 failures.append(
-                    f"{path.relative_to(root)}: unsupported Python version "
-                    f"{configured_version!r}",
+                    f'{path.relative_to(root)}: unsupported Python version '
+                    f'{configured_version!r}',
                 )
         if 'actions/setup-python@' in content and not configured_versions:
             failures.append(
-                f"{path.relative_to(root)}: setup-python requires an explicit "
-                f"{MINIMUM_PYTHON_TEXT} version",
+                f'{path.relative_to(root)}: setup-python requires an explicit '
+                f'{MINIMUM_PYTHON_TEXT} version',
             )
 
     return failures
 
 
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+def parse_args(
+    argv: list[str] | None = None,
+) -> argparse.Namespace:
     """Parse command-line arguments."""
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
@@ -194,15 +198,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(
+    argv: list[str] | None = None,
+) -> int:
     """Run Python-policy checks and return a stable process status."""
     args = parse_args(argv)
     failures = validate(args.root.resolve())
     if failures:
         for failure in failures:
-            print(f"FAIL: {failure}")
+            print(f'FAIL: {failure}')
         return 1
-    print(f"PASS: repository supports Python {SUPPORTED_PYTHON_SPECIFIER}")
+    print(f'PASS: repository supports Python {SUPPORTED_PYTHON_SPECIFIER}')
     return 0
 
 
