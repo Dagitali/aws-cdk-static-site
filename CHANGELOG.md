@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.3 - 2026-09-08](#033---2026-09-08)
 - [0.3.2 - 2026-09-08](#032---2026-09-08)
 - [0.3.1 - 2026-09-08](#031---2026-09-08)
 - [0.3.0 - 2026-09-08](#030---2026-09-08)
@@ -18,6 +19,15 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.3 - 2026-09-08
+
+- Remove the private `dagitali.com` checkout, consumer-specific integration test, and corresponding
+  CI and Make targets, keeping reusable-package validation self-contained.
+- Align testing, contribution, workflow, and branch-protection documentation with the simplified
+  validation boundary.
+- Run local Python-policy and workflow-pin checks in pre-commit-managed environments so graphical
+  Git clients cannot select an unsupported system interpreter through a restricted `PATH`.
 
 ## 0.3.2 - 2026-09-08
 
