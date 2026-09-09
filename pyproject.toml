@@ -116,7 +116,7 @@ pythonpath = [".", "src"]
 testpaths = ["tests/unit", "tests/integration"]
 markers = [
   "e2e: complete package workflows exercised through a user-facing boundary",
-  "integration: interactions among package, example, and consumer components",
+  "integration: interactions across package and example boundaries",
   "meta: repository policy, packaging, and synthesized-template contracts",
   "unit: isolated package behavior",
 ]
