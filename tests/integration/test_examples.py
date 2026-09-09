@@ -1,4 +1,9 @@
-"""Integration tests for the independently runnable example applications."""
+"""
+:mod:`tests.integration.test_examples` module.
+
+Integration tests that execute every documented example application and
+verify independent CDK synthesis.
+"""
 
 import os
 import subprocess
@@ -24,7 +29,11 @@ EXAMPLE_APPLICATIONS = tuple(
 
 @pytest.mark.integration
 class TestExampleApplications:
-    """Verify every documented CDK application synthesizes independently."""
+    """
+    Verify every documented CDK application synthesizes independently.
+
+    Each example runs in a subprocess with an isolated CDK output directory.
+    """
 
     @pytest.mark.parametrize(
         'application',

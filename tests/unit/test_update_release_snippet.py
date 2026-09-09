@@ -1,4 +1,9 @@
-"""Unit tests for the release installation-snippet updater."""
+"""
+:mod:`tests.unit.test_update_release_snippet` module.
+
+Unit tests for rendering, updating, and validating the versioned README
+installation snippet.
+"""
 
 from pathlib import Path
 
@@ -13,7 +18,19 @@ from scripts.update_release_snippet import END_MARKER, START_MARKER, render, upd
 def readme_fixture(
     tmp_path: Path,
 ) -> Path:
-    """Create a README with a stale marked installation block."""
+    """
+    Create a README with a stale marked installation block.
+
+    Parameters
+    ----------
+    tmp_path : pathlib.Path
+        Isolated test directory.
+
+    Returns
+    -------
+    pathlib.Path
+        README fixture path.
+    """
     readme = tmp_path / 'README.md'
     readme.write_text(
         f'Before\n{START_MARKER}\nstale\n{END_MARKER}\nAfter\n',
@@ -29,7 +46,11 @@ def readme_fixture(
 
 
 class TestRender:
-    """Verify deterministic release-snippet rendering."""
+    """
+    Verify deterministic release-snippet rendering.
+
+    Accepted version forms normalize to the same semantic Git tag.
+    """
 
     @pytest.mark.parametrize('release', ['0.3.3', 'v0.3.3'])
     def test_normalizes_release_tag(
@@ -44,7 +65,12 @@ class TestRender:
 
 
 class TestUpdate:
-    """Verify update and check modes."""
+    """
+    Verify release-snippet update and check modes.
+
+    The suite protects content outside the managed marker pair and reports
+    stale or missing generated content.
+    """
 
     def test_updates_only_marked_content(
         self,

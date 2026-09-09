@@ -1,4 +1,9 @@
-"""Provision delivery resources without creating a BucketDeployment."""
+"""
+Externally managed content example application.
+
+Provision private storage and CloudFront delivery without creating a CDK
+``BucketDeployment``, allowing a consumer-owned process to publish content.
+"""
 
 import aws_cdk as cdk
 

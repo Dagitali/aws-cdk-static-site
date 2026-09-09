@@ -1,4 +1,11 @@
-"""Configuration for the reusable static-site construct."""
+"""
+:mod:`aws_cdk_static_site.props` module.
+
+Validated configuration for the reusable static-site construct.
+
+The module defines conservative defaults for storage durability, CloudFront
+delivery, browser security, cache metadata, and optional AWS integrations.
+"""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -27,7 +34,61 @@ DEFAULT_CONTENT_SECURITY_POLICY = (
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class StaticSiteProps:
-    """Configure the resources created by :class:`StaticSite`."""
+    """
+    Configure the resources created by :class:`~aws_cdk_static_site.StaticSite`.
+
+    Parameters
+    ----------
+    site_content_path : str | pathlib.Path | None, optional
+        Local directory deployed to the content bucket. Omit it when another
+        process manages content.
+    domain_names : tuple[str, ...], optional
+        Custom hostnames served by CloudFront.
+    certificate : aws_cdk.aws_certificatemanager.ICertificate | None, optional
+        Existing ``us-east-1`` ACM certificate for *domain_names*.
+    hosted_zone : aws_cdk.aws_route53.IHostedZone | None, optional
+        Existing Route 53 zone used for certificate validation or aliases.
+    create_certificate : bool, optional
+        Create a DNS-validated ACM certificate in the consuming stack.
+    create_route53_records : bool, optional
+        Create IPv4 and IPv6 CloudFront aliases in *hosted_zone*.
+    default_root_object : str, optional
+        Object returned for requests to the distribution root.
+    error_document : str, optional
+        Object returned with the normalized 404 response.
+    static_asset_paths : tuple[str, ...], optional
+        CloudFront path patterns that use optimized asset caching.
+    immutable_asset_paths : tuple[str, ...], optional
+        Hashed-asset patterns deployed with long-lived immutable cache metadata.
+    content_security_policy : str, optional
+        Content Security Policy emitted through CloudFront response headers.
+    price_class : aws_cdk.aws_cloudfront.PriceClass, optional
+        CloudFront edge-location price class.
+    enable_access_logs : bool, optional
+        Store standard CloudFront access logs in a dedicated retained bucket.
+    access_log_retention_days : int, optional
+        Number of days to retain CloudFront access-log objects.
+    bucket_removal_policy : aws_cdk.RemovalPolicy, optional
+        CloudFormation removal policy for the content bucket.
+    versioned : bool, optional
+        Enable content-bucket object versioning.
+    deployment_cache_max_age_seconds : int, optional
+        Browser cache lifetime for revalidated content.
+    immutable_asset_cache_max_age_seconds : int, optional
+        Browser cache lifetime for immutable assets.
+
+    Raises
+    ------
+    ValueError
+        If required integrations are missing, mutually exclusive options are
+        combined, cache or retention values are invalid, or configured names
+        and paths are empty or duplicated.
+
+    Notes
+    -----
+    Instances are immutable, slotted, and keyword-only. Validation runs before
+    the construct creates AWS resources.
+    """
 
     # SECTION: Attributes
 
@@ -59,7 +120,14 @@ class StaticSiteProps:
     # SECTION: Magic Methods (Object Lifecycle)
 
     def __post_init__(self) -> None:
-        """Reject incomplete or unsafe combinations before synthesis."""
+        """
+        Reject incomplete or unsafe combinations before synthesis.
+
+        Raises
+        ------
+        ValueError
+            If an option violates a required configuration invariant.
+        """
         if not self.default_root_object.strip():
             raise ValueError('default_root_object must not be empty')
         if not self.error_document.strip():

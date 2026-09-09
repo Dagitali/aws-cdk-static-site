@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Verify the repository-wide supported Python version policy."""
+"""
+:mod:`scripts.check_python_policy` module.
+
+Validate that package metadata, development commands, and GitHub Actions agree
+on the repository's supported Python-version range.
+"""
 
 import argparse
 import re
@@ -25,12 +30,38 @@ SUPPORTED_PYTHON_SPECIFIER = '>=3.13,<3.15'
 def _is_supported_python(
     version: tuple[int, int],
 ) -> bool:
+    """
+    Return whether a Python version satisfies the support interval.
+
+    Parameters
+    ----------
+    version : tuple[int, int]
+        Python major and minor version.
+
+    Returns
+    -------
+    bool
+        ``True`` when *version* is supported; otherwise, ``False``.
+    """
     return MINIMUM_PYTHON <= version < MAXIMUM_PYTHON
 
 
 def _normalize_yaml_scalar(
     value: str,
 ) -> str:
+    """
+    Remove YAML quoting, surrounding whitespace, and an inline comment.
+
+    Parameters
+    ----------
+    value : str
+        Raw scalar text extracted from a workflow.
+
+    Returns
+    -------
+    str
+        Normalized scalar value.
+    """
     value = value.split(' #', maxsplit=1)[0].strip()
     if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
         return value[1:-1]
@@ -40,6 +71,19 @@ def _normalize_yaml_scalar(
 def _parse_python_version(
     value: str,
 ) -> tuple[int, int] | None:
+    """
+    Parse a ``major.minor`` Python version.
+
+    Parameters
+    ----------
+    value : str
+        Candidate version text.
+
+    Returns
+    -------
+    tuple[int, int] | None
+        Parsed major and minor components, or ``None`` when invalid.
+    """
     match = re.fullmatch(r'(\d+)\.(\d+)', value)
     if match is None:
         return None
@@ -53,6 +97,20 @@ def _require_value(
     expected: object,
     location: str,
 ) -> None:
+    """
+    Record a mismatch between an actual and expected policy value.
+
+    Parameters
+    ----------
+    failures : list[str]
+        Mutable collection of validation failures.
+    actual : object
+        Value read from repository configuration.
+    expected : object
+        Required policy value.
+    location : str
+        Human-readable configuration location.
+    """
     if actual != expected:
         failures.append(f'{location}: expected {expected!r}, received {actual!r}')
 
@@ -61,6 +119,21 @@ def _resolve_workflow_env(
     value: str,
     content: str,
 ) -> str:
+    """
+    Resolve a workflow expression that references a top-level environment value.
+
+    Parameters
+    ----------
+    value : str
+        Literal scalar or ``env`` expression.
+    content : str
+        Complete workflow source containing the environment declaration.
+
+    Returns
+    -------
+    str
+        Resolved scalar, or the original value when it cannot be resolved.
+    """
     match = re.fullmatch(r'\$\{\{\s*env\.([A-Z][A-Z0-9_]*)\s*}}', value)
     if match is None:
         return value
@@ -87,7 +160,21 @@ def validate(
     *,
     running_python: tuple[int, int] | None = None,
 ) -> list[str]:
-    """Return every repository Python-policy violation."""
+    """
+    Return every repository Python-policy violation.
+
+    Parameters
+    ----------
+    root : pathlib.Path
+        Repository root containing project and automation configuration.
+    running_python : tuple[int, int] | None, optional
+        Python version to validate instead of the active interpreter.
+
+    Returns
+    -------
+    list[str]
+        Human-readable policy violations; empty when the policy is satisfied.
+    """
     if not root.is_dir():
         return [f'repository root does not exist: {root}']
 
@@ -186,7 +273,20 @@ def validate(
 def parse_args(
     argv: list[str] | None = None,
 ) -> argparse.Namespace:
-    """Parse command-line arguments."""
+    """
+    Parse command-line arguments.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name. Uses ``sys.argv`` when
+        omitted.
+
+    Returns
+    -------
+    argparse.Namespace
+        Parsed repository-root option.
+    """
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -201,7 +301,19 @@ def parse_args(
 def main(
     argv: list[str] | None = None,
 ) -> int:
-    """Run Python-policy checks and return a stable process status."""
+    """
+    Run Python-policy checks and return a stable process status.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name.
+
+    Returns
+    -------
+    int
+        Zero when validation succeeds; one when violations are found.
+    """
     args = parse_args(argv)
     failures = validate(args.root.resolve())
     if failures:

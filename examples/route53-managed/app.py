@@ -1,4 +1,14 @@
-"""Create CloudFront aliases and a DNS-validated certificate in Route 53."""
+"""
+Route 53-managed DNS example application.
+
+Create CloudFront alias records and a DNS-validated ACM certificate using an
+existing Route 53 hosted zone.
+
+Notes
+-----
+The stack uses ``us-east-1`` because CloudFront requires its ACM certificate
+in that region.
+"""
 
 import aws_cdk as cdk
 from aws_cdk import aws_route53 as route53

@@ -1,1 +1,5 @@
-"""End-to-end tests for complete package workflows."""
+"""
+:mod:`tests.e2e` package.
+
+End-to-end tests for complete, user-facing package workflows.
+"""

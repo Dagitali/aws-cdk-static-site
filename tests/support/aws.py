@@ -1,7 +1,10 @@
-"""Shared deterministic AWS identifiers for synthesis tests."""
+"""
+:mod:`tests.support.aws` module.
+
+Deterministic, non-secret AWS identifiers for isolated synthesis tests.
+"""
 
 # SECTION: CONSTANTS
-
 
 TEST_ACCOUNT = '111111111111'
 TEST_CERTIFICATE_ARN = (

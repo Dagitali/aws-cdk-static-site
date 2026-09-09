@@ -1,1 +1,5 @@
-"""Repository policy and maintenance scripts."""
+"""
+:mod:`scripts` package.
+
+Repository policy checkers and release-maintenance utilities.
+"""

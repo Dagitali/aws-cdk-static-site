@@ -1,4 +1,9 @@
-"""Replace the default Content Security Policy with a site-specific policy."""
+"""
+Custom Content Security Policy example application.
+
+Demonstrate how a consumer can replace the construct's default Content
+Security Policy with a policy tailored to external API and image origins.
+"""
 
 import aws_cdk as cdk
 

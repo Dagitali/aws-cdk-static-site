@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Verify that remote GitHub Actions use immutable commit references."""
+"""
+:mod:`scripts.check_workflow_pins` module.
+
+Validate that every remote GitHub Action reference uses an immutable,
+full-length commit SHA.
+"""
 
 import argparse
 import re
@@ -24,7 +29,19 @@ USES_PATTERN = re.compile(
 def validate(
     workflow_dir: Path,
 ) -> list[str]:
-    """Return every mutable or malformed remote action reference."""
+    """
+    Return every mutable or malformed remote action reference.
+
+    Parameters
+    ----------
+    workflow_dir : pathlib.Path
+        Directory containing GitHub Actions YAML files.
+
+    Returns
+    -------
+    list[str]
+        Human-readable failures; empty when every remote action is pinned.
+    """
     if not workflow_dir.is_dir():
         return [f'workflow directory does not exist: {workflow_dir}']
 
@@ -55,7 +72,20 @@ def validate(
 def parse_args(
     argv: list[str] | None = None,
 ) -> argparse.Namespace:
-    """Parse command-line arguments."""
+    """
+    Parse command-line arguments.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name. Uses ``sys.argv`` when
+        omitted.
+
+    Returns
+    -------
+    argparse.Namespace
+        Parsed workflow-directory option.
+    """
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -70,7 +100,19 @@ def parse_args(
 def main(
     argv: list[str] | None = None,
 ) -> int:
-    """Run workflow pin validation and return a stable process status."""
+    """
+    Run workflow-pin validation and return a stable process status.
+
+    Parameters
+    ----------
+    argv : list[str] | None, optional
+        Argument list excluding the executable name.
+
+    Returns
+    -------
+    int
+        Zero when validation succeeds; one when validation fails.
+    """
     args = parse_args(argv)
     workflow_dir = args.workflow_dir.resolve()
     failures = validate(workflow_dir)
