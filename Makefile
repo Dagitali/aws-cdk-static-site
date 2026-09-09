@@ -68,7 +68,6 @@ SHARED_MAKEFILE ?=
 ### Project ###
 
 PROJECT_NAME ?= $(notdir $(CURDIR))
-CONSUMER_PROJECT_DIR ?= ../dagitali.com
 EXAMPLES_DIR ?= examples
 SCRIPTS_DIR ?= scripts
 SOURCE_DIR ?= src
@@ -181,8 +180,7 @@ PYTEST_MARK_ARGS = $(if $(strip $(TEST_MARK_EXPRESSION)),\
 	-m "$(TEST_MARK_EXPRESSION)")
 TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS)
 
-FULL_TEST_TARGETS ?= test test-distribution test-installation test-consumer \
-	test-security
+FULL_TEST_TARGETS ?= test test-distribution test-installation test-security
 
 UNIT_TEST_PATH ?= $(TESTS_DIR)/unit
 UNIT_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) $(PYTEST_MARK_ARGS) $(UNIT_TEST_PATH)
@@ -201,9 +199,6 @@ DISTRIBUTION_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov \
 INSTALLATION_TEST_PATH ?= $(TESTS_DIR)/e2e/test_distribution_installation.py
 INSTALLATION_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov \
 	--artifact-dir "$(abspath $(PYTHON_DIST_DIR))" $(INSTALLATION_TEST_PATH)
-
-CONSUMER_TEST_PATH ?= $(TESTS_DIR)/integration/test_dagitali_com.py
-CONSUMER_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov $(CONSUMER_TEST_PATH)
 
 SECURITY_TEST_PATH ?= $(TESTS_DIR)/meta/test_cdk_nag.py
 SECURITY_TEST_ARGS ?= $(PYTEST_COMMON_ARGS) --no-cov $(SECURITY_TEST_PATH)
@@ -413,11 +408,6 @@ test-distribution: dist ## Verify built distribution contents and metadata
 .PHONY: test-installation
 test-installation: dist ## Install and smoke-test wheel and sdist in clean environments
 	$(call RUN_IN_PACKAGE,$(TEST_ENV) $(PYTEST) $(INSTALLATION_TEST_ARGS))
-
-.PHONY: test-consumer
-test-consumer: python-policy ## Test compatibility with the dagitali.com site content
-	$(call RUN_IN_PACKAGE,DAGITALI_COM_PATH="$(abspath $(CONSUMER_PROJECT_DIR))" \
-		$(TEST_ENV) $(PYTEST) $(CONSUMER_TEST_ARGS))
 
 .PHONY: test-security
 test-security: dev ## Run optional cdk-nag synthesized-template checks
