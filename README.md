@@ -62,10 +62,12 @@ flowchart LR
 
 Until the package is published to PyPI, install a selected GitHub release tag:
 
+<!-- release-install:start -->
 ```bash
 python -m pip install \
-  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.2.5"
+  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.3.3"
 ```
+<!-- release-install:end -->
 
 For development, install from a local checkout with the development dependencies:
 

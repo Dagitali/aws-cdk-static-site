@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
-- [0.3.3 - 2026-09-08](#033---2026-09-08)
+- [0.3.3 - 2026-09-09](#033---2026-09-09)
 - [0.3.2 - 2026-09-08](#032---2026-09-08)
 - [0.3.1 - 2026-09-08](#031---2026-09-08)
 - [0.3.0 - 2026-09-08](#030---2026-09-08)
@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-## 0.3.3 - 2026-09-08
+## 0.3.3 - 2026-09-09
 
 - Remove the private `dagitali.com` checkout, consumer-specific integration test, and corresponding
   CI and Make targets, keeping reusable-package validation self-contained.
@@ -28,6 +28,12 @@ All notable changes to this project will be documented in this file.
   validation boundary.
 - Run local Python-policy and workflow-pin checks in pre-commit-managed environments so graphical
   Git clients cannot select an unsupported system interpreter through a restricted `PATH`.
+- Repair release distribution validation by installing the pytest coverage plugin required by the
+  repository's configured test arguments.
+- Add an exact-tag manual recovery path for missing historical GitHub Releases while preventing
+  backfills from becoming the latest release.
+- Generate and validate the README's versioned GitHub installation snippet during release
+  preparation and tagged publication.
 
 ## 0.3.2 - 2026-09-08
 

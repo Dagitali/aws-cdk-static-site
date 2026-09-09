@@ -75,6 +75,7 @@ TESTS_DIR ?= tests
 
 PYTHON_POLICY_SCRIPT ?= $(SCRIPTS_DIR)/check_python_policy.py
 RELEASE_CHANGELOG_SCRIPT ?= $(SCRIPTS_DIR)/check_release_changelog.py
+RELEASE_SNIPPET_SCRIPT ?= $(SCRIPTS_DIR)/update_release_snippet.py
 WORKFLOW_PINS_SCRIPT ?= $(SCRIPTS_DIR)/check_workflow_pins.py
 
 RELEASE_VERSION ?=
@@ -381,6 +382,18 @@ release-changelog: ## Verify a dated changelog section (RELEASE_VERSION=x.y.z)
 	@test -n "$(strip $(RELEASE_VERSION))" || \
 		(echo "RELEASE_VERSION is required" >&2; exit 2)
 	$(PY) $(RELEASE_CHANGELOG_SCRIPT) "$(RELEASE_VERSION)"
+
+.PHONY: release-snippet
+release-snippet: ## Update the README installation tag (RELEASE_VERSION=x.y.z)
+	@test -n "$(strip $(RELEASE_VERSION))" || \
+		(echo "RELEASE_VERSION is required" >&2; exit 2)
+	$(PY) $(RELEASE_SNIPPET_SCRIPT) "$(RELEASE_VERSION)"
+
+.PHONY: release-snippet-check
+release-snippet-check: ## Verify the README installation tag (RELEASE_VERSION=x.y.z)
+	@test -n "$(strip $(RELEASE_VERSION))" || \
+		(echo "RELEASE_VERSION is required" >&2; exit 2)
+	$(PY) $(RELEASE_SNIPPET_SCRIPT) --check "$(RELEASE_VERSION)"
 
 
 ##@ Testing
