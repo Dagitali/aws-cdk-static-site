@@ -125,6 +125,10 @@ markers = [
 target-version = "py313"
 line-length = 88
 
+[tool.ruff.format]
+quote-style = "single"
+nested-string-quote-style = "preferred"
+
 [tool.ruff.lint]
 select = ["B", "E", "F", "I", "UP", "W"]
 
