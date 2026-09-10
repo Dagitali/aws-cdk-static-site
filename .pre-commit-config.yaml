@@ -154,7 +154,7 @@ repos:
         # Ruff will:
         # - enforce E/F/W/B/I/UP as configured in pyproject.toml
         # - sort imports (isort-like)
-        # - apply pyupgrade-like rules for Python 3.13+
+        # - apply pyupgrade-like rules for the configured Python target
         args: [--fix, --exit-non-zero-on-fix]
 
       # Run the formatter.

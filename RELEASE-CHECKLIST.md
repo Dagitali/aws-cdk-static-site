@@ -18,7 +18,6 @@ details, and incident procedures outside the repository.
       changelog section before tagging.
 - [ ] Run `make release-changelog RELEASE_VERSION=<version>` and resolve any failure before opening
       the release pull request.
-- [ ] Run `make release-snippet RELEASE_VERSION=<version>` and commit the updated README snippet.
 - [ ] Confirm package metadata, supported Python versions, dependencies, and public exports.
 - [ ] Draft release notes from `.github/RELEASE-NOTES-TEMPLATE.md`.
 
@@ -32,8 +31,6 @@ details, and incident procedures outside the repository.
       package's representative example.
 - [ ] Review synthesized changes for security, replacement risk, and cost implications.
 - [ ] Confirm required GitHub Actions are pinned and pass on the release pull request.
-- [ ] Run `make release-snippet-check RELEASE_VERSION=<version>` and confirm the installation
-      example names the intended tag.
 
 ## Integrate and Tag
 

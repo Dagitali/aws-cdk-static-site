@@ -32,9 +32,6 @@ local merges outside the protected pull-request surface.
    `.github/BRANCH-PROTECTION.md`.
 5. Install development dependencies and hooks, then run `make check`.
 
-Do not use local Git Flow `finish` commands as the authoritative integration step. Merge through a
-GitHub pull request and clean up branches afterward.
-
 ## Develop a Feature or Bug Fix
 
 1. Start from current `develop`.

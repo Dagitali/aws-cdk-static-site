@@ -9,7 +9,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import cast
 
-from ._support import REPOSITORY_ROOT, normalize_release, report
+from ._support import REPOSITORY_ROOT, report
 from .check_dependency_boundaries import validate as validate_dependencies
 from .check_python_policy import (
     SUPPORTED_PYTHON_SPECIFIER,
@@ -19,7 +19,6 @@ from .check_python_policy import (
 )
 from .check_release_changelog import validate as validate_changelog
 from .check_workflow_pins import validate as validate_workflow_pins
-from .update_release_snippet import update as update_release_snippet
 
 # SECTION: TYPE ALIASES
 
@@ -32,6 +31,44 @@ type Command = Callable[[argparse.Namespace], CommandResult]
 
 
 # SECTION: PROTECTED FUNCTIONS
+
+
+def _add_root_argument(parser: argparse.ArgumentParser) -> None:
+    """
+    Add the shared repository-root option to a subcommand.
+
+    Parameters
+    ----------
+    parser : argparse.ArgumentParser
+        Subcommand parser to configure.
+    """
+    parser.add_argument(
+        '--root',
+        type=Path,
+        default=REPOSITORY_ROOT,
+        help='Repository root to validate',
+    )
+
+
+def _check_changelog(args: argparse.Namespace) -> CommandResult:
+    """
+    Validate a versioned changelog section.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Parsed release and changelog options.
+
+    Returns
+    -------
+    CommandResult
+        Failures and success message.
+    """
+    version = args.release.removeprefix('v')
+    return (
+        validate_changelog(args.changelog.resolve(), args.release),
+        f'CHANGELOG.md contains a dated section for {version}',
+    )
 
 
 def _check_dependencies(args: argparse.Namespace) -> CommandResult:
@@ -74,27 +111,6 @@ def _check_python(args: argparse.Namespace) -> CommandResult:
     )
 
 
-def _check_changelog(args: argparse.Namespace) -> CommandResult:
-    """
-    Validate a versioned changelog section.
-
-    Parameters
-    ----------
-    args : argparse.Namespace
-        Parsed release and changelog options.
-
-    Returns
-    -------
-    CommandResult
-        Failures and success message.
-    """
-    version = args.release.removeprefix('v')
-    return (
-        validate_changelog(args.changelog.resolve(), args.release),
-        f'CHANGELOG.md contains a dated section for {version}',
-    )
-
-
 def _check_workflows(args: argparse.Namespace) -> CommandResult:
     """
     Validate immutable GitHub Actions references.
@@ -113,51 +129,6 @@ def _check_workflows(args: argparse.Namespace) -> CommandResult:
     return (
         validate_workflow_pins(workflow_dir),
         f'remote actions are immutably pinned in {workflow_dir}',
-    )
-
-
-def _update_snippet(args: argparse.Namespace) -> CommandResult:
-    """
-    Update or verify the README release snippet.
-
-    Parameters
-    ----------
-    args : argparse.Namespace
-        Parsed release, README, and check-mode options.
-
-    Returns
-    -------
-    CommandResult
-        Failures and success message.
-    """
-    try:
-        version = normalize_release(args.release)
-        failures = update_release_snippet(
-            args.readme.resolve(),
-            args.release,
-            check=args.check,
-        )
-    except ValueError as error:
-        version = args.release.removeprefix('v')
-        failures = [str(error)]
-    action = 'references' if args.check else 'updated for'
-    return failures, f'{args.readme.name} {action} v{version}'
-
-
-def _add_root_argument(parser: argparse.ArgumentParser) -> None:
-    """
-    Add the shared repository-root option to a subcommand.
-
-    Parameters
-    ----------
-    parser : argparse.ArgumentParser
-        Subcommand parser to configure.
-    """
-    parser.add_argument(
-        '--root',
-        type=Path,
-        default=REPOSITORY_ROOT,
-        help='Repository root to validate',
     )
 
 
@@ -218,23 +189,6 @@ def create_parser() -> argparse.ArgumentParser:
     )
     workflow_parser.set_defaults(handler=_check_workflows)
 
-    snippet_parser = commands.add_parser(
-        'update-release-snippet',
-        help='Update or verify the README release snippet',
-    )
-    snippet_parser.add_argument('release', help='Release version or tag')
-    snippet_parser.add_argument(
-        '--check',
-        action='store_true',
-        help='Check without writing',
-    )
-    snippet_parser.add_argument(
-        '--readme',
-        type=Path,
-        default=REPOSITORY_ROOT / 'README.md',
-        help='README containing the marked installation snippet',
-    )
-    snippet_parser.set_defaults(handler=_update_snippet)
     return parser
 
 

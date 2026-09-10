@@ -24,8 +24,8 @@
 4. Deploy to a non-production stack and run the public-site checks.
 5. Deploy production through the existing GitHub OIDC workflow.
 
-The Git dependency should remain pinned to a full commit SHA until this package
-has stable releases.
+Use a full commit SHA when evaluating unreleased source changes. Use an immutable release tag for a
+released package version.
 
 ## Phase 3: Validate Generality
 
