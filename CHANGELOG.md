@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.10 - 2026-09-10](#0310---2026-09-10)
 - [0.3.9 - 2026-09-10](#039---2026-09-10)
 - [0.3.8 - 2026-09-10](#038---2026-09-10)
 - [0.3.7 - 2026-09-10](#037---2026-09-10)
@@ -25,6 +26,15 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.10 - 2026-09-10
+
+- Reorganize the README around consistent getting-started, release-status, quickstart, support, and
+  documentation sections, and correct the quickstart's construct assignment.
+- Add repository funding metadata and sponsorship guidance for ongoing maintenance, compatibility,
+  documentation, and release work.
+- Standardize reference-style links across maintained project documentation while retaining direct
+  links in the dedicated reference catalog.
 
 ## 0.3.9 - 2026-09-10
 

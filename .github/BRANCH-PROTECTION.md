@@ -116,8 +116,7 @@ Workflow step names are not status-check names. Use the job names displayed on a
 pull request, including each expanded dependency-matrix job, before adding checks to an active
 ruleset.
 
-See the [CI/CD workflow map](../CI-CD-WORKFLOWS.md) for each workflow's public role and trigger
-model.
+See the [CI/CD workflow map] for each workflow's public role and trigger model.
 
 Review the rulesets whenever branch names, workflow triggers, job names, merge-queue settings, or
 maintainer roles change. A required check that does not run for every protected event can leave a
@@ -125,6 +124,11 @@ pull request permanently pending.
 
 ## References
 
-- [GitHub rulesets](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/about-rulesets)
-- [Protected branches](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/about-protected-branches)
-- [Required status checks](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/troubleshooting-required-status-checks)
+- [GitHub rulesets]
+- [Protected branches]
+- [Required status checks]
+
+[CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
+[GitHub rulesets]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/about-rulesets
+[Protected branches]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/about-protected-branches
+[Required status checks]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/troubleshooting-required-status-checks

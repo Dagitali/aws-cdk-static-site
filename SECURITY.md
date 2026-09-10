@@ -8,8 +8,8 @@
 ## Supported Versions
 
 Before a stable `v1.0.0` release, security fixes are applied to the latest released version when
-practical. After stable releases begin, the supported-version policy will be maintained in
-[SUPPORT.md](SUPPORT.md).
+practical. After stable releases begin, the supported-version policy will be maintained in [support
+policy].
 
 ## Reporting a Vulnerability
 
@@ -33,3 +33,4 @@ within three business days, investigate it privately, and coordinate disclosure 
 or mitigation is available. These targets are not a service-level agreement.
 
 [private-reporting]: https://github.com/Dagitali/aws-cdk-static-site/security/advisories/new
+[support policy]: SUPPORT.md
