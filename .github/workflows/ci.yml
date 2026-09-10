@@ -146,8 +146,8 @@ jobs:
           RELEASE_BRANCH: ${{ github.head_ref }}
         run: |
           release_version="${RELEASE_BRANCH#*/}"
-          python -m scripts.check_release_changelog "$release_version"
-          python -m scripts.update_release_snippet --check "$release_version"
+          python -m scripts check-release-changelog "$release_version"
+          python -m scripts update-release-snippet --check "$release_version"
 
       - name: Install development dependencies
         run: >-
@@ -161,13 +161,13 @@ jobs:
         run: python -m mypy src tests scripts
 
       - name: Verify GitHub Actions pins
-        run: python -m scripts.check_workflow_pins
+        run: python -m scripts check-workflow-pins
 
       - name: Verify supported Python version policy
-        run: python -m scripts.check_python_policy
+        run: python -m scripts check-python-policy
 
       - name: Verify dependency boundary policy
-        run: python -m scripts.check_dependency_boundaries
+        run: python -m scripts check-dependency-boundaries
 
       - name: Run tests
         run: python -m pytest
