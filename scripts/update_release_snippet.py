@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 :mod:`scripts.update_release_snippet` module.
 
@@ -6,18 +5,14 @@ Render, update, or verify the README installation snippet associated with a
 semantic release tag.
 """
 
-import argparse
-import re
-import sys
 from pathlib import Path
+
+from ._support import normalize_release
 
 # SECTION: CONSTANTS
 
 
 END_MARKER = '<!-- release-install:end -->'
-RELEASE_PATTERN = re.compile(
-    r'^v?(?P<version>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*))$',
-)
 START_MARKER = '<!-- release-install:start -->'
 
 
@@ -48,13 +43,7 @@ def render(
     ValueError
         If *release* is not a semantic ``major.minor.patch`` version.
     """
-    match = RELEASE_PATTERN.fullmatch(release)
-    if match is None:
-        raise ValueError(
-            'release version must use vMAJOR.MINOR.PATCH or MAJOR.MINOR.PATCH: '
-            f'{release!r}',
-        )
-    tag = f'v{match.group('version')}'
+    tag = f'v{normalize_release(release)}'
     return (
         f'{START_MARKER}\n'
         '```bash\n'
@@ -103,7 +92,10 @@ def update(
         return [f'{readme.name} must contain one release installation marker pair']
 
     start = content.index(START_MARKER)
-    end = content.index(END_MARKER, start) + len(END_MARKER)
+    marker_end = content.find(END_MARKER, start)
+    if marker_end < 0:
+        return [f'{readme.name} must place its end marker after its start marker']
+    end = marker_end + len(END_MARKER)
     expected = render(release)
     if content[start:end] == expected:
         return []
@@ -116,78 +108,6 @@ def update(
         encoding='utf-8',
     )
     return []
-
-
-def parse_args(
-    argv: list[str] | None = None,
-) -> argparse.Namespace:
-    """
-    Parse command-line arguments.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name. Uses ``sys.argv`` when
-        omitted.
-
-    Returns
-    -------
-    argparse.Namespace
-        Parsed release, mode, and README path.
-    """
-    root = Path(__file__).resolve().parents[1]
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('release', help='Release version or tag')
-    parser.add_argument('--check', action='store_true', help='Check without writing')
-    parser.add_argument(
-        '--readme',
-        type=Path,
-        default=root / 'README.md',
-        help='README containing the marked installation snippet',
-    )
-    return parser.parse_args(argv)
-
-
-def main(
-    argv: list[str] | None = None,
-) -> int:
-    """
-    Update or verify the release installation snippet.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name.
-
-    Returns
-    -------
-    int
-        Zero when the update or check succeeds; one when validation fails.
-    """
-    args = parse_args(argv)
-    try:
-        failures = update(args.readme.resolve(), args.release, check=args.check)
-    except ValueError as error:
-        failures = [str(error)]
-    if failures:
-        for failure in failures:
-            print(f'FAIL: {failure}')
-        return 1
-
-    action = 'references' if args.check else 'updated for'
-    tag = args.release if args.release.startswith('v') else f'v{args.release}'
-    print(f'PASS: {args.readme.name} {action} {tag}')
-    return 0
-
-
-# !SECTION
-
-
-# SECTION: MAIN ENTRY POINT
-
-
-if __name__ == '__main__':
-    sys.exit(main())
 
 
 # !SECTION

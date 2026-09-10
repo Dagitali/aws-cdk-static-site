@@ -61,6 +61,21 @@ class TestValidate:
     def test_accepts_matching_lower_bounds(self, repository: Path) -> None:
         assert validate(repository) == []
 
+    def test_rejects_duplicate_metadata_dependencies(
+        self,
+        repository: Path,
+    ) -> None:
+        (repository / 'pyproject.toml').write_text(
+            '[project]\n'
+            'dependencies = [\n'
+            '  "example-one>=1.2.3,<2.0.0",\n'
+            '  "Example_One>=1.2.3,<2.0.0",\n'
+            ']\n',
+            encoding='utf-8',
+        )
+
+        assert 'duplicate dependency' in validate(repository)[0]
+
     def test_rejects_malformed_or_duplicate_constraints(
         self,
         repository: Path,
