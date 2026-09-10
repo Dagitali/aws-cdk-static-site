@@ -91,6 +91,20 @@ class TestUpdate:
 
         assert update(readme, 'v0.3.3', check=True) == []
 
+    def test_rejects_reversed_markers(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        readme = tmp_path / 'README.md'
+        readme.write_text(
+            f'{END_MARKER}\nstale\n{START_MARKER}\n',
+            encoding='utf-8',
+        )
+
+        assert update(readme, '0.3.3') == [
+            'README.md must place its end marker after its start marker',
+        ]
+
     def test_rejects_stale_snippet_in_check_mode(
         self,
         readme: Path,
