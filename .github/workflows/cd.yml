@@ -109,11 +109,11 @@ jobs:
           cache: pip
 
       - name: Verify versioned changelog
-        run: python scripts/check_release_changelog.py "${RELEASE_TAG}"
+        run: python -m scripts.check_release_changelog "${RELEASE_TAG}"
 
       - name: Verify release installation snippet
         if: github.event_name == 'push'
-        run: python scripts/update_release_snippet.py --check "${RELEASE_TAG}"
+        run: python -m scripts.update_release_snippet --check "${RELEASE_TAG}"
 
       - name: Install release tools
         run: |
