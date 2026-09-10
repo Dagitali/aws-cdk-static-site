@@ -26,8 +26,8 @@ All notable changes to this project will be documented in this file.
 
 ## 0.3.7 - 2026-09-10
 
-- Consolidate shared repository-command behavior and adopt consistent `python -m` invocation across
-  Make, pre-commit, and GitHub Actions automation.
+- Consolidate repository-maintenance utilities behind shared support and a verb-oriented
+  `python -m scripts` command-line interface used by Make, pre-commit, and GitHub Actions.
 - Reject duplicate dependency declarations and reversed README markers, with expanded regression
   coverage for repository-policy utilities.
 
