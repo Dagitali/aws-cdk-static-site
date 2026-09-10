@@ -73,11 +73,7 @@ SCRIPTS_DIR ?= scripts
 SOURCE_DIR ?= src
 TESTS_DIR ?= tests
 
-PYTHON_POLICY_MODULE ?= scripts.check_python_policy
-DEPENDENCY_BOUNDARY_MODULE ?= scripts.check_dependency_boundaries
-RELEASE_CHANGELOG_MODULE ?= scripts.check_release_changelog
-RELEASE_SNIPPET_MODULE ?= scripts.update_release_snippet
-WORKFLOW_PINS_MODULE ?= scripts.check_workflow_pins
+PROJECT_TOOLS_MODULE ?= scripts
 
 RELEASE_VERSION ?=
 
@@ -353,7 +349,7 @@ check-ci-local: $(CHECK_CI_LOCAL_TARGETS) ## Run the CI-equivalent local checks
 
 .PHONY: dependency-policy
 dependency-policy: ## Verify lowest dependency constraints match package metadata
-	$(PYTHON) -m $(DEPENDENCY_BOUNDARY_MODULE)
+	$(PYTHON) -m $(PROJECT_TOOLS_MODULE) check-dependency-boundaries
 
 .PHONY: fix
 fix: python-policy ## Apply safe Ruff fixes to Python code
@@ -376,29 +372,29 @@ typecheck: python-policy ## Check Python types
 
 .PHONY: workflow-pins
 workflow-pins: python-policy ## Verify remote GitHub Actions use immutable commits
-	$(PYTHON) -m $(WORKFLOW_PINS_MODULE)
+	$(PYTHON) -m $(PROJECT_TOOLS_MODULE) check-workflow-pins
 
 .PHONY: python-policy
 python-policy: ## Verify the repository-wide supported Python version policy
-	$(PYTHON) -m $(PYTHON_POLICY_MODULE)
+	$(PYTHON) -m $(PROJECT_TOOLS_MODULE) check-python-policy
 
 .PHONY: release-changelog
 release-changelog: ## Verify a dated changelog section (RELEASE_VERSION=x.y.z)
 	@test -n "$(strip $(RELEASE_VERSION))" || \
 		(echo "RELEASE_VERSION is required" >&2; exit 2)
-	$(PY) -m $(RELEASE_CHANGELOG_MODULE) "$(RELEASE_VERSION)"
+	$(PY) -m $(PROJECT_TOOLS_MODULE) check-release-changelog "$(RELEASE_VERSION)"
 
 .PHONY: release-snippet
 release-snippet: ## Update the README installation tag (RELEASE_VERSION=x.y.z)
 	@test -n "$(strip $(RELEASE_VERSION))" || \
 		(echo "RELEASE_VERSION is required" >&2; exit 2)
-	$(PY) -m $(RELEASE_SNIPPET_MODULE) "$(RELEASE_VERSION)"
+	$(PY) -m $(PROJECT_TOOLS_MODULE) update-release-snippet "$(RELEASE_VERSION)"
 
 .PHONY: release-snippet-check
 release-snippet-check: ## Verify the README installation tag (RELEASE_VERSION=x.y.z)
 	@test -n "$(strip $(RELEASE_VERSION))" || \
 		(echo "RELEASE_VERSION is required" >&2; exit 2)
-	$(PY) -m $(RELEASE_SNIPPET_MODULE) --check "$(RELEASE_VERSION)"
+	$(PY) -m $(PROJECT_TOOLS_MODULE) update-release-snippet --check "$(RELEASE_VERSION)"
 
 
 ##@ Testing
