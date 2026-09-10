@@ -26,8 +26,7 @@ maintained CDK construct that applications can compose inside their own stacks.
 
 ## Status
 
-This repository is an early extraction. Its public API may change before version 1.0.0, and it is
-not yet published to PyPI.
+This pre-1.0 package has an evolving public API and is not yet published to PyPI.
 
 ## Features
 
@@ -60,14 +59,13 @@ flowchart LR
 
 ## Installation
 
-Until the package is published to PyPI, install a selected GitHub release tag:
+Until the package is published to PyPI, choose a tag from [GitHub Releases][GitHub release] and
+replace `vMAJOR.MINOR.PATCH` below with that tag:
 
-<!-- release-install:start -->
 ```bash
 python -m pip install \
-  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.3.8"
+  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@vMAJOR.MINOR.PATCH"
 ```
-<!-- release-install:end -->
 
 For development, install from a local checkout with the development dependencies:
 
@@ -154,11 +152,11 @@ vulnerability reporting.
 
 ## PyPI Publication
 
-Novelty is not a PyPI requirement, but usefulness, a stable API, documentation, maintenance intent,
-and a non-conflicting project name matter. The tag-triggered release workflow already builds and
-validates the sdist and wheel. Before publishing to PyPI, this project should be consumed by
-`dagitali.com` and at least one second site, complete its public API review, and add reviewed
-trusted publishing. Git-based installation is sufficient during extraction.
+PyPI does not require novelty, but a useful and stable API, clear documentation, maintenance intent,
+and an available project name matter. Before publishing, validate the package with `dagitali.com`
+and at least one additional site, complete the public API review, and configure reviewed trusted
+publishing. Until then, the tag-triggered workflow validates downloadable distributions and
+Git-based installation remains supported.
 
 ## License
 
