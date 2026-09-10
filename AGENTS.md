@@ -20,7 +20,8 @@ system-level instructions take precedence.
 
 ## Development Policy
 
-- Use Python 3.13 or 3.14 and retain the repository's supported-version policy checks.
+- Use a Python version permitted by `project.requires-python` in `pyproject.toml` and retain the
+  repository's supported-version policy checks.
 - Add or update tests for changed public behavior, validation, and synthesized infrastructure.
 - Keep unit tests deterministic and independent of AWS credentials, deployed resources, and network
   access.
