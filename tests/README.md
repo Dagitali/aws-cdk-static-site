@@ -50,7 +50,7 @@ Install development dependencies before running default or artifact tests:
 python -m pip install -e '.[dev]'
 ```
 
-CI additionally runs Python 3.13 and 3.14 against the direct runtime dependency minima in
+CI additionally runs every supported Python version against the direct runtime dependency minima in
 `requirements/lowest.txt` and against the newest stable versions permitted by `pyproject.toml`. Run
 `make dependency-policy` to verify that the lowest constraints still match canonical metadata.
 
