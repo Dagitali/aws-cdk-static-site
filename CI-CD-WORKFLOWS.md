@@ -38,10 +38,11 @@ The `Guard PR target branch` job enforces the documented GitFlow branch map. The
 package` job verifies the dated changelog section for release and hotfix pull requests before it
 installs development dependencies, lints, type-checks, verifies repository policies, runs unit tests
 with coverage, and builds the HTML documentation with warnings treated as errors. The dependent
-`Test on Python 3.14` job verifies compatibility with the additional Python version declared by the
-package metadata. `Validate distributions` builds the wheel and sdist once, checks their contents,
-and installs each into a clean environment. The advisory cross-platform jobs install the package and
-verify its public module can be imported on macOS and Windows runners.
+`Test Python … with … dependencies` matrix exercises Python 3.13 and 3.14 against both the lowest
+supported direct dependencies and the newest versions allowed by package metadata. `Validate
+distributions` builds the wheel and sdist once, checks their contents, and installs each into a
+clean environment. The advisory cross-platform jobs install the package and verify its public module
+can be imported on macOS and Windows runners.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
@@ -103,10 +104,10 @@ The workflows have distinct validation and publication responsibilities:
 
 ## Required Checks
 
-Protected branches should require `Validate package`, `Test on Python 3.14`, and `Validate
-distributions`. These jobs depend on `Guard PR target branch`, so source validation,
-supported-version compatibility, artifact contracts, clean installation, and branch routing must
-succeed. Workflow step names are not status-check names.
+Protected branches should require `Validate package`, all four `Test Python … with … dependencies`
+matrix checks, and `Validate distributions`. These jobs depend on `Guard PR target branch`, so
+source validation, supported-version and dependency-boundary compatibility, artifact contracts,
+clean installation, and branch routing must succeed. Workflow step names are not status-check names.
 
 Run `make check-ci-local` to reproduce the primary package validation and strict HTML documentation
 build locally. Platform-specific smoke jobs still require their corresponding GitHub-hosted runner

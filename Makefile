@@ -74,6 +74,7 @@ SOURCE_DIR ?= src
 TESTS_DIR ?= tests
 
 PYTHON_POLICY_SCRIPT ?= $(SCRIPTS_DIR)/check_python_policy.py
+DEPENDENCY_BOUNDARY_SCRIPT ?= $(SCRIPTS_DIR)/check_dependency_boundaries.py
 RELEASE_CHANGELOG_SCRIPT ?= $(SCRIPTS_DIR)/check_release_changelog.py
 RELEASE_SNIPPET_SCRIPT ?= $(SCRIPTS_DIR)/update_release_snippet.py
 WORKFLOW_PINS_SCRIPT ?= $(SCRIPTS_DIR)/check_workflow_pins.py
@@ -165,7 +166,7 @@ DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
 
 ### Quality ###
 
-BASE_CHECK_TARGETS ?= python-policy lint typecheck workflow-pins test
+BASE_CHECK_TARGETS ?= python-policy dependency-policy lint typecheck workflow-pins test
 CHECK_TARGETS ?= $(BASE_CHECK_TARGETS) dist
 CHECK_PRE_PUSH_TARGETS ?= $(BASE_CHECK_TARGETS)
 CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS) docs-strict test-distribution
@@ -349,6 +350,10 @@ check-pre-push: $(CHECK_PRE_PUSH_TARGETS) ## Run the local pre-push checks
 
 .PHONY: check-ci-local
 check-ci-local: $(CHECK_CI_LOCAL_TARGETS) ## Run the CI-equivalent local checks
+
+.PHONY: dependency-policy
+dependency-policy: ## Verify lowest dependency constraints match package metadata
+	$(PYTHON) $(DEPENDENCY_BOUNDARY_SCRIPT)
 
 .PHONY: fix
 fix: python-policy ## Apply safe Ruff fixes to Python code
