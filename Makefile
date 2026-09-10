@@ -384,19 +384,6 @@ release-changelog: ## Verify a dated changelog section (RELEASE_VERSION=x.y.z)
 		(echo "RELEASE_VERSION is required" >&2; exit 2)
 	$(PY) -m $(PROJECT_TOOLS_MODULE) check-release-changelog "$(RELEASE_VERSION)"
 
-.PHONY: release-snippet
-release-snippet: ## Update the README installation tag (RELEASE_VERSION=x.y.z)
-	@test -n "$(strip $(RELEASE_VERSION))" || \
-		(echo "RELEASE_VERSION is required" >&2; exit 2)
-	$(PY) -m $(PROJECT_TOOLS_MODULE) update-release-snippet "$(RELEASE_VERSION)"
-
-.PHONY: release-snippet-check
-release-snippet-check: ## Verify the README installation tag (RELEASE_VERSION=x.y.z)
-	@test -n "$(strip $(RELEASE_VERSION))" || \
-		(echo "RELEASE_VERSION is required" >&2; exit 2)
-	$(PY) -m $(PROJECT_TOOLS_MODULE) update-release-snippet --check "$(RELEASE_VERSION)"
-
-
 ##@ Testing
 
 .PHONY: test
