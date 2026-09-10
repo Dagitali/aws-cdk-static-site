@@ -65,9 +65,9 @@ configurations:
 - **Newest** starts from a clean environment and asks pip to upgrade dependencies eagerly to the
   newest stable versions permitted by package metadata.
 
-The resulting matrix covers Python 3.13 and 3.14 at both boundaries. The
-`scripts/check_dependency_boundaries.py` policy check prevents the lowest constraints from drifting
-away from canonical project metadata. The newest boundary intentionally remains dynamically resolved
+The resulting matrix covers Python 3.13 and 3.14 at both boundaries. Running
+`python -m scripts.check_dependency_boundaries` prevents the lowest constraints from drifting away
+from canonical project metadata. The newest boundary intentionally remains dynamically resolved
 instead of becoming an application-style lockfile.
 
 Use separate virtual environments when reproducing the two configurations locally. For the lowest
