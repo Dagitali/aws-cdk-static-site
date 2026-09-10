@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 :mod:`scripts.check_workflow_pins` module.
 
@@ -8,8 +7,9 @@ full-length commit SHA.
 
 import argparse
 import re
-import sys
 from pathlib import Path
+
+from ._support import REPOSITORY_ROOT, report, workflow_paths
 
 # SECTION: CONSTANTS
 
@@ -46,8 +46,7 @@ def validate(
         return [f'workflow directory does not exist: {workflow_dir}']
 
     failures: list[str] = []
-    paths = (*workflow_dir.glob('*.yml'), *workflow_dir.glob('*.yaml'))
-    for path in sorted(paths):
+    for path in workflow_paths(workflow_dir):
         lines = path.read_text(encoding='utf-8').splitlines()
         for line_number, line in enumerate(lines, start=1):
             match = USES_PATTERN.match(line)
@@ -86,12 +85,11 @@ def parse_args(
     argparse.Namespace
         Parsed workflow-directory option.
     """
-    root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         '--workflow-dir',
         type=Path,
-        default=root / '.github' / 'workflows',
+        default=REPOSITORY_ROOT / '.github' / 'workflows',
         help='Directory containing GitHub Actions workflow files',
     )
     return parser.parse_args(argv)
@@ -115,13 +113,10 @@ def main(
     """
     args = parse_args(argv)
     workflow_dir = args.workflow_dir.resolve()
-    failures = validate(workflow_dir)
-    if failures:
-        for failure in failures:
-            print(f'FAIL: {failure}')
-        return 1
-    print(f'PASS: remote actions are immutably pinned in {workflow_dir}')
-    return 0
+    return report(
+        validate(workflow_dir),
+        success=f'remote actions are immutably pinned in {workflow_dir}',
+    )
 
 
 # !SECTION
@@ -131,6 +126,6 @@ def main(
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    raise SystemExit(main())
 
 # !SECTION

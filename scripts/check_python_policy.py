@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 :mod:`scripts.check_python_policy` module.
 
@@ -11,6 +10,17 @@ import re
 import sys
 import tomllib
 from pathlib import Path
+
+from ._support import REPOSITORY_ROOT, report, workflow_paths
+
+# SECTION: TYPE ALIASES
+
+
+type PythonVersion = tuple[int, int]
+
+
+# !SECTION
+
 
 # SECTION: CONSTANTS
 
@@ -28,7 +38,7 @@ SUPPORTED_PYTHON_SPECIFIER = '>=3.13,<3.15'
 
 
 def _is_supported_python(
-    version: tuple[int, int],
+    version: PythonVersion,
 ) -> bool:
     """
     Return whether a Python version satisfies the support interval.
@@ -70,7 +80,7 @@ def _normalize_yaml_scalar(
 
 def _parse_python_version(
     value: str,
-) -> tuple[int, int] | None:
+) -> PythonVersion | None:
     """
     Parse a ``major.minor`` Python version.
 
@@ -178,7 +188,7 @@ def _resolve_workflow_versions(
 def validate(
     root: Path,
     *,
-    running_python: tuple[int, int] | None = None,
+    running_python: PythonVersion | None = None,
 ) -> list[str]:
     """
     Return every repository Python-policy violation.
@@ -187,7 +197,7 @@ def validate(
     ----------
     root : pathlib.Path
         Repository root containing project and automation configuration.
-    running_python : tuple[int, int] | None, optional
+    running_python : PythonVersion | None, optional
         Python version to validate instead of the active interpreter.
 
     Returns
@@ -245,7 +255,7 @@ def validate(
         failures.append('.pre-commit-config.yaml: default Python must be python3')
     policy_hook = re.search(
         r'^\s*- id: check-python-policy\s*$'
-        r'.*?^\s+entry: python scripts/check_python_policy\.py\s*$'
+        r'.*?^\s+entry: python -m scripts\.check_python_policy\s*$'
         r'.*?^\s+language: python\s*$',
         pre_commit,
         re.MULTILINE | re.DOTALL,
@@ -271,7 +281,7 @@ def validate(
         re.MULTILINE,
     )
     workflow_dir = root / '.github' / 'workflows'
-    for path in sorted((*workflow_dir.glob('*.yml'), *workflow_dir.glob('*.yaml'))):
+    for path in workflow_paths(workflow_dir):
         content = path.read_text(encoding='utf-8')
         configured_versions = [
             resolved
@@ -314,12 +324,11 @@ def parse_args(
     argparse.Namespace
         Parsed repository-root option.
     """
-    root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         '--root',
         type=Path,
-        default=root,
+        default=REPOSITORY_ROOT,
         help='Repository root to validate',
     )
     return parser.parse_args(argv)
@@ -342,13 +351,10 @@ def main(
         Zero when validation succeeds; one when violations are found.
     """
     args = parse_args(argv)
-    failures = validate(args.root.resolve())
-    if failures:
-        for failure in failures:
-            print(f'FAIL: {failure}')
-        return 1
-    print(f'PASS: repository supports Python {SUPPORTED_PYTHON_SPECIFIER}')
-    return 0
+    return report(
+        validate(args.root.resolve()),
+        success=f'repository supports Python {SUPPORTED_PYTHON_SPECIFIER}',
+    )
 
 
 # !SECTION
@@ -358,7 +364,7 @@ def main(
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    raise SystemExit(main())
 
 
 # !SECTION

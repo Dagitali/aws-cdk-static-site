@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 :mod:`scripts.check_release_changelog` module.
 
@@ -8,20 +7,10 @@ the project changelog.
 
 import argparse
 import re
-import sys
 from datetime import date
 from pathlib import Path
 
-# SECTION: CONSTANTS
-
-
-RELEASE_VERSION_PATTERN = re.compile(
-    r'^v?(?P<version>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*))$',
-)
-
-
-# !SECTION
-
+from ._support import REPOSITORY_ROOT, normalize_release, report
 
 # SECTION: FUNCTIONS
 
@@ -45,17 +34,14 @@ def validate(
     list[str]
         Human-readable failures; empty when a valid dated section exists.
     """
-    match = RELEASE_VERSION_PATTERN.fullmatch(release)
-    if match is None:
-        return [
-            'release version must use vMAJOR.MINOR.PATCH or '
-            f'MAJOR.MINOR.PATCH: {release!r}',
-        ]
+    try:
+        version = normalize_release(release)
+    except ValueError as error:
+        return [str(error)]
 
     if not changelog.is_file():
         return [f'changelog does not exist: {changelog}']
 
-    version = match.group('version')
     heading_pattern = re.compile(
         rf'^## {re.escape(version)} - (?P<date>\d{{4}}-\d{{2}}-\d{{2}})$',
         re.MULTILINE,
@@ -92,13 +78,12 @@ def parse_args(
     argparse.Namespace
         Parsed release version and changelog path.
     """
-    root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('release', help='Release version or tag')
     parser.add_argument(
         '--changelog',
         type=Path,
-        default=root / 'CHANGELOG.md',
+        default=REPOSITORY_ROOT / 'CHANGELOG.md',
         help='Changelog to validate',
     )
     return parser.parse_args(argv)
@@ -121,14 +106,11 @@ def main(
         Zero when validation succeeds; one when validation fails.
     """
     args = parse_args(argv)
-    failures = validate(args.changelog.resolve(), args.release)
-    if failures:
-        for failure in failures:
-            print(f'FAIL: {failure}')
-        return 1
     version = args.release.removeprefix('v')
-    print(f'PASS: CHANGELOG.md contains a dated section for {version}')
-    return 0
+    return report(
+        validate(args.changelog.resolve(), args.release),
+        success=f'CHANGELOG.md contains a dated section for {version}',
+    )
 
 
 # !SECTION
@@ -138,7 +120,7 @@ def main(
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    raise SystemExit(main())
 
 
 # !SECTION

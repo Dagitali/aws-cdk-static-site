@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 :mod:`scripts.check_dependency_boundaries` module.
 
@@ -7,9 +6,10 @@ Validate that lowest-version constraints match runtime dependency metadata.
 
 import argparse
 import re
-import sys
 import tomllib
 from pathlib import Path
+
+from ._support import REPOSITORY_ROOT, report
 
 # SECTION: CONSTANTS
 
@@ -71,7 +71,11 @@ def _lowest_metadata_versions(pyproject: Path) -> tuple[dict[str, str], list[str
                 f'{requirement!r}',
             )
             continue
-        versions[_canonicalize_name(match.group('name'))] = match.group('minimum')
+        name = _canonicalize_name(match.group('name'))
+        if name in versions:
+            failures.append(f'{pyproject}: duplicate dependency {name!r}')
+            continue
+        versions[name] = match.group('minimum')
     return versions, failures
 
 
@@ -147,7 +151,7 @@ def validate(root: Path) -> list[str]:
     expected, failures = _lowest_metadata_versions(pyproject)
     actual, constraint_failures = _constraint_versions(constraints)
     failures.extend(constraint_failures)
-    if expected != actual:
+    if not failures and expected != actual:
         failures.append(
             f'{constraints.relative_to(root)}: expected {expected!r}; '
             f'received {actual!r}',
@@ -174,7 +178,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         '--root',
         type=Path,
-        default=Path(__file__).resolve().parents[1],
+        default=REPOSITORY_ROOT,
         help='Repository root to validate',
     )
     return parser.parse_args(argv)
@@ -195,13 +199,10 @@ def main(argv: list[str] | None = None) -> int:
         Zero when validation succeeds; one when violations are found.
     """
     args = parse_args(argv)
-    failures = validate(args.root.resolve())
-    if failures:
-        for failure in failures:
-            print(f'FAIL: {failure}')
-        return 1
-    print('PASS: lowest dependency constraints match pyproject.toml')
-    return 0
+    return report(
+        validate(args.root.resolve()),
+        success='lowest dependency constraints match pyproject.toml',
+    )
 
 
 # !SECTION
@@ -211,7 +212,7 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    raise SystemExit(main())
 
 
 # !SECTION

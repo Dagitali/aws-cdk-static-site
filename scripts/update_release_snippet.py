@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 :mod:`scripts.update_release_snippet` module.
 
@@ -7,17 +6,14 @@ semantic release tag.
 """
 
 import argparse
-import re
-import sys
 from pathlib import Path
+
+from ._support import REPOSITORY_ROOT, normalize_release, report
 
 # SECTION: CONSTANTS
 
 
 END_MARKER = '<!-- release-install:end -->'
-RELEASE_PATTERN = re.compile(
-    r'^v?(?P<version>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*))$',
-)
 START_MARKER = '<!-- release-install:start -->'
 
 
@@ -48,13 +44,7 @@ def render(
     ValueError
         If *release* is not a semantic ``major.minor.patch`` version.
     """
-    match = RELEASE_PATTERN.fullmatch(release)
-    if match is None:
-        raise ValueError(
-            'release version must use vMAJOR.MINOR.PATCH or MAJOR.MINOR.PATCH: '
-            f'{release!r}',
-        )
-    tag = f'v{match.group('version')}'
+    tag = f'v{normalize_release(release)}'
     return (
         f'{START_MARKER}\n'
         '```bash\n'
@@ -103,7 +93,10 @@ def update(
         return [f'{readme.name} must contain one release installation marker pair']
 
     start = content.index(START_MARKER)
-    end = content.index(END_MARKER, start) + len(END_MARKER)
+    marker_end = content.find(END_MARKER, start)
+    if marker_end < 0:
+        return [f'{readme.name} must place its end marker after its start marker']
+    end = marker_end + len(END_MARKER)
     expected = render(release)
     if content[start:end] == expected:
         return []
@@ -135,14 +128,13 @@ def parse_args(
     argparse.Namespace
         Parsed release, mode, and README path.
     """
-    root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('release', help='Release version or tag')
     parser.add_argument('--check', action='store_true', help='Check without writing')
     parser.add_argument(
         '--readme',
         type=Path,
-        default=root / 'README.md',
+        default=REPOSITORY_ROOT / 'README.md',
         help='README containing the marked installation snippet',
     )
     return parser.parse_args(argv)
@@ -169,15 +161,12 @@ def main(
         failures = update(args.readme.resolve(), args.release, check=args.check)
     except ValueError as error:
         failures = [str(error)]
-    if failures:
-        for failure in failures:
-            print(f'FAIL: {failure}')
-        return 1
-
     action = 'references' if args.check else 'updated for'
     tag = args.release if args.release.startswith('v') else f'v{args.release}'
-    print(f'PASS: {args.readme.name} {action} {tag}')
-    return 0
+    return report(
+        failures,
+        success=f'{args.readme.name} {action} {tag}',
+    )
 
 
 # !SECTION
@@ -187,7 +176,7 @@ def main(
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    raise SystemExit(main())
 
 
 # !SECTION
