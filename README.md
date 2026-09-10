@@ -65,7 +65,7 @@ Until the package is published to PyPI, install a selected GitHub release tag:
 <!-- release-install:start -->
 ```bash
 python -m pip install \
-  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.3.3"
+  "aws-cdk-static-site @ git+https://github.com/Dagitali/aws-cdk-static-site.git@v0.3.8"
 ```
 <!-- release-install:end -->
 
