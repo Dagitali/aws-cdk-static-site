@@ -115,12 +115,12 @@ def _require_value(
         failures.append(f'{location}: expected {expected!r}, received {actual!r}')
 
 
-def _resolve_workflow_env(
+def _resolve_workflow_versions(
     value: str,
     content: str,
-) -> str:
+) -> tuple[str, ...]:
     """
-    Resolve a workflow expression that references a top-level environment value.
+    Resolve a workflow version literal, environment value, or matrix list.
 
     Parameters
     ----------
@@ -131,22 +131,42 @@ def _resolve_workflow_env(
 
     Returns
     -------
-    str
-        Resolved scalar, or the original value when it cannot be resolved.
+    tuple[str, ...]
+        Resolved version values, or the original value when an expression
+        cannot be resolved.
     """
-    match = re.fullmatch(r'\$\{\{\s*env\.([A-Z][A-Z0-9_]*)\s*}}', value)
-    if match is None:
-        return value
+    env_match = re.fullmatch(r'\$\{\{\s*env\.([A-Z][A-Z0-9_]*)\s*}}', value)
+    if env_match is not None:
+        name = re.escape(env_match.group(1))
+        declaration = re.search(
+            rf'^  {name}:[ \t]*(.+?)[ \t]*$',
+            content,
+            re.MULTILINE,
+        )
+        if declaration is not None:
+            return (_normalize_yaml_scalar(declaration.group(1)),)
 
-    name = re.escape(match.group(1))
-    declaration = re.search(
-        rf'^  {name}:\s*(.+?)\s*$',
-        content,
-        re.MULTILINE,
+    matrix_match = re.fullmatch(
+        r'\$\{\{\s*matrix\.([A-Za-z][A-Za-z0-9_-]*)\s*}}',
+        value,
     )
-    if declaration is None:
-        return value
-    return _normalize_yaml_scalar(declaration.group(1))
+    if matrix_match is not None:
+        name = re.escape(matrix_match.group(1))
+        declaration = re.search(
+            rf'^[ \t]+{name}:[ \t]*$'
+            rf'(?P<items>(?:\n[ \t]+-[ \t]+[^\n]+)+)',
+            content,
+            re.MULTILINE,
+        )
+        if declaration is not None:
+            values = re.findall(
+                r'^[ \t]+-[ \t]+(.+?)[ \t]*$',
+                declaration.group('items'),
+                re.MULTILINE,
+            )
+            return tuple(_normalize_yaml_scalar(item) for item in values)
+
+    return (value,)
 
 
 # !SECTION
@@ -246,13 +266,20 @@ def validate(
         if expected not in makefile:
             failures.append(f'Makefile: missing {expected!r}')
 
-    version_pattern = re.compile(r'^\s*python-version:\s*(.+?)\s*$', re.MULTILINE)
+    version_pattern = re.compile(
+        r'^[ \t]*python-version:[ \t]*(.+?)[ \t]*$',
+        re.MULTILINE,
+    )
     workflow_dir = root / '.github' / 'workflows'
     for path in sorted((*workflow_dir.glob('*.yml'), *workflow_dir.glob('*.yaml'))):
         content = path.read_text(encoding='utf-8')
         configured_versions = [
-            _resolve_workflow_env(_normalize_yaml_scalar(value), content)
+            resolved
             for value in version_pattern.findall(content)
+            for resolved in _resolve_workflow_versions(
+                _normalize_yaml_scalar(value),
+                content,
+            )
         ]
         for configured_version in configured_versions:
             parsed_version = _parse_python_version(configured_version)

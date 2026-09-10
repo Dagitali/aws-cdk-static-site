@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.6 - 2026-09-09](#036---2026-09-09)
 - [0.3.5 - 2026-09-09](#035---2026-09-09)
 - [0.3.4 - 2026-09-09](#034---2026-09-09)
 - [0.3.3 - 2026-09-09](#033---2026-09-09)
@@ -21,6 +22,11 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.6 - 2026-09-09
+
+- Add Python 3.13 and 3.14 CI coverage for both the lowest supported direct dependencies and the
+  newest versions permitted by package metadata, with a drift check for minimum constraints.
 
 ## 0.3.5 - 2026-09-09
 

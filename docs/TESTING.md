@@ -6,6 +6,7 @@ only where its dependencies and side effects are explicit.
 - [Set Up Development](#set-up-development)
 - [Test Layers](#test-layers)
 - [Focused Suites](#focused-suites)
+- [Dependency Boundaries](#dependency-boundaries)
 - [Run Checks](#run-checks)
 - [Test Design](#test-design)
 - [AWS Deployment Boundary](#aws-deployment-boundary)
@@ -54,6 +55,37 @@ Artifact installation and contract tests accept `--artifact-dir` to reuse distri
 by CI or the release workflow. Fixtures and helpers for this behavior live in
 `tests/support/artifacts.py`.
 
+## Dependency Boundaries
+
+CI runs the default test suite for each supported Python version under two runtime dependency
+configurations:
+
+- **Lowest** constrains direct runtime dependencies to the minimum versions declared by
+  `pyproject.toml`, using `requirements/lowest.txt`.
+- **Newest** starts from a clean environment and asks pip to upgrade dependencies eagerly to the
+  newest stable versions permitted by package metadata.
+
+The resulting matrix covers Python 3.13 and 3.14 at both boundaries. The
+`scripts/check_dependency_boundaries.py` policy check prevents the lowest constraints from drifting
+away from canonical project metadata. The newest boundary intentionally remains dynamically resolved
+instead of becoming an application-style lockfile.
+
+Use separate virtual environments when reproducing the two configurations locally. For the lowest
+boundary, install with:
+
+```bash
+python -m pip install --constraint requirements/lowest.txt -e '.[dev]'
+python -m pytest
+```
+
+For the newest allowed boundary, install with:
+
+```bash
+python -m pip install --upgrade --upgrade-strategy eager -e '.[dev]'
+python -m pip check
+python -m pytest
+```
+
 ## Run Checks
 
 Run the default local gate and CI-oriented documentation and distribution checks:
@@ -73,6 +105,7 @@ make test-distribution
 make test-installation
 make test-security
 make test-full
+make dependency-policy
 ```
 
 `make test-installation` accesses the package index to install runtime dependencies into clean
