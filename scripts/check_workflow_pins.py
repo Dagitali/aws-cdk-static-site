@@ -5,11 +5,10 @@ Validate that every remote GitHub Action reference uses an immutable,
 full-length commit SHA.
 """
 
-import argparse
 import re
 from pathlib import Path
 
-from ._support import REPOSITORY_ROOT, report, workflow_paths
+from ._support import workflow_paths
 
 # SECTION: CONSTANTS
 
@@ -67,65 +66,5 @@ def validate(
                 )
     return failures
 
-
-def parse_args(
-    argv: list[str] | None = None,
-) -> argparse.Namespace:
-    """
-    Parse command-line arguments.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name. Uses ``sys.argv`` when
-        omitted.
-
-    Returns
-    -------
-    argparse.Namespace
-        Parsed workflow-directory option.
-    """
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        '--workflow-dir',
-        type=Path,
-        default=REPOSITORY_ROOT / '.github' / 'workflows',
-        help='Directory containing GitHub Actions workflow files',
-    )
-    return parser.parse_args(argv)
-
-
-def main(
-    argv: list[str] | None = None,
-) -> int:
-    """
-    Run workflow-pin validation and return a stable process status.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name.
-
-    Returns
-    -------
-    int
-        Zero when validation succeeds; one when validation fails.
-    """
-    args = parse_args(argv)
-    workflow_dir = args.workflow_dir.resolve()
-    return report(
-        validate(workflow_dir),
-        success=f'remote actions are immutably pinned in {workflow_dir}',
-    )
-
-
-# !SECTION
-
-
-# SECTION: MAIN ENTRY POINT
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())
 
 # !SECTION

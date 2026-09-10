@@ -5,10 +5,9 @@ Render, update, or verify the README installation snippet associated with a
 semantic release tag.
 """
 
-import argparse
 from pathlib import Path
 
-from ._support import REPOSITORY_ROOT, normalize_release, report
+from ._support import normalize_release
 
 # SECTION: CONSTANTS
 
@@ -109,74 +108,6 @@ def update(
         encoding='utf-8',
     )
     return []
-
-
-def parse_args(
-    argv: list[str] | None = None,
-) -> argparse.Namespace:
-    """
-    Parse command-line arguments.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name. Uses ``sys.argv`` when
-        omitted.
-
-    Returns
-    -------
-    argparse.Namespace
-        Parsed release, mode, and README path.
-    """
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('release', help='Release version or tag')
-    parser.add_argument('--check', action='store_true', help='Check without writing')
-    parser.add_argument(
-        '--readme',
-        type=Path,
-        default=REPOSITORY_ROOT / 'README.md',
-        help='README containing the marked installation snippet',
-    )
-    return parser.parse_args(argv)
-
-
-def main(
-    argv: list[str] | None = None,
-) -> int:
-    """
-    Update or verify the release installation snippet.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name.
-
-    Returns
-    -------
-    int
-        Zero when the update or check succeeds; one when validation fails.
-    """
-    args = parse_args(argv)
-    try:
-        failures = update(args.readme.resolve(), args.release, check=args.check)
-    except ValueError as error:
-        failures = [str(error)]
-    action = 'references' if args.check else 'updated for'
-    tag = args.release if args.release.startswith('v') else f'v{args.release}'
-    return report(
-        failures,
-        success=f'{args.readme.name} {action} {tag}',
-    )
-
-
-# !SECTION
-
-
-# SECTION: MAIN ENTRY POINT
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())
 
 
 # !SECTION

@@ -4,12 +4,9 @@
 Validate that lowest-version constraints match runtime dependency metadata.
 """
 
-import argparse
 import re
 import tomllib
 from pathlib import Path
-
-from ._support import REPOSITORY_ROOT, report
 
 # SECTION: CONSTANTS
 
@@ -157,62 +154,6 @@ def validate(root: Path) -> list[str]:
             f'received {actual!r}',
         )
     return failures
-
-
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    """
-    Parse command-line arguments.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name. Uses ``sys.argv`` when
-        omitted.
-
-    Returns
-    -------
-    argparse.Namespace
-        Parsed repository-root option.
-    """
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        '--root',
-        type=Path,
-        default=REPOSITORY_ROOT,
-        help='Repository root to validate',
-    )
-    return parser.parse_args(argv)
-
-
-def main(argv: list[str] | None = None) -> int:
-    """
-    Run dependency-boundary validation and return a stable process status.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name.
-
-    Returns
-    -------
-    int
-        Zero when validation succeeds; one when violations are found.
-    """
-    args = parse_args(argv)
-    return report(
-        validate(args.root.resolve()),
-        success='lowest dependency constraints match pyproject.toml',
-    )
-
-
-# !SECTION
-
-
-# SECTION: MAIN ENTRY POINT
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())
 
 
 # !SECTION

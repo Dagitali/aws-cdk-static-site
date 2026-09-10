@@ -5,13 +5,12 @@ Validate that package metadata, development commands, and GitHub Actions agree
 on the repository's supported Python-version range.
 """
 
-import argparse
 import re
 import sys
 import tomllib
 from pathlib import Path
 
-from ._support import REPOSITORY_ROOT, report, workflow_paths
+from ._support import workflow_paths
 
 # SECTION: TYPE ALIASES
 
@@ -255,7 +254,7 @@ def validate(
         failures.append('.pre-commit-config.yaml: default Python must be python3')
     policy_hook = re.search(
         r'^\s*- id: check-python-policy\s*$'
-        r'.*?^\s+entry: python -m scripts\.check_python_policy\s*$'
+        r'.*?^\s+entry: python -m scripts check-python-policy\s*$'
         r'.*?^\s+language: python\s*$',
         pre_commit,
         re.MULTILINE | re.DOTALL,
@@ -305,66 +304,6 @@ def validate(
             )
 
     return failures
-
-
-def parse_args(
-    argv: list[str] | None = None,
-) -> argparse.Namespace:
-    """
-    Parse command-line arguments.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name. Uses ``sys.argv`` when
-        omitted.
-
-    Returns
-    -------
-    argparse.Namespace
-        Parsed repository-root option.
-    """
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        '--root',
-        type=Path,
-        default=REPOSITORY_ROOT,
-        help='Repository root to validate',
-    )
-    return parser.parse_args(argv)
-
-
-def main(
-    argv: list[str] | None = None,
-) -> int:
-    """
-    Run Python-policy checks and return a stable process status.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name.
-
-    Returns
-    -------
-    int
-        Zero when validation succeeds; one when violations are found.
-    """
-    args = parse_args(argv)
-    return report(
-        validate(args.root.resolve()),
-        success=f'repository supports Python {SUPPORTED_PYTHON_SPECIFIER}',
-    )
-
-
-# !SECTION
-
-
-# SECTION: MAIN ENTRY POINT
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())
 
 
 # !SECTION

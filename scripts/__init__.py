@@ -1,6 +1,6 @@
 """
 :mod:`scripts` package.
 
-Repository policy checkers and release-maintenance commands, invoked with
-``python -m scripts.<module>``.
+Repository policy checkers and release-maintenance commands exposed through
+the ``python -m scripts`` command-line interface.
 """
