@@ -76,7 +76,7 @@ jobs:
           persist-credentials: false
 
       - name: Generate Python SBOM
-        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516  # Pinned v0.1.2
+        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516  # Pinned v0.1.3
         with:
           phase: sbom
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
@@ -95,7 +95,7 @@ jobs:
           ' "$PYTHON_SBOM_FILENAME" > /dev/null
 
       - name: Upload Python SBOM
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # Pinned v3.1.2
         with:
           name: ${{ env.SBOM_ARTIFACT_NAME }}
           path: ${{ env.PYTHON_SBOM_FILENAME }}
