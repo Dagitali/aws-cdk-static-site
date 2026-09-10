@@ -84,5 +84,7 @@ make test-security
 make test-full
 ```
 
-See the [testing guide](../docs/TESTING.md) for layer ownership, CI placement, coverage semantics,
+See the [testing guide] for layer ownership, CI placement, coverage semantics,
 and the deployed-resource boundary.
+
+[testing guide]: ../docs/TESTING.md

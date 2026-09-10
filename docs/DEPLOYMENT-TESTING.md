@@ -12,10 +12,9 @@ separate from normal CI and must remain manually triggered.
 
 ## Bounded Resource Contract
 
-The workflow synthesizes [`examples/disposable-deployment/app.py`](../examples/disposable-deployment/app.py)
-and rejects the template unless it contains exactly one S3 bucket, one CloudFront distribution, and
-one CloudFront Origin Access Control. A response-headers policy and the bucket policy are supporting
-resources on the allowlist.
+The workflow synthesizes the [disposable deployment example] and rejects the template unless it
+contains exactly one S3 bucket, one CloudFront distribution, and one CloudFront Origin Access
+Control. A response-headers policy and the bucket policy are supporting resources on the allowlist.
 
 The test creates no Route 53 records, ACM certificates, WAF web ACLs, access-log buckets, Lambda
 functions, or deployed site content. Its S3 bucket is empty, unversioned, and assigned a delete
@@ -70,3 +69,5 @@ The final job step waits for `stack-delete-complete`. If the runner is interrupt
 timeout before cleanup completes, inspect CloudFormation for the exact
 `AwsCdkStaticSiteTest-<run-id>` stack and finish deletion through a reviewed operator path. Never
 delete a broader name pattern or unrelated stack.
+
+[disposable deployment example]: ../examples/disposable-deployment/app.py
