@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.8 - 2026-09-10](#038---2026-09-10)
 - [0.3.7 - 2026-09-10](#037---2026-09-10)
 - [0.3.6 - 2026-09-09](#036---2026-09-09)
 - [0.3.5 - 2026-09-09](#035---2026-09-09)
@@ -23,6 +24,11 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.8 - 2026-09-10
+
+- Update the README installation example to reference the current release tag so tagged-release
+  validation succeeds.
 
 ## 0.3.7 - 2026-09-10
 
