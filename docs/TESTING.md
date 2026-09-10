@@ -13,9 +13,10 @@ only where its dependencies and side effects are explicit.
 
 ## Set Up Development
 
-The package metadata in `pyproject.toml` supports Python 3.13 and 3.14, while `.python-version`
-selects Python 3.13 for compatible local version managers. Package versions are derived from Git
-tags by `setuptools-scm`; local builds after the latest tag receive a development version.
+`project.requires-python` in `pyproject.toml` defines the supported Python range, while
+`.python-version` selects its minimum for compatible local version managers. Package versions are
+derived from Git tags by `setuptools-scm`; local builds after the latest tag receive a development
+version.
 
 ```bash
 make dev
@@ -65,10 +66,10 @@ configurations:
 - **Newest** starts from a clean environment and asks pip to upgrade dependencies eagerly to the
   newest stable versions permitted by package metadata.
 
-The resulting matrix covers Python 3.13 and 3.14 at both boundaries. Running
-`python -m scripts check-dependency-boundaries` prevents the lowest constraints from drifting away
-from canonical project metadata. The newest boundary intentionally remains dynamically resolved
-instead of becoming an application-style lockfile.
+The resulting matrix covers every supported Python version at both boundaries. Running `python -m
+scripts check-dependency-boundaries` prevents the lowest constraints from drifting away from
+canonical project metadata. The newest boundary intentionally remains dynamically resolved instead
+of becoming an application-style lockfile.
 
 Use separate virtual environments when reproducing the two configurations locally. For the lowest
 boundary, install with:

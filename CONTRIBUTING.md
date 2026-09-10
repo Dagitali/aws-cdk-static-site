@@ -62,7 +62,7 @@ synthesized behavior is also part of that compatibility review.
 
 The package ships a `py.typed` marker and runs mypy in strict mode. When contributing Python code:
 
-- Use Python 3.13 syntax and standard-library types where they improve clarity;
+- Use syntax supported by the minimum Python version declared in `pyproject.toml`;
 - Prefer precise boundary types over `Any` and explain unavoidable dynamic boundaries;
 - Keep runtime validation for configuration rules that type checking cannot enforce;
 - Avoid importing internal modules in examples when the package-level API is sufficient; and
