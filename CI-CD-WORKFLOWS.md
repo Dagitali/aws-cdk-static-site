@@ -63,7 +63,7 @@ Workflow name: `Test disposable AWS deployment`
 The manual workflow runs only from `main` after an exact confirmation and approval through the
 `deployment-test` GitHub environment. It uses OIDC credentials, validates a fixed resource
 allowlist, creates a uniquely named empty stack, verifies it, and waits for deletion. It is never a
-routine CI or release prerequisite. See [docs/DEPLOYMENT-TESTING.md](docs/DEPLOYMENT-TESTING.md).
+routine CI or release prerequisite. See the [deployment testing guide].
 
 ## SBOM
 
@@ -113,4 +113,7 @@ build locally. Platform-specific smoke jobs still require their corresponding Gi
 or an equivalent operating system.
 
 When renaming workflows or jobs, run the replacement on a representative pull request before
-updating the ruleset. See [.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md).
+updating the ruleset. See the [branch protection guide].
+
+[branch protection guide]: .github/BRANCH-PROTECTION.md
+[deployment testing guide]: docs/DEPLOYMENT-TESTING.md

@@ -2,7 +2,7 @@
 
 Contributions to source code, tests, documentation, and repository automation are welcome through
 GitHub issues and pull requests. By submitting a contribution, you agree that it may be distributed
-under this project's [MIT License](LICENSE).
+under this project's [MIT License].
 
 - [Ways to Contribute](#ways-to-contribute)
 - [Development Workflow](#development-workflow)
@@ -37,8 +37,7 @@ credentials, private data, or vulnerability details in public issues.
 7. Merge through GitHub after the required checks and reviews pass.
 
 Package versions are derived from Git tags by `setuptools-scm`; do not add or hand-edit a second
-version source. See [RELEASE-POLICY.md](RELEASE-POLICY.md) and
-[RELEASE-CHECKLIST.md](RELEASE-CHECKLIST.md) for release-affecting changes.
+version source. See the [release policy] and [release checklist] for release-affecting changes.
 
 ## Protected-Branch GitFlow
 
@@ -50,8 +49,7 @@ This repository uses GitFlow-style branch roles with GitHub-protected integratio
 
 Do not treat `git flow ... finish` as the authoritative integration step: it performs local merges
 that bypass the pull-request review surface. The complete branch map and required checks are in
-[.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md), and maintainer procedures are in
-[.github/MAINTAINER-RUNBOOKS.md](.github/MAINTAINER-RUNBOOKS.md).
+the [branch protection guide], and maintainer procedures are in the [maintainer runbooks].
 
 ## Public API and Type Checking
 
@@ -115,7 +113,7 @@ Keep artifact installation, optional security checks, and deployed tests in thei
 so normal unit and integration runs remain deterministic. Never run or broaden the disposable AWS
 deployment test without reviewing its identity, resource, cost, and cleanup boundaries.
 
-See [docs/TESTING.md](docs/TESTING.md) and [tests/README.md](tests/README.md) for test organization,
+See the [testing guide] and [tests overview] for test organization,
 markers, and commands.
 
 ## Documentation
@@ -131,6 +129,17 @@ and keep table-of-contents labels synchronized with their headings.
 
 ## Community Standards
 
-All contributors must follow the [Code of Conduct](CODE_OF_CONDUCT.md). Use the public issue forms
-for bugs and feature requests, [SUPPORT.md](SUPPORT.md) for help channels, and
-[SECURITY.md](SECURITY.md) for private vulnerability reporting.
+All contributors must follow the [Code of Conduct]. Use the public issue forms for bugs and feature
+requests, the [support policy] for help channels, and the [security policy] for private
+vulnerability reporting.
+
+[branch protection guide]: .github/BRANCH-PROTECTION.md
+[Code of Conduct]: CODE_OF_CONDUCT.md
+[maintainer runbooks]: .github/MAINTAINER-RUNBOOKS.md
+[MIT License]: LICENSE
+[release checklist]: RELEASE-CHECKLIST.md
+[release policy]: RELEASE-POLICY.md
+[security policy]: SECURITY.md
+[support policy]: SUPPORT.md
+[testing guide]: docs/TESTING.md
+[tests overview]: tests/README.md

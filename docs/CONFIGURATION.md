@@ -67,7 +67,7 @@ site = StaticSite(self, 'Site')
 The hostname is available from
 `site.distribution.distribution_domain_name`.
 
-See the runnable [generated-hostname example](../examples/cloudfront-domain/app.py).
+See the runnable [generated-hostname example].
 
 ## Externally Managed DNS
 
@@ -93,7 +93,7 @@ site = StaticSite(
 Create the required CNAME or equivalent record with the external DNS provider. The construct
 deliberately does not modify external DNS.
 
-See the runnable [external-DNS example](../examples/external-dns/app.py).
+See the runnable [external-DNS example].
 
 ## Route 53 and ACM
 
@@ -118,7 +118,7 @@ therefore be deployed in `us-east-1`. Applications using another deployment regi
 the certificate separately in `us-east-1` and pass it through `certificate`. The construct rejects
 certificate creation when the stack region is unresolved or is not `us-east-1`.
 
-See the runnable [Route 53 example](../examples/route53-managed/app.py).
+See the runnable [Route 53 example].
 
 ## Validation Rules
 
@@ -140,6 +140,12 @@ connections, plus `data:` images. A consuming site that uses external analytics,
 media must supply an explicit policy that permits only the required origins. Test the resulting
 headers in a representative environment before deploying production.
 
-See the runnable [custom-CSP example](../examples/custom-csp/app.py). Additional focused examples
-cover [access logging](../examples/access-logging/app.py) and
-[externally managed content](../examples/external-content/app.py).
+See the runnable [custom-CSP example]. Additional focused examples cover [access logging] and
+[externally managed content].
+
+[access logging]: ../examples/access-logging/app.py
+[custom-CSP example]: ../examples/custom-csp/app.py
+[external-DNS example]: ../examples/external-dns/app.py
+[externally managed content]: ../examples/external-content/app.py
+[generated-hostname example]: ../examples/cloudfront-domain/app.py
+[Route 53 example]: ../examples/route53-managed/app.py

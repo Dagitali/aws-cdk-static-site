@@ -46,26 +46,41 @@ only to prevent documentation regressions.
 
 ## Guides
 
-- [Configuration](CONFIGURATION.md) describes construct properties, valid combinations, and DNS
+- [Configuration] describes construct properties, valid combinations, and DNS
   ownership models.
-- [Costs](COSTS.md) explains cost drivers and safeguards without promising fixed prices.
-- [Testing](TESTING.md) covers local quality gates and test design.
-- [Disposable AWS deployment testing](DEPLOYMENT-TESTING.md) defines the manual test's identity,
-  resource, cost, and cleanup boundaries.
-- [Roadmap](ROADMAP.md) records the extraction and stabilization plan.
-- [Examples](../examples/README.md) demonstrates supported composition patterns.
+- [Costs] explains cost drivers and safeguards without promising fixed prices.
+- [Testing] covers local quality gates and test design.
+- [Disposable AWS deployment testing] defines the manual test's identity, resource, cost, and
+  cleanup boundaries.
+- [Roadmap] records the extraction and stabilization plan.
+- [Examples] demonstrates supported composition patterns.
 
 ## Related Repository Documents
 
-- [Contributing](../CONTRIBUTING.md)
-- [CI/CD workflow map](../CI-CD-WORKFLOWS.md)
-- [Release policy](../RELEASE-POLICY.md)
-- [Release checklist](../RELEASE-CHECKLIST.md)
-- [Maintainer runbooks](../.github/MAINTAINER-RUNBOOKS.md)
-- [Support](../SUPPORT.md)
-- [Security](../SECURITY.md)
-- [Technical references](../REFERENCES.md)
+- [Contributing]
+- [CI/CD workflow map]
+- [Release policy]
+- [Release checklist]
+- [Maintainer runbooks]
+- [Support]
+- [Security]
+- [Technical references]
 
 Keep examples executable, prefer relative links between repository documents, and verify
 pricing-sensitive or service-specific claims against the authoritative source linked in
 `REFERENCES.md`.
+
+[CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
+[Configuration]: CONFIGURATION.md
+[Contributing]: ../CONTRIBUTING.md
+[Costs]: COSTS.md
+[Disposable AWS deployment testing]: DEPLOYMENT-TESTING.md
+[Examples]: ../examples/README.md
+[Maintainer runbooks]: ../.github/MAINTAINER-RUNBOOKS.md
+[Release checklist]: ../RELEASE-CHECKLIST.md
+[Release policy]: ../RELEASE-POLICY.md
+[Roadmap]: ROADMAP.md
+[Security]: ../SECURITY.md
+[Support]: ../SUPPORT.md
+[Technical references]: ../REFERENCES.md
+[Testing]: TESTING.md

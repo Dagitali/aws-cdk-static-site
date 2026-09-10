@@ -77,12 +77,14 @@ protected environment exist, maintainers must not upload distributions manually.
 
 GitHub Releases are the canonical public release-history surface. Release notes should summarize
 user-visible changes, fixes, deprecations, breaking changes, compatibility effects, and required
-migration steps. Use [.github/RELEASE-NOTES-TEMPLATE.md](.github/RELEASE-NOTES-TEMPLATE.md),
-reconcile it with `CHANGELOG.md`, and avoid exposing private infrastructure or incident details.
+migration steps. Use the [release-notes template], reconcile it with `CHANGELOG.md`, and avoid
+exposing private infrastructure or incident details.
 
 ## Supported Releases
 
 Before `v1.0.0`, the latest release is the maintenance target. A stable-line support policy will be
-defined before the first stable release. See [SUPPORT.md](SUPPORT.md) for the current boundary.
+defined before the first stable release. See the [support policy] for the current boundary.
 
+[release-notes template]: .github/RELEASE-NOTES-TEMPLATE.md
 [semver]: https://semver.org/
+[support policy]: SUPPORT.md

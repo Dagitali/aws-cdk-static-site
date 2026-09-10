@@ -46,14 +46,13 @@ refinement. Patch releases are reserved for targeted, backward-compatible mainte
 - Packaging, build, or installation failures; and
 - Documentation or metadata corrections needed to keep a release usable.
 
-Backports are not guaranteed. See [RELEASE-POLICY.md](RELEASE-POLICY.md) for versioning and
-deprecation details.
+Backports are not guaranteed. See the [release policy] for versioning and deprecation details.
 
 ## Where to Get Help
 
-- Read the [README](README.md) and [documentation index](docs/README.md) first.
+- Read the [project README] and [documentation index] first.
 - Use a [GitHub issue][issues] for a reproducible bug or a concrete feature request.
-- Follow [SECURITY.md](SECURITY.md) for suspected vulnerabilities.
+- Follow the [security policy] for suspected vulnerabilities.
 
 Do not include AWS credentials, account identifiers, private domain data, or sensitive synthesized
 templates in public reports.
@@ -72,3 +71,7 @@ deprecation notice and migration path before removal unless security or correctn
 faster change.
 
 [issues]: https://github.com/Dagitali/aws-cdk-static-site/issues
+[documentation index]: docs/README.md
+[project README]: README.md
+[release policy]: RELEASE-POLICY.md
+[security policy]: SECURITY.md

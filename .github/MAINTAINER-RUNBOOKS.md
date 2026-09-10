@@ -42,9 +42,8 @@ local merges outside the protected pull-request surface.
 
 ## Prepare a Release
 
-Use the public [release checklist](../RELEASE-CHECKLIST.md) together with these repository-specific
-steps. The versioning and compatibility rules are defined in
-[RELEASE-POLICY.md](../RELEASE-POLICY.md).
+Use the public [release checklist] together with these repository-specific steps. The versioning and
+compatibility rules are defined in [release policy].
 
 1. Confirm `develop` contains the intended scope and passes CI.
 2. Create `release/<version>` from `develop`.
@@ -93,8 +92,8 @@ After every release or hotfix:
 5. Verify the tag target and annotation locally.
 6. Push the tag once; never move or reuse a published version.
 
-The [release policy](../RELEASE-POLICY.md) defines version semantics, and the
-[release checklist](../RELEASE-CHECKLIST.md) defines the complete readiness gate.
+The [release policy] defines version semantics, and the [release checklist] defines the complete
+readiness gate.
 
 ## Investigate Failed Checks
 
@@ -128,3 +127,6 @@ Keep credentials, package-index recovery codes, cloud or service account identif
 bypass procedures, private incident details, and embargoed vulnerability reports outside the
 repository. Public runbooks should explain policy and reproducible workflows without exposing
 privileged operational details.
+
+[release checklist]: ../RELEASE-CHECKLIST.md
+[release policy]: ../RELEASE-POLICY.md
