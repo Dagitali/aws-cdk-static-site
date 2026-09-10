@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 :mod:`scripts.check_workflow_pins` module.
 
@@ -6,10 +5,10 @@ Validate that every remote GitHub Action reference uses an immutable,
 full-length commit SHA.
 """
 
-import argparse
 import re
-import sys
 from pathlib import Path
+
+from ._support import workflow_paths
 
 # SECTION: CONSTANTS
 
@@ -46,8 +45,7 @@ def validate(
         return [f'workflow directory does not exist: {workflow_dir}']
 
     failures: list[str] = []
-    paths = (*workflow_dir.glob('*.yml'), *workflow_dir.glob('*.yaml'))
-    for path in sorted(paths):
+    for path in workflow_paths(workflow_dir):
         lines = path.read_text(encoding='utf-8').splitlines()
         for line_number, line in enumerate(lines, start=1):
             match = USES_PATTERN.match(line)
@@ -68,69 +66,5 @@ def validate(
                 )
     return failures
 
-
-def parse_args(
-    argv: list[str] | None = None,
-) -> argparse.Namespace:
-    """
-    Parse command-line arguments.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name. Uses ``sys.argv`` when
-        omitted.
-
-    Returns
-    -------
-    argparse.Namespace
-        Parsed workflow-directory option.
-    """
-    root = Path(__file__).resolve().parents[1]
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        '--workflow-dir',
-        type=Path,
-        default=root / '.github' / 'workflows',
-        help='Directory containing GitHub Actions workflow files',
-    )
-    return parser.parse_args(argv)
-
-
-def main(
-    argv: list[str] | None = None,
-) -> int:
-    """
-    Run workflow-pin validation and return a stable process status.
-
-    Parameters
-    ----------
-    argv : list[str] | None, optional
-        Argument list excluding the executable name.
-
-    Returns
-    -------
-    int
-        Zero when validation succeeds; one when validation fails.
-    """
-    args = parse_args(argv)
-    workflow_dir = args.workflow_dir.resolve()
-    failures = validate(workflow_dir)
-    if failures:
-        for failure in failures:
-            print(f'FAIL: {failure}')
-        return 1
-    print(f'PASS: remote actions are immutably pinned in {workflow_dir}')
-    return 0
-
-
-# !SECTION
-
-
-# SECTION: MAIN ENTRY POINT
-
-
-if __name__ == '__main__':
-    sys.exit(main())
 
 # !SECTION
