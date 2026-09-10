@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.7 - 2026-09-10](#037---2026-09-10)
 - [0.3.6 - 2026-09-09](#036---2026-09-09)
 - [0.3.5 - 2026-09-09](#035---2026-09-09)
 - [0.3.4 - 2026-09-09](#034---2026-09-09)
@@ -22,6 +23,13 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.7 - 2026-09-10
+
+- Consolidate shared repository-command behavior and adopt consistent `python -m` invocation across
+  Make, pre-commit, and GitHub Actions automation.
+- Reject duplicate dependency declarations and reversed README markers, with expanded regression
+  coverage for repository-policy utilities.
 
 ## 0.3.6 - 2026-09-09
 
