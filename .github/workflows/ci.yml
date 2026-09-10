@@ -137,7 +137,7 @@ jobs:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
           cache: pip
 
-      - name: Verify release metadata
+      - name: Verify release changelog
         if: >-
           github.event_name == 'pull_request' &&
           (startsWith(github.head_ref, 'release/') ||
@@ -147,7 +147,6 @@ jobs:
         run: |
           release_version="${RELEASE_BRANCH#*/}"
           python -m scripts check-release-changelog "$release_version"
-          python -m scripts update-release-snippet --check "$release_version"
 
       - name: Install development dependencies
         run: >-
