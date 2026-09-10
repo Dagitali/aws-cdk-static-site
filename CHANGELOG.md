@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.9 - 2026-09-10](#039---2026-09-10)
 - [0.3.8 - 2026-09-10](#038---2026-09-10)
 - [0.3.7 - 2026-09-10](#037---2026-09-10)
 - [0.3.6 - 2026-09-09](#036---2026-09-09)
@@ -24,6 +25,14 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.9 - 2026-09-10
+
+- Replace the README's version-specific installation command with a stable release-tag placeholder
+  and remove its obsolete updater, tests, Make targets, checklist steps, and CI/CD gates.
+- Replace duplicated Python-version and CI-matrix details with references to canonical project
+  metadata, and correct stale branch-protection, runbook, and package-adoption guidance.
+- Refresh SBOM workflow action annotations while retaining immutable action pins.
 
 ## 0.3.8 - 2026-09-10
 
