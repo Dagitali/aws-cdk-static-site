@@ -66,7 +66,7 @@ configurations:
   newest stable versions permitted by package metadata.
 
 The resulting matrix covers Python 3.13 and 3.14 at both boundaries. Running
-`python -m scripts.check_dependency_boundaries` prevents the lowest constraints from drifting away
+`python -m scripts check-dependency-boundaries` prevents the lowest constraints from drifting away
 from canonical project metadata. The newest boundary intentionally remains dynamically resolved
 instead of becoming an application-style lockfile.
 
