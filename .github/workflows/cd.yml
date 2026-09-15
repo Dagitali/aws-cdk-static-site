@@ -258,7 +258,9 @@ jobs:
           DOCS_BUILDER: ${{ matrix.builder }}
         run: >-
           python -m sphinx -T -W --keep-going
-          -b "$DOCS_BUILDER" docs/source "docs/build/$DOCS_BUILDER"
+          -b "$DOCS_BUILDER"
+          -d "docs/build/doctrees/$DOCS_BUILDER"
+          docs/source "docs/build/$DOCS_BUILDER"
 
   release:
     name: Publish GitHub release
