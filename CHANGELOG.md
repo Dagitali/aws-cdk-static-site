@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.12 - 2026-09-15](#0312---2026-09-15)
 - [0.3.11 - 2026-09-15](#0311---2026-09-15)
 - [0.3.10 - 2026-09-10](#0310---2026-09-10)
 - [0.3.9 - 2026-09-10](#039---2026-09-10)
@@ -27,6 +28,12 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.12 - 2026-09-15
+
+- Update the `ruff-pre-commit` hook from 0.16.6 to 0.16.7, incorporating upstream correctness and
+  performance improvements while retaining the repository's existing Ruff rules and hook behavior
+  ([#6]).
 
 ## 0.3.11 - 2026-09-15
 
@@ -193,3 +200,4 @@ All notable changes to this project will be documented in this file.
 [#2]: https://github.com/Dagitali/aws-cdk-static-site/pull/2
 [#3]: https://github.com/Dagitali/aws-cdk-static-site/pull/3
 [#5]: https://github.com/Dagitali/aws-cdk-static-site/pull/5
+[#6]: https://github.com/Dagitali/aws-cdk-static-site/pull/6
