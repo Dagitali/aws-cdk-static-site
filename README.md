@@ -4,6 +4,7 @@
 [![Python](https://img.shields.io/badge/python-3.13%20%7C%203.14-blue.svg)][Python support]
 [![License](https://img.shields.io/github/license/Dagitali/aws-cdk-static-site.svg)][MIT License]
 [![CI](https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/ci.yml/badge.svg?branch=main)][GitHub Actions CI workflow]
+[![PR Gates](https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/pr.yml/badge.svg?branch=main)][GitHub Actions PR Gates workflow]
 
 `aws-cdk-static-site` is a Python AWS CDK construct for deploying a static site through CloudFront
 from a private, encrypted S3 bucket.
@@ -232,6 +233,7 @@ welcome.
 [Extraction roadmap]: docs/ROADMAP.md
 [Focused examples]: examples/README.md
 [GitHub Actions CI workflow]: https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/ci.yml
+[GitHub Actions PR Gates workflow]: https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/pr.yml
 [GitHub release]: https://github.com/Dagitali/aws-cdk-static-site/releases
 [GitHub Sponsors]: https://github.com/sponsors/Dagitali
 [Local Sphinx documentation]: docs/README.md#build-the-local-site
