@@ -121,7 +121,8 @@ public [release checklist] and [release policy] together with these repository-s
 5. Move completed `Unreleased` entries into a dated `## <version> - YYYY-MM-DD` section in
    `CHANGELOG.md`. Do not edit a package version; `setuptools-scm` derives it from Git tags.
 6. Prepare `docs/releases/v<version>.md` using the [release notes template].
-7. Run `make release-changelog RELEASE_VERSION=<version>` and `make check-ci-local`.
+7. Run `make release-changelog RELEASE_VERSION=<version>`, `make check-ci-local`, `make docs-epub`,
+   and `make docs-linkcheck`.
 8. Build the sdist and wheel, run `twine check`, and install each distribution into a separate clean
    environment for preliminary import and synthesis checks.
 9. Push the branch and open a pull request targeting `main`.
@@ -215,8 +216,9 @@ For projects with deployment or publication automation:
 
 In this repository, pushing an annotated semantic-version tag runs `.github/workflows/cd.yml`. It
 builds the source distribution and wheel from the tag, validates and smoke-tests them, creates
-checksums and a CycloneDX SBOM, and publishes those assets to the corresponding GitHub Release. It
-does not publish to PyPI or deploy AWS resources.
+checksums and a CycloneDX SBOM, validates strict HTML and EPUB documentation builds, and publishes
+the package assets to the corresponding GitHub Release. It does not publish to PyPI or deploy AWS
+resources.
 
 For historical recovery, manually dispatch the workflow with an existing immutable annotated tag.
 The workflow does not create, move, or reuse tags, and a backfilled release is not marked latest.
