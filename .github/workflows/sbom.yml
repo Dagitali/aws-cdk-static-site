@@ -16,13 +16,24 @@
 #   chain risk.
 # - Pull requests intentionally do not trigger this supplementary workflow;
 #   required CI already validates dependency and lockfile changes before merge.
+# - The dynamic run name identifies the event trigger for operational clarity.
 #
 # References
 # - CycloneDX Python tooling:
 #   https://cyclonedx.org/tool-center/python/
+# - Software Bill of Materials documentation:
+#   https://cyclonedx.org/use-cases/software-bill-of-materials/
+# - GitHub Actions expressions reference:
+#   https://docs.github.com/en/actions/learn-github-actions/expressions
+# - GitHub Actions security hardening guide:
+#   https://docs.github.com/en/actions/security-guides/
+#   security-hardening-for-github-actions
 # - GitHub Actions artifact documentation:
 #   https://docs.github.com/en/actions/using-workflows/
 #   storing-workflow-data-as-artifacts
+# - GitHub Actions workflow syntax reference:
+#   https://docs.github.com/en/actions/using-workflows/
+#   workflow-syntax-for-github-actions
 
 ---
 name: SBOM
@@ -37,8 +48,9 @@ run-name: >-
 on:
   push:
     branches:
-      - develop
+      # Long-lived GitFlow branches
       - main
+      - develop
     paths:
       - pyproject.toml
       - src/**
@@ -48,9 +60,9 @@ on:
 permissions: {}
 
 env:
-  ARTIFACT_RETENTION_DAYS: "14"
-  CYCLONEDX_BOM_VERSION: "7.2.2"
-  DEFAULT_PYTHON_VERSION: "3.13"
+  ARTIFACT_RETENTION_DAYS: '14'
+  CYCLONEDX_BOM_VERSION: '7.2.2'
+  DEFAULT_PYTHON_VERSION: '3.13'
   PYTHON_SBOM_FILENAME: python-sbom.json
   SBOM_ARTIFACT_NAME: python-sbom
 
@@ -59,7 +71,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  generate-sbom:
+  generate:
     name: Generate CycloneDX SBOM
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -72,11 +84,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
         with:
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Generate Python SBOM
-        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516  # Pinned v0.1.3
+        uses: Dagitali/python-project-lifecycle@3830839be6caca98cacca702c5aa38805c4fb516  # Pinned v0.1.2
         with:
           phase: sbom
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
@@ -95,7 +106,7 @@ jobs:
           ' "$PYTHON_SBOM_FILENAME" > /dev/null
 
       - name: Upload Python SBOM
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # Pinned v3.1.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # Pinned v7.0.1
         with:
           name: ${{ env.SBOM_ARTIFACT_NAME }}
           path: ${{ env.PYTHON_SBOM_FILENAME }}
