@@ -3,11 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.11 - 2026-09-15](#0311---2026-09-15)
 - [0.3.10 - 2026-09-10](#0310---2026-09-10)
 - [0.3.9 - 2026-09-10](#039---2026-09-10)
 - [0.3.8 - 2026-09-10](#038---2026-09-10)
 - [0.3.7 - 2026-09-10](#037---2026-09-10)
-- [0.3.6 - 2026-09-09](#036---2026-09-09)
+- [0.3.6 - 2026-09-10](#036---2026-09-10)
 - [0.3.5 - 2026-09-09](#035---2026-09-09)
 - [0.3.4 - 2026-09-09](#034---2026-09-09)
 - [0.3.3 - 2026-09-09](#033---2026-09-09)
@@ -26,6 +27,12 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.11 - 2026-09-15
+
+- Update the deployment-test workflow's immutable `aws-actions/configure-aws-credentials` pin from
+  6.2.3 to 6.2.4, incorporating upstream fixes for account-ID handling, proxy-secret masking, and
+  final retry backoff ([#5]).
 
 ## 0.3.10 - 2026-09-10
 
@@ -56,7 +63,7 @@ All notable changes to this project will be documented in this file.
 - Reject duplicate dependency declarations and reversed README markers, with expanded regression
   coverage for repository-policy utilities.
 
-## 0.3.6 - 2026-09-09
+## 0.3.6 - 2026-09-10
 
 - Add Python 3.13 and 3.14 CI coverage for both the lowest supported direct dependencies and the
   newest versions permitted by package metadata, with a drift check for minimum constraints.
@@ -185,3 +192,4 @@ All notable changes to this project will be documented in this file.
 
 [#2]: https://github.com/Dagitali/aws-cdk-static-site/pull/2
 [#3]: https://github.com/Dagitali/aws-cdk-static-site/pull/3
+[#5]: https://github.com/Dagitali/aws-cdk-static-site/pull/5
