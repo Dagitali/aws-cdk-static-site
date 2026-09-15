@@ -1,8 +1,10 @@
 # Release Notes Template
 
-Use this template when preparing a versioned document under `docs/releases/`. Keep the sections that
-apply to the release, replace instructional text, and add more focused sections when the release
-needs them. The committed document should explain the released behavior without depending on private
+Use this template when preparing a versioned document under `docs/releases/` and the reviewed notes
+for the corresponding GitHub Release. GitHub Releases remain the canonical public release-history
+surface; the committed document preserves the release candidate's detailed scope and validation
+record. Reconcile both with `CHANGELOG.md`, keep the sections that apply, and add more focused
+sections when needed. Release notes should explain released behavior without depending on private
 operational evidence.
 
 - [Highlights](#highlights)
@@ -30,6 +32,8 @@ operational evidence.
 
 - Identify breaking behavior, deprecations, migrations, dependency constraints, or configuration
   changes.
+- Give breaking changes and deprecations their own subheadings when present so they cannot be
+  overlooked in a broader summary.
 - Record any required maintainer or consumer action.
 - Write `No compatibility or configuration changes.` when none apply.
 
