@@ -57,4 +57,4 @@ PyPI publication remains intentionally inactive until trusted publishing is revi
 - [ ] Delete merged working branches and prune obsolete remote references.
 - [ ] Record follow-up work without rewriting the released tag or shared history.
 
-[release policy]: RELEASE-POLICY.md
+[release policy]: ../../RELEASE-POLICY.md
