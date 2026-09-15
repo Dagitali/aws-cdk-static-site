@@ -2,6 +2,7 @@
 
 - [Scope](#scope)
 - [Workflow Overview](#workflow-overview)
+- [PR Gates](#pr-gates)
 - [CI](#ci)
 - [Security Checks](#security-checks)
 - [Disposable AWS Deployment Test](#disposable-aws-deployment-test)
@@ -19,30 +20,46 @@ credential handling, emergency access, and other private operator procedures.
 
 Automation is separated by responsibility:
 
+The shared Python-project baseline consists of `pr.yml`, `ci.yml`, `sbom.yml`, and `cd.yml`.
+Repository-specific workflows extend that baseline without folding their responsibilities into the
+four common lifecycle files.
+
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
-| `.github/workflows/ci.yml` | Pull requests, protected-branch pushes, merge queue, manual | Validate the package, supported Python versions, and GitFlow target |
+| `.github/workflows/pr.yml` | Pull requests, merge queue | Enforce GitFlow pull-request routing |
+| `.github/workflows/ci.yml` | Pull requests, protected-branch pushes, merge queue, manual | Validate source, tests, documentation, supported runtimes, and distributions |
 | `.github/workflows/security.yml` | Manual | Run optional `cdk-nag` checks against synthesized infrastructure |
 | `.github/workflows/deployment-test.yml` | Manual on `main` with protected environment | Create and destroy a bounded AWS test stack |
 | `.github/workflows/sbom.yml` | Relevant protected-branch pushes, manual | Generate an advisory CycloneDX SBOM |
 | `.github/workflows/cd.yml` | Semantic-version tag pushes or explicit historical backfill | Validate tagged artifacts and publish a GitHub Release |
 
-CI and advisory SBOM generation run independently. Only a semantic-version tag triggers release
-publication.
+PR policy, CI, and advisory SBOM generation run independently. Only a semantic-version tag triggers
+release publication.
+
+## PR Gates
+
+Workflow name: `Pull Request (PR) Gates`
+
+The `Guard pull request target` job enforces the documented GitFlow branch map. It also requires
+release and hotfix pull requests targeting `main` to originate in this repository, matching the
+shared production-safety boundary without requiring AWS access.
+
+PR gates run for pull requests and merge-queue entries targeting `develop` or `main`. Comprehensive
+source and package validation remains in `ci.yml`, keeping `pr.yml` focused on hosted pull-request
+policy across projects.
 
 ## CI
 
-Workflow name: `CI`
+Workflow name: `Continuous Integration (CI)`
 
-The `Guard PR target branch` job enforces the documented GitFlow branch map. The dependent `Validate
-package` job verifies the dated changelog section for release and hotfix pull requests before it
-installs development dependencies, lints, type-checks, verifies repository policies, runs unit tests
-with coverage, and builds the HTML documentation with warnings treated as errors. The dependent
-`Test Python … with … dependencies` matrix exercises every supported Python version against both the
-lowest supported direct dependencies and the newest versions allowed by package metadata. `Validate
-distributions` builds the wheel and sdist once, checks their contents, and installs each into a
-clean environment. The advisory cross-platform jobs install the package and verify its public module
-can be imported on macOS and Windows runners.
+The `Validate pull request` job verifies the dated changelog section for release and hotfix pull
+requests, installs development dependencies, lints, type-checks, verifies repository policies, runs
+tests with coverage (including example CDK synthesis), and builds the HTML documentation with
+warnings treated as errors. The `Test Python … with … dependencies` matrix exercises every supported
+Python version against both the lowest supported direct dependencies and the newest versions allowed
+by package metadata. `Validate distributions` builds the wheel and sdist once, checks their
+contents, and installs each into a clean environment. The advisory cross-platform jobs install the
+package and verify its public module can be imported on macOS and Windows runners.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
@@ -76,7 +93,7 @@ replace review of synthesized CloudFormation.
 
 ## Release
 
-Workflow name: `Release`
+Workflow name: `Continuous Deployment (CD)`
 
 The `Build and validate release artifacts` job requires a dated changelog section matching the tag.
 It builds the sdist and wheel once, runs `twine check`, verifies distribution contents and metadata,
@@ -93,7 +110,9 @@ latest. The workflow does not create, move, or recreate tags and does not publis
 
 The workflows have distinct validation and publication responsibilities:
 
-- `CI` is the required confidence gate for protected-branch integration.
+- `Pull Request (PR) Gates` enforces hosted pull-request routing.
+- `Continuous Integration (CI)` provides source, test, documentation, compatibility, installation,
+  synthesis, and distribution confidence gates.
 - `Security checks` is an optional, credential-free infrastructure-policy review.
 - `Test disposable AWS deployment` is a separately approved manual end-to-end check.
 - `SBOM` is an advisory supply-chain artifact generated for relevant protected-branch changes.
@@ -103,10 +122,12 @@ The workflows have distinct validation and publication responsibilities:
 
 ## Required Checks
 
-Protected branches should require `Validate package`, every `Test Python … with … dependencies`
-matrix check, and `Validate distributions`. These jobs depend on `Guard PR target branch`, so source
-validation, supported-version and dependency-boundary compatibility, artifact contracts, clean
-installation, and branch routing must succeed. Workflow step names are not status-check names.
+Protected branches should require `Guard pull request target`, `Validate pull request`, every `Test
+Python … with … dependencies` matrix check, and `Validate distributions`. The guard runs in
+`pr.yml`; validation, matrix, and distribution jobs run independently in `ci.yml`. Together these
+checks cover branch routing, source validation, supported-version and dependency-boundary
+compatibility, artifact contracts, and clean installation. Workflow step names are not status-check
+names.
 
 Run `make check-ci-local` to reproduce the primary package validation and strict HTML documentation
 build locally. Platform-specific smoke jobs still require their corresponding GitHub-hosted runner
