@@ -55,11 +55,13 @@ Workflow name: `Continuous Integration (CI)`
 The `Validate pull request` job verifies the dated changelog section for release and hotfix pull
 requests, installs development dependencies, lints, type-checks, verifies repository policies, runs
 tests with coverage (including example CDK synthesis), and builds the HTML documentation with
-warnings treated as errors. The `Test Python … with … dependencies` matrix exercises every supported
-Python version against both the lowest supported direct dependencies and the newest versions allowed
-by package metadata. `Validate distributions` builds the wheel and sdist once, checks their
-contents, and installs each into a clean environment. The advisory cross-platform jobs install the
-package and verify its public module can be imported on macOS and Windows runners.
+warnings treated as errors. Separate `Build docs (epub)` and `Build docs (linkcheck)` jobs validate
+a portable documentation artifact and external references. The `Test Python … with … dependencies`
+matrix exercises every supported Python version against both the lowest supported direct
+dependencies and the newest versions allowed by package metadata. `Validate distributions` builds
+the wheel and sdist once, checks their contents, and installs each into a clean environment. The
+advisory cross-platform jobs install the package and verify its public module can be imported on
+macOS and Windows runners.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
@@ -99,8 +101,9 @@ The `Build and validate release artifacts` job requires a dated changelog sectio
 It builds the sdist and wheel once, runs `twine check`, verifies distribution contents and metadata,
 and installs each distribution into a separate clean environment for an import and basic CDK
 synthesis test. It then generates SHA-256 checksums and a CycloneDX SBOM. The dependent `Publish
-GitHub release` job downloads that single validated artifact bundle and attaches every file to the
-GitHub Release associated with the existing tag.
+GitHub release` job waits for separate strict HTML and EPUB builds of the tagged documentation,
+downloads the single validated artifact bundle, and attaches every file to the GitHub Release
+associated with the existing tag.
 
 Manual dispatch can recover a missing historical release by checking out an explicitly named,
 existing annotated tag. Historical recovery never moves a tag or marks the backfilled release as
@@ -129,9 +132,11 @@ checks cover branch routing, source validation, supported-version and dependency
 compatibility, artifact contracts, and clean installation. Workflow step names are not status-check
 names.
 
-Run `make check-ci-local` to reproduce the primary package validation and strict HTML documentation
-build locally. Platform-specific smoke jobs still require their corresponding GitHub-hosted runner
-or an equivalent operating system.
+The EPUB and external-link documentation checks run for every pull request but are advisory by
+default because external-link availability can be transient. Run `make check-ci-local`, `make
+docs-epub`, and `make docs-linkcheck` to reproduce the package and documentation validation locally.
+Platform-specific smoke jobs still require their corresponding GitHub-hosted runner or an equivalent
+operating system.
 
 When renaming workflows or jobs, run the replacement on a representative pull request before
 updating the ruleset. See the [branch protection guide].
