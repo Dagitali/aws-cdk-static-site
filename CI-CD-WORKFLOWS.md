@@ -142,4 +142,4 @@ When renaming workflows or jobs, run the replacement on a representative pull re
 updating the ruleset. See the [branch protection guide].
 
 [branch protection guide]: .github/BRANCH-PROTECTION.md
-[deployment testing guide]: docs/DEPLOYMENT-TESTING.md
+[deployment testing guide]: docs/runbooks/disposable-aws-deployment.md
