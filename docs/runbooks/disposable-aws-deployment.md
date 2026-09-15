@@ -70,4 +70,4 @@ timeout before cleanup completes, inspect CloudFormation for the exact
 `AwsCdkStaticSiteTest-<run-id>` stack and finish deletion through a reviewed operator path. Never
 delete a broader name pattern or unrelated stack.
 
-[disposable deployment example]: ../examples/disposable-deployment/app.py
+[disposable deployment example]: ../../examples/disposable-deployment/app.py
