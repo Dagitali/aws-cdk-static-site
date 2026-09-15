@@ -128,4 +128,4 @@ wait from finishing.
 that stack through a reviewed operator path. Never use a broad name pattern.
 
 **Verification:** Wait for `stack-delete-complete` and confirm the exact stack no longer exists, as
-described in `docs/DEPLOYMENT-TESTING.md`.
+described in `docs/runbooks/disposable-aws-deployment.md`.
