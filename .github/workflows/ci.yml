@@ -10,6 +10,7 @@
 #   synthesized infrastructure before changes merge.
 # - Exercise every explicitly supported Python version.
 # - Test the lowest and newest runtime dependencies allowed by package metadata.
+# - Build non-HTML documentation targets.
 # - Smoke-test installation on each supported operating-system family.
 # - Validate built artifacts and documented example applications.
 #
@@ -46,6 +47,8 @@
 # - Python wheel format specification:
 #   https://packaging.python.org/en/latest/specifications/
 #   binary-distribution-format/#file-contents
+# - Sphinx builders reference:
+#   https://www.sphinx-doc.org/en/master/usage/builders/index.html
 
 ---
 name: Continuous Integration (CI)
@@ -147,6 +150,42 @@ jobs:
         run: >-
           python -m sphinx -T -W --keep-going
           -b html docs/source docs/build/html
+
+  document:
+    name: Build docs (${{ matrix.builder }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        builder:
+          - epub
+          - linkcheck
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install documentation dependencies
+        run: >-
+          python -m pip install --disable-pip-version-check
+          -e '.[docs]'
+
+      - name: Build documentation
+        env:
+          DOCS_BUILDER: ${{ matrix.builder }}
+        run: >-
+          python -m sphinx -T -W --keep-going
+          -b "$DOCS_BUILDER" docs/source "docs/build/$DOCS_BUILDER"
 
   test-dependency-boundaries:
     name: >-
