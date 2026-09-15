@@ -3,12 +3,14 @@
 #
 # Copyright © 2026 Dagitali LLC. All rights reserved.
 #
-# GitHub Actions workflow for tagged and historical GitHub Releases.
+# A GitHub Actions workflow for continuous delivery (CD) of tagged and
+# historical GitHub Releases.
 #
 # Responsibilities
 # - Build the tagged source and wheel distributions exactly once.
 # - Check and smoke-test each distribution in an isolated environment.
 # - Generate checksums and a CycloneDX SBOM for release attachment.
+# - Validate tagged HTML and EPUB documentation builds.
 # - Publish validated artifacts to the GitHub Release for the existing tag.
 # - Recover missing historical releases from explicitly selected immutable tags.
 #
@@ -17,25 +19,39 @@
 # - This workflow publishes GitHub Releases but does not publish to PyPI.
 # - Global permissions are intentionally omitted; each job declares the minimum
 #   permissions it needs.
-# - External GitHub Actions are pinned to full commit SHAs.
+# - External GitHub Actions are pinned to full commit SHAs to reduce supply-
+#   chain risk.
+# - The dynamic run name identifies the selected operation and source revision.
 #
 # References
+# - CycloneDX Python tooling:
+#   https://cyclonedx.org/tool-center/python/
 # - GitHub release documentation:
 #   https://docs.github.com/en/repositories/releasing-projects-on-github
 # - GitHub Actions Python packaging guide:
 #   https://docs.github.com/en/actions/automating-builds-and-tests/
 #   building-and-testing-python
-# - Python packaging documentation: https://packaging.python.org/
-# - CycloneDX Python tooling: https://cyclonedx.org/tool-center/python/
+# - GitHub Actions expressions reference:
+#   https://docs.github.com/en/actions/learn-github-actions/expressions
+# - GitHub Actions security hardening guide:
+#   https://docs.github.com/en/actions/security-guides/
+#   security-hardening-for-github-actions
+# - GitHub Actions workflow syntax reference:
+#   https://docs.github.com/en/actions/using-workflows/
+#   workflow-syntax-for-github-actions
+# - Python packaging documentation:
+#   https://packaging.python.org/
+# - Sphinx builders reference:
+#   https://www.sphinx-doc.org/en/master/usage/builders/index.html
 
 ---
-name: Release
+name: Continuous Deployment (CD)
 
 run-name: >-
   ${{
     github.event_name == 'workflow_dispatch' &&
-    format('Backfill release {0}', inputs.release_tag) ||
-    format('Release {0}', github.ref_name)
+    format('CD: backfill release {0}', inputs.release_tag) ||
+    format('CD: release {0}', github.ref_name)
   }}
 
 on:
@@ -52,9 +68,9 @@ on:
 permissions: {}
 
 env:
-  ARTIFACT_RETENTION_DAYS: "14"
-  CYCLONEDX_BOM_VERSION: "7.2.2"
-  DEFAULT_PYTHON_VERSION: "3.13"
+  ARTIFACT_RETENTION_DAYS: '14'
+  CYCLONEDX_BOM_VERSION: '7.2.2'
+  DEFAULT_PYTHON_VERSION: '3.13'
   PACKAGE_DISTRIBUTION_NAME: aws-cdk-static-site
   PACKAGE_IMPORT_NAME: aws_cdk_static_site
   RELEASE_ARTIFACT_NAME: release-artifacts
@@ -206,9 +222,47 @@ jobs:
           if-no-files-found: error
           retention-days: ${{ env.ARTIFACT_RETENTION_DAYS }}
 
+  document:
+    name: Build docs (${{ matrix.builder }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        builder:
+          - html
+          - epub
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ env.RELEASE_TAG }}
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install documentation dependencies
+        run: >-
+          python -m pip install --disable-pip-version-check
+          -e '.[docs]'
+
+      - name: Build documentation
+        env:
+          DOCS_BUILDER: ${{ matrix.builder }}
+        run: >-
+          python -m sphinx -T -W --keep-going
+          -b "$DOCS_BUILDER" docs/source "docs/build/$DOCS_BUILDER"
+
   release:
     name: Publish GitHub release
-    needs: build
+    needs: [build, document]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

@@ -1,0 +1,92 @@
+# pr.yml
+# aws-cdk-static-site
+#
+# Copyright © 2026 Dagitali LLC. All rights reserved.
+#
+# GitHub Actions workflow for pull-request policy.
+#
+# Responsibilities
+# - Enforce the repository's GitFlow pull-request target rule.
+#
+# Maintainer Notes
+# - Global permissions are intentionally omitted; each job declares the minimum
+#   permissions it needs.
+# - Keep comprehensive source and package validation in `ci.yml`.
+# - The dynamic run name identifies the source and target context for review.
+#
+# References
+# - GitHub Actions expressions reference:
+#   https://docs.github.com/en/actions/learn-github-actions/expressions
+# - GitHub Actions security hardening guide:
+#   https://docs.github.com/en/actions/security-guides/
+#   security-hardening-for-github-actions
+# - GitHub Actions workflow syntax reference:
+#   https://docs.github.com/en/actions/using-workflows/
+#   workflow-syntax-for-github-actions
+# - GitHub pull request documentation:
+#   https://docs.github.com/en/pull-requests
+# - GitHub merge queue documentation:
+#   https://docs.github.com/en/repositories/configuring-branches-and-merges/
+#   configuring-merge-queues
+
+---
+name: Pull Request (PR) Gates
+
+run-name: >-
+  ${{
+    github.event_name == 'pull_request' &&
+    format('PR Gates: {0} -> {1}', github.head_ref, github.base_ref) ||
+    format('PR Gates: merge queue for {0}', github.ref_name)
+  }}
+
+on:
+  merge_group:
+    branches:
+      # Long-lived GitFlow branches
+      - main
+      - develop
+  pull_request:
+    branches:
+      # Long-lived GitFlow branches
+      - main
+      - develop
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    name: Guard pull request target
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Accept merge queue validation
+        if: github.event_name == 'merge_group'
+        run: echo 'The merge group inherits target validation from its queued pull requests.'
+
+      - name: Enforce GitFlow target rules
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          case "$BASE_REF:$HEAD_REF" in
+            main:release/* | main:hotfix/*)
+              if [[ "$HEAD_REPOSITORY" != "$REPOSITORY" ]]; then
+                echo 'Release and hotfix branches targeting main must belong to this repository.' >&2
+                exit 1
+              fi
+              ;;
+            develop:feature/* | develop:bugfix/* | develop:chore/* | develop:ci/* | develop:docs/* | develop:dependabot/* | develop:sync/*)
+              ;;
+            *)
+              echo "Unsupported GitFlow path: $HEAD_REF -> $BASE_REF" >&2
+              exit 1
+              ;;
+          esac

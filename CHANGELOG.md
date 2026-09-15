@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.13 - 2026-09-15](#0313---2026-09-15)
 - [0.3.12 - 2026-09-15](#0312---2026-09-15)
 - [0.3.11 - 2026-09-15](#0311---2026-09-15)
 - [0.3.10 - 2026-09-10](#0310---2026-09-10)
@@ -28,6 +29,14 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.13 - 2026-09-15
+
+- Standardize the four shared Python-project workflows and their supporting GitHub governance
+  documents around the same reusable responsibilities, naming, templates, and maintainer guidance
+  used by sibling Dagitali projects, adding EPUB and link-check CI plus tagged HTML and EPUB release
+  validation, explicit required and advisory check guidance, and consistent release-note practices
+  while retaining this package's compatibility, infrastructure, and artifact safeguards.
 
 ## 0.3.12 - 2026-09-15
 
