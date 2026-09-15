@@ -9,6 +9,8 @@ branch protection rules may be used.
 - [Required Status Checks](#required-status-checks)
   - [Selection Principles](#selection-principles)
   - [Repository-Specific Checks](#repository-specific-checks)
+  - [Current Required-Check Candidates](#current-required-check-candidates)
+  - [Current Advisory Checks](#current-advisory-checks)
 - [Shared Protection Baseline](#shared-protection-baseline)
 - [Repository-Specific Branch Settings](#repository-specific-branch-settings)
   - [`main`](#main)
@@ -115,13 +117,6 @@ The current workflow model is:
 - `.github/workflows/sbom.yml` generates a Python dependency inventory after relevant pushes to
   `main` or `develop`, or when manually dispatched.
 
-`Guard pull request target`, `Validate pull request`, every `Test Python … with … dependencies`
-matrix result, and `Validate distributions` are eligible required checks for both protected
-branches. Cross-platform smoke checks are advisory because runner availability and duration may make
-them unsuitable as merge blockers. EPUB and link-check jobs are also advisory by default because
-external-link availability can be transient. Deployment, publication, manual security, and SBOM jobs
-must not be required because they do not run for every pull request.
-
 The PR and CI jobs have unique explicit names because GitHub required checks do not distinguish
 identical job names by workflow. After the applicable jobs complete successfully on representative
 pull requests, select their exact emitted check names in the ruleset.
@@ -129,6 +124,38 @@ pull requests, select their exact emitted check names in the ruleset.
 Individual policy, lint, type-check, test-with-coverage, synthesis, and documentation entries are
 steps inside the CI job. They are not independently selectable required checks. A project that needs
 independent required results should place those checks in separately named jobs.
+
+### Current Required-Check Candidates
+
+After confirming their emitted names on a representative hosted run, these jobs are eligible to be
+required for both protected branches:
+
+- `Guard pull request target`
+- `Validate pull request`
+- `Test Python 3.13 with lowest dependencies`
+- `Test Python 3.13 with newest dependencies`
+- `Test Python 3.14 with lowest dependencies`
+- `Test Python 3.14 with newest dependencies`
+- `Validate distributions`
+
+Treat the names as current repository configuration, not permanent policy. Refresh this list and the
+hosted rulesets together whenever workflow job names or the supported Python matrix changes.
+
+### Current Advisory Checks
+
+These pull-request jobs provide useful additional evidence but are advisory by default:
+
+- `Build docs (epub)`
+- `Build docs (linkcheck)`
+- `Smoke install on macos-latest`
+- `Smoke install on windows-latest`
+
+Cross-platform smoke checks depend on hosted-runner availability and can take longer than the core
+gate. External-link availability can be transient. Promote an advisory job to a required check only
+after it has proved reliable and continues to run for every applicable pull request and merge group.
+
+Deployment, publication, manual security, and SBOM jobs must not be required because they do not run
+for every pull request.
 
 ## Shared Protection Baseline
 
