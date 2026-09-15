@@ -106,8 +106,8 @@ The current workflow model is:
 - `.github/workflows/ci.yml` runs for every pull request and merge group targeting `main` or
   `develop`, for pushes to either protected branch, or when manually dispatched. `Validate pull
   request` performs policy, lint, type, test-with-coverage, synthesis, and documentation checks.
-  Additional jobs exercise supported Python and dependency boundaries, cross-platform installation,
-  and built distributions.
+  Additional jobs exercise EPUB and external-link documentation builds, supported Python and
+  dependency boundaries, cross-platform installation, and built distributions.
 - `.github/workflows/cd.yml` builds and validates tagged package artifacts and publishes them to the
   corresponding GitHub Release. Manual dispatch supports recovery of an existing annotated tag.
 - `.github/workflows/security.yml` and `.github/workflows/deployment-test.yml` are manually
@@ -118,8 +118,9 @@ The current workflow model is:
 `Guard pull request target`, `Validate pull request`, every `Test Python … with … dependencies`
 matrix result, and `Validate distributions` are eligible required checks for both protected
 branches. Cross-platform smoke checks are advisory because runner availability and duration may make
-them unsuitable as merge blockers. Deployment, publication, manual security, and SBOM jobs must not
-be required because they do not run for every pull request.
+them unsuitable as merge blockers. EPUB and link-check jobs are also advisory by default because
+external-link availability can be transient. Deployment, publication, manual security, and SBOM jobs
+must not be required because they do not run for every pull request.
 
 The PR and CI jobs have unique explicit names because GitHub required checks do not distinguish
 identical job names by workflow. After the applicable jobs complete successfully on representative
