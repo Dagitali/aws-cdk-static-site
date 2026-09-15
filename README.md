@@ -228,7 +228,7 @@ welcome.
 [Contributing guidelines]: CONTRIBUTING.md
 [Cost considerations]: docs/COSTS.md
 [Dagitali website]: https://www.dagitali.com/
-[Disposable AWS deployment testing]: docs/DEPLOYMENT-TESTING.md
+[Disposable AWS deployment testing]: docs/runbooks/disposable-aws-deployment.md
 [Documentation index]: docs/README.md
 [Extraction roadmap]: docs/ROADMAP.md
 [Focused examples]: examples/README.md
@@ -237,10 +237,10 @@ welcome.
 [GitHub release]: https://github.com/Dagitali/aws-cdk-static-site/releases
 [GitHub Sponsors]: https://github.com/sponsors/Dagitali
 [Local Sphinx documentation]: docs/README.md#build-the-local-site
-[Maintainer runbooks]: .github/MAINTAINER-RUNBOOKS.md
+[Maintainer runbooks]: docs/runbooks/maintainer-operations.md
 [MIT License]: LICENSE
 [Python support]: #requirements
-[Release checklist]: RELEASE-CHECKLIST.md
+[Release checklist]: docs/playbooks/release.md
 [Release policy]: RELEASE-POLICY.md
 [Security policy]: SECURITY.md
 [Support policy]: SUPPORT.md
