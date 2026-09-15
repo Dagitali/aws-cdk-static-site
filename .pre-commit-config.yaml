@@ -147,7 +147,7 @@ repos:
 
   # Python: authoritative linting, import ordering, and pyupgrade-style rules
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.6
+    rev: v0.16.7
     hooks:
       # Run the linter
       - id: ruff-check
