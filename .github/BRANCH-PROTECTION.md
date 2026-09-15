@@ -262,7 +262,7 @@ pull request.
 
 ## Maintenance Notes
 
-- Keep this file aligned with `.github/workflows/`, `.github/MAINTAINER-RUNBOOKS.md`,
+- Keep this file aligned with `.github/workflows/`, `docs/runbooks/maintainer-operations.md`,
   `CONTRIBUTING.md`, and the repository's actual rulesets or branch protection rules.
 - Update branch-role guidance when the branching model changes.
 - Keep required job names unique and update this document whenever they change.
