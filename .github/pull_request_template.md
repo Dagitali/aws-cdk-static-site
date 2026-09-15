@@ -1,6 +1,6 @@
 ## Summary
 
-Describe the user-visible or maintainer-facing change and why it is needed.
+Describe the user-visible or operational change and why it is needed.
 
 Link related issues and identify the intended target branch when that context is not obvious.
 
@@ -12,16 +12,22 @@ risks explicitly.
 
 ## Validation
 
-List the checks performed and relevant scenarios exercised. Include the commands used when
-practical, such as `make check`.
+List the checks performed (locally or in a representative environment) and relevant scenarios
+exercised. Include the commands used when practical, such as `make check`.
+
+## Deployment and Rollback
+
+Describe deployment, publication, compatibility, or release impact; configuration changes; known
+risks; and how to restore the prior safe state.
 
 ## Checklist
 
 - [ ] I added or updated tests for changed behavior when applicable.
-- [ ] I updated user-facing or maintainer documentation when needed.
+- [ ] I updated user, maintainer, or deployment documentation where needed.
 - [ ] I ran the relevant local checks.
 - [ ] I updated `CHANGELOG.md` for a user-visible change.
 - [ ] I reviewed compatibility and generated or deployable artifacts when applicable.
+- [ ] I reviewed public-interface, artifact, and synthesized-infrastructure compatibility.
 - [ ] I identified breaking changes, deprecations, and migration steps explicitly.
-- [ ] I kept credentials, private data, and other secrets out of the repository.
+- [ ] I kept credentials, private identifiers, and other secrets out of the repository.
 - [ ] I documented intentional limitations and follow-up work.
