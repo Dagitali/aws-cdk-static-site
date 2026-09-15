@@ -55,6 +55,16 @@ only to prevent documentation regressions.
 - [Roadmap] records the extraction and stabilization plan.
 - [Examples] demonstrates supported composition patterns.
 
+Topic indexes reserve discoverable homes for documentation as it grows:
+
+- [API notes] for maintained public-interface design notes;
+- [Architecture notes] for focused diagrams and analyses;
+- [Decision records] for durable architectural decisions;
+- [Development documentation] for detailed contributor guidance;
+- [Playbooks] for repeatable maintainer workflows;
+- [Runbooks] for bounded operational procedures; and
+- [Tutorials] for end-to-end consumer learning paths.
+
 ## Related Repository Documents
 
 - [Contributing]
@@ -70,17 +80,24 @@ Keep examples executable, prefer relative links between repository documents, an
 pricing-sensitive or service-specific claims against the authoritative source linked in
 `REFERENCES.md`.
 
+[API notes]: api/README.md
+[Architecture notes]: architecture/README.md
 [CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
 [Configuration]: CONFIGURATION.md
 [Contributing]: ../CONTRIBUTING.md
 [Costs]: COSTS.md
 [Disposable AWS deployment testing]: DEPLOYMENT-TESTING.md
+[Decision records]: decisions/README.md
+[Development documentation]: development/README.md
 [Examples]: ../examples/README.md
 [Maintainer runbooks]: ../.github/MAINTAINER-RUNBOOKS.md
 [Release checklist]: ../RELEASE-CHECKLIST.md
 [Release policy]: ../RELEASE-POLICY.md
 [Roadmap]: ROADMAP.md
+[Playbooks]: playbooks/README.md
+[Runbooks]: runbooks/README.md
 [Security]: ../SECURITY.md
 [Support]: ../SUPPORT.md
 [Technical references]: ../REFERENCES.md
 [Testing]: TESTING.md
+[Tutorials]: tutorials/README.md
