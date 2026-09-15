@@ -116,7 +116,18 @@ public [release checklist] and [release policy] together with these repository-s
 
 1. Confirm `develop` contains the intended release scope and its required checks are passing.
 2. Choose the next semantic version under the release policy.
-3. Create `release/<version>` from current `develop`.
+3. Create `release/<version>` from current `develop`. For example:
+
+   ```bash
+   git flow release start VERSION
+   ```
+
+   Or use ordinary Git:
+
+   ```bash
+   git switch -c release/VERSION develop
+   ```
+
 4. Limit changes to release preparation, stabilization, documentation, and necessary corrections.
 5. Move completed `Unreleased` entries into a dated `## <version> - YYYY-MM-DD` section in
    `CHANGELOG.md`. Do not edit a package version; `setuptools-scm` derives it from Git tags.
@@ -142,7 +153,18 @@ cycle.
 
 1. Confirm the issue warrants bypassing the normal `develop`-first path and identify the affected
    release or behavior.
-2. Start from current `main` and create `hotfix/<version>`.
+2. Start from current `main` and create `hotfix/<version>`. For example:
+
+   ```bash
+   git flow hotfix start VERSION
+   ```
+
+   Or use ordinary Git:
+
+   ```bash
+   git switch -c hotfix/VERSION main
+   ```
+
 3. Make the smallest safe change and add regression coverage when practical.
 4. Run focused validation plus the normal required quality gates.
 5. Document urgency, compatibility, validation, rollback, and the planned sync to `develop`.
