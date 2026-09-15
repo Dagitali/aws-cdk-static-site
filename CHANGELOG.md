@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 - [Unreleased](#unreleased)
+- [0.3.14 - 2026-09-15](#0314---2026-09-15)
 - [0.3.13 - 2026-09-15](#0313---2026-09-15)
 - [0.3.12 - 2026-09-15](#0312---2026-09-15)
 - [0.3.11 - 2026-09-15](#0311---2026-09-15)
@@ -29,6 +30,11 @@ All notable changes to this project will be documented in this file.
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.14 - 2026-09-15
+
+- Isolate Sphinx doctrees from builder output in CI and tagged-release documentation jobs so strict
+  EPUB validation does not misclassify internal build-state files as package content.
 
 ## 0.3.13 - 2026-09-15
 
