@@ -3,7 +3,8 @@
 #
 # Copyright © 2026 Dagitali LLC. All rights reserved.
 #
-# GitHub Actions workflow for tagged and historical GitHub Releases.
+# A GitHub Actions workflow for continuous delivery (CD) of tagged and
+# historical GitHub Releases.
 #
 # Responsibilities
 # - Build the tagged source and wheel distributions exactly once.
@@ -29,13 +30,13 @@
 # - CycloneDX Python tooling: https://cyclonedx.org/tool-center/python/
 
 ---
-name: Release
+name: Continuous Deployment (CD)
 
 run-name: >-
   ${{
     github.event_name == 'workflow_dispatch' &&
-    format('Backfill release {0}', inputs.release_tag) ||
-    format('Release {0}', github.ref_name)
+    format('CD: backfill release {0}', inputs.release_tag) ||
+    format('CD: release {0}', github.ref_name)
   }}
 
 on:
@@ -52,9 +53,9 @@ on:
 permissions: {}
 
 env:
-  ARTIFACT_RETENTION_DAYS: "14"
-  CYCLONEDX_BOM_VERSION: "7.2.2"
-  DEFAULT_PYTHON_VERSION: "3.13"
+  ARTIFACT_RETENTION_DAYS: '14'
+  CYCLONEDX_BOM_VERSION: '7.2.2'
+  DEFAULT_PYTHON_VERSION: '3.13'
   PACKAGE_DISTRIBUTION_NAME: aws-cdk-static-site
   PACKAGE_IMPORT_NAME: aws_cdk_static_site
   RELEASE_ARTIFACT_NAME: release-artifacts
