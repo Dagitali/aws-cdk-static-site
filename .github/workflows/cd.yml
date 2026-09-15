@@ -10,6 +10,7 @@
 # - Build the tagged source and wheel distributions exactly once.
 # - Check and smoke-test each distribution in an isolated environment.
 # - Generate checksums and a CycloneDX SBOM for release attachment.
+# - Validate tagged HTML and EPUB documentation builds.
 # - Publish validated artifacts to the GitHub Release for the existing tag.
 # - Recover missing historical releases from explicitly selected immutable tags.
 #
@@ -40,6 +41,8 @@
 #   workflow-syntax-for-github-actions
 # - Python packaging documentation:
 #   https://packaging.python.org/
+# - Sphinx builders reference:
+#   https://www.sphinx-doc.org/en/master/usage/builders/index.html
 
 ---
 name: Continuous Deployment (CD)
@@ -219,9 +222,47 @@ jobs:
           if-no-files-found: error
           retention-days: ${{ env.ARTIFACT_RETENTION_DAYS }}
 
+  document:
+    name: Build docs (${{ matrix.builder }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        builder:
+          - html
+          - epub
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # Pinned v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ env.RELEASE_TAG }}
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install documentation dependencies
+        run: >-
+          python -m pip install --disable-pip-version-check
+          -e '.[docs]'
+
+      - name: Build documentation
+        env:
+          DOCS_BUILDER: ${{ matrix.builder }}
+        run: >-
+          python -m sphinx -T -W --keep-going
+          -b "$DOCS_BUILDER" docs/source "docs/build/$DOCS_BUILDER"
+
   release:
     name: Publish GitHub release
-    needs: build
+    needs: [build, document]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
