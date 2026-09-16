@@ -256,8 +256,8 @@ replacement is enforcing the intended gate.
 
 ## Maintenance Notes
 
-- Keep this file aligned with `.github/workflows/`, `docs/runbooks/maintainer-operations.md`,
-  `CONTRIBUTING.md`, and the repository's actual rulesets or branch protection rules.
+- Keep this file aligned with the [CI/CD workflow map], [maintainer operations], [contributing
+  guidelines], and the repository's actual rulesets or branch protection rules.
 - Update branch-role guidance when the branching model changes.
 - Keep required job names unique and update this document whenever they change.
 - Treat platform, language, toolchain, and version-specific checks as repository-specific
@@ -272,6 +272,9 @@ replacement is enforcing the intended gate.
 - [GitHub required-check troubleshooting][ruleset-troubleshooting]
 - [GitHub merge queue configuration][merge-queue]
 
+[CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
+[contributing guidelines]: ../CONTRIBUTING.md
+[maintainer operations]: ../docs/runbooks/maintainer-operations.md
 [merge-queue]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue
 [protected-branches]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches
 [required-check maintenance runbook]: ../docs/runbooks/update-required-checks.md

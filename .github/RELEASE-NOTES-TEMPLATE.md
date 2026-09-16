@@ -1,11 +1,11 @@
 # Release Notes Template
 
-Use this template when preparing a versioned document under `docs/releases/` and the reviewed notes
-for the corresponding GitHub Release. GitHub Releases remain the canonical public release-history
-surface; the committed document preserves the release candidate's detailed scope and validation
-record. Reconcile both with `CHANGELOG.md`, keep the sections that apply, and add more focused
-sections when needed. Release notes should explain released behavior without depending on private
-operational evidence.
+Use this template when preparing a versioned document for the [release notes archive] and the
+reviewed notes for the corresponding GitHub Release. GitHub Releases remain the canonical public
+release-history surface; the committed document preserves the release candidate's detailed scope and
+validation record. Reconcile both with the [changelog], keep the sections that apply, and add more
+focused sections when needed. Release notes should explain released behavior without depending on
+private operational evidence.
 
 - [Highlights](#highlights)
 - [Change Scope](#change-scope)
@@ -69,3 +69,6 @@ operational evidence.
 
 Before committing the release document, remove unused guidance, verify links and version numbers,
 and ensure credentials, private identifiers, and confidential evidence are absent.
+
+[changelog]: ../CHANGELOG.md
+[release notes archive]: ../docs/releases/README.md
