@@ -1,14 +1,15 @@
 # Roadmap
 
-This root roadmap summarizes current project status and links to the more detailed [extraction
-roadmap](docs/ROADMAP.md). It reflects repository evidence as of the current pre-1.0 development
-line; it is not a promise of dates.
+This is the canonical active roadmap for the project. It reflects repository evidence as of the
+current pre-1.0 development line; it is not a promise of dates. The completed origin and extraction
+phases are retained separately as [construct extraction history].
 
 - [Current State](#current-state)
 - [Near Term](#near-term)
 - [Before PyPI](#before-pypi)
 - [Later Opportunities](#later-opportunities)
 - [Completed Foundations](#completed-foundations)
+- [Historical Context](#historical-context)
 
 ## Current State
 
@@ -31,19 +32,27 @@ line; it is not a promise of dates.
 - Continue validating the `dagitali.com` adoption and feed reusable lessons back into this package.
 - Create `datasci.me`, then use the [construct-adoption playbook] to validate the API with a second,
   materially different static-site consumer.
+- Review whether the default security policy remains practical for consumers using fonts,
+  analytics, forms, or third-party media.
 - Convert demonstrated consumer needs into small, optional extension points rather than speculative
   framework features.
+- Keep contact APIs, budgets, and deployment workflows outside the core construct unless repeated
+  consumer evidence supports separate reusable packages or examples.
 
 ## Before PyPI
 
 - Recheck package-name availability immediately before publication.
 - Review and document the supported public API and compatibility commitments.
+- Review the locally generated API documentation as part of public API stabilization.
 - Complete first- and second-consumer validation and resolve discovered ergonomics gaps.
 - Configure PyPI Trusted Publishing through a protected GitHub environment; do not introduce
   long-lived credentials or manual uploads.
 - Publish a prerelease and validate installation, metadata, wheel, sdist, checksums, SBOM, and basic
   synthesis from the published artifact.
-- Decide when the CI-validated Sphinx site should be published through Read the Docs.
+- Retain tag-triggered validation that builds and installs the wheel and sdist, checks metadata,
+  synthesizes a representative example, and publishes GitHub Release assets.
+- Publish the CI-validated Sphinx site through Read the Docs after regular PyPI publication is
+  established.
 
 ## Later Opportunities
 
@@ -67,4 +76,12 @@ line; it is not a promise of dates.
   maintainer runbooks.
 - Public security, support, contribution, cost, configuration, testing, and deployment-test guides.
 
+## Historical Context
+
+This package began as the reusable delivery layer extracted from the `dagitali.com` application.
+The [construct extraction history] records the completed scaffold, boundary decisions, original
+consumer-adoption plan, and relationship to `cookiecutter-aws-website`. It is an architectural
+record, not a second roadmap. Current priorities and status belong only in this file.
+
 [construct-adoption playbook]: docs/playbooks/adopt-static-site-construct.md
+[construct extraction history]: docs/architecture/construct-extraction-history.md
