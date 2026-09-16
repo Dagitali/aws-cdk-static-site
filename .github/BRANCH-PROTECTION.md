@@ -246,19 +246,13 @@ required jobs report for merge groups. Any future required workflow must also su
 
 ## Updating Required Checks
 
-Whenever a workflow or job name changes:
+Use the [required-check maintenance runbook] whenever a workflow or job name, matrix, trigger,
+protected branch, advisory decision, or merge-queue setting changes. The runbook provides the staged
+transition, hosted-ruleset update, verification, troubleshooting, and rollback procedure.
 
-1. Run the updated workflow successfully on a representative pull request.
-2. Open the ruleset or branch protection rule for the target branch.
-3. Remove stale or ambiguous required check names.
-4. Add the exact current job name emitted by the successful run.
-5. Select GitHub Actions as the expected source when that restriction is available.
-6. Confirm the check runs for ordinary pull requests and every other required event.
-7. Repeat for each protected branch that intentionally shares the policy.
-
-Do not select workflow step names as required checks. If a required check remains pending, first
-confirm that its workflow trigger, path filters, job conditions, and emitted name cover the current
-pull request.
+This document remains authoritative for the desired required and advisory check sets. Do not select
+workflow step names as required checks, and do not remove an old required result until its verified
+replacement is enforcing the intended gate.
 
 ## Maintenance Notes
 
@@ -280,5 +274,6 @@ pull request.
 
 [merge-queue]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue
 [protected-branches]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches
+[required-check maintenance runbook]: ../docs/runbooks/update-required-checks.md
 [ruleset-rules]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets
 [ruleset-troubleshooting]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/troubleshooting-rules
