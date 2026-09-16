@@ -11,6 +11,7 @@ deployment application.
 - [Security and Lifecycle](#security-and-lifecycle)
 - [Repository Architecture](#repository-architecture)
 - [Automation Architecture](#automation-architecture)
+- [Change Impact and Sources of Truth](#change-impact-and-sources-of-truth)
 - [Known Boundaries](#known-boundaries)
 
 ## System Context
@@ -120,6 +121,22 @@ The only AWS-changing workflow is the manual disposable deployment test. It runs
 requires the exact `DEPLOY-AND-DESTROY` acknowledgement and protected-environment approval, assumes
 a short-lived OIDC role, rejects resources outside a fixed allowlist, and waits for deletion.
 
+## Change Impact and Sources of Truth
+
+Architecture prose is descriptive; the executable sources remain authoritative. A change should be
+traced through the smallest applicable chain:
+
+```text
+StaticSiteProps -> StaticSite -> synthesized template -> tests/examples -> public docs
+workflow YAML -> emitted job/check names -> branch protection and runbooks
+Git tag -> setuptools-scm version -> validated artifacts -> GitHub Release
+```
+
+Use the [change-impact map] before editing a public property, resource boundary, workflow contract,
+or release path. Accepted cross-cutting choices are indexed as [architecture decisions]. When code
+and prose disagree, establish whether the implementation or the documented contract is intended,
+then update tests and all affected documentation together.
+
 ## Known Boundaries
 
 - This repository contains library infrastructure, not the `dagitali.com` application or its
@@ -130,3 +147,6 @@ a short-lived OIDC role, rejects resources outside a fixed allowlist, and waits 
   by the separately approved disposable workflow.
 - The construct deliberately omits application APIs, WAF, budgets, monitoring, and GitHub OIDC role
   provisioning.
+
+[architecture decisions]: docs/decisions/README.md
+[change-impact map]: docs/architecture/change-impact-map.md
