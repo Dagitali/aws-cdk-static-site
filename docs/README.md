@@ -52,6 +52,9 @@ only to prevent documentation regressions.
   ownership models.
 - [Costs] explains cost drivers and safeguards without promising fixed prices.
 - [Testing] covers local quality gates and test design.
+- [Agent workflow] defines evidence gathering, tool roles, safe editing, and completion reporting.
+- [Documentation synchronization] maps executable sources to the prose that must change with them.
+- [Codex task templates] provides reusable prompts with scope, safety, and verification fields.
 - [Disposable AWS deployment testing] defines the manual test's identity, resource, cost, and
   cleanup boundaries.
 - [Project roadmap] records current status, consumer validation, and publication planning.
@@ -59,6 +62,9 @@ only to prevent documentation regressions.
 - [Learnings] captures reusable symptom, cause, fix, and verification records.
 - [Release notes archive] indexes detailed committed records for each release candidate.
 - [Examples] demonstrates supported composition patterns.
+- [Consumer tutorial] walks from a new CDK app to credential-free synthesis.
+- [Consumer scaffolding] turns a new consumer requirement into a reviewable project baseline.
+- [Incident response] covers failures in CI, releases, packages, and the disposable deployment test.
 
 Topic indexes reserve discoverable homes for documentation as it grows:
 
@@ -88,17 +94,23 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [API notes]: api/README.md
 [Architecture]: ../ARCHITECTURE.md
 [Architecture notes]: architecture/README.md
+[Agent workflow]: development/agent-workflow.md
 [CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
 [Configuration]: CONFIGURATION.md
 [Contributing]: ../CONTRIBUTING.md
 [Costs]: COSTS.md
 [Construct extraction history]: architecture/construct-extraction-history.md
+[Consumer scaffolding]: playbooks/scaffold-consumer-project.md
+[Consumer tutorial]: tutorials/synthesize-first-site.md
+[Codex task templates]: development/codex-task-templates.md
 [Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
+[Documentation synchronization]: development/documentation-sync.md
 [Decision records]: decisions/README.md
 [Development documentation]: development/README.md
 [Design]: ../DESIGN.md
 [Examples]: ../examples/README.md
 [Maintainer runbooks]: runbooks/maintainer-operations.md
+[Incident response]: runbooks/incident-response.md
 [Learnings]: ../LEARNINGS.md
 [Release checklist]: playbooks/release.md
 [Release notes archive]: releases/README.md
