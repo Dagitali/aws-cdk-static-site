@@ -75,6 +75,8 @@ phases are retained separately as [construct extraction history].
 - GitFlow routing, release policy, changelog validation, tagged GitHub Release automation, and
   maintainer runbooks.
 - Public security, support, contribution, cost, configuration, testing, and deployment-test guides.
+- Agent operating rules, documentation ownership and synchronization guidance, reusable task
+  templates, architecture decision records, incident response, and consumer scaffolding guidance.
 
 ## Historical Context
 
