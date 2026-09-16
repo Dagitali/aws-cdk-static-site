@@ -12,6 +12,7 @@ entry uses `Symptom → Cause → Fix → Verification`.
 - [A Workflow Pin Check Fails](#a-workflow-pin-check-fails)
 - [A Release Build Has the Wrong Version](#a-release-build-has-the-wrong-version)
 - [Disposable Deployment Cleanup Needs Operator Follow-Up](#disposable-deployment-cleanup-needs-operator-follow-up)
+- [Documentation and Automation Claims Drift Apart](#documentation-and-automation-claims-drift-apart)
 
 ## CloudFront Certificate Creation Fails or Is Rejected
 
@@ -132,8 +133,26 @@ that stack through a reviewed operator path. Never use a broad name pattern.
 **Verification:** Wait for `stack-delete-complete` and confirm the exact stack no longer exists, as
 described in the [disposable deployment runbook].
 
+## Documentation and Automation Claims Drift Apart
+
+**Symptom:** A guide names a command, workflow job, required check, supported version, or public
+property that no longer exists or behaves differently.
+
+**Cause:** Prose was updated independently from the executable source that defines the contract, or
+a broad documentation copy reused assumptions from another repository.
+
+**Fix:** Trace the claim to its canonical source: `pyproject.toml` for package/tool policy,
+`Makefile` for contributor commands, workflow YAML for triggers and job names, implementation and
+tests for construct behavior, and tags plus release automation for publication. Update every owned
+mirror in the same focused change using the [documentation synchronization guide].
+
+**Verification:** Run the applicable executable check, `make docs-strict` for Sphinx content, and a
+relative-link/structure check for standalone Markdown. Review the final diff for unsupported future
+state, private identifiers, and stale copied names.
+
 [construct-adoption playbook]: docs/playbooks/adopt-static-site-construct.md
 [cost considerations]: docs/COSTS.md
 [disposable deployment runbook]: docs/runbooks/disposable-aws-deployment.md
+[documentation synchronization guide]: docs/development/documentation-sync.md
 [release playbook]: docs/playbooks/release.md
 [testing guide]: docs/TESTING.md
