@@ -135,4 +135,4 @@ duplicate these settings in `.coveragerc`, `pytest.toml`, `pytest.ini`, `ruff.to
 Normal pytest and CI never deploy resources. The manual workflow is restricted to `main`, requires
 the exact `DEPLOY-AND-DESTROY` acknowledgement and a protected GitHub environment, validates a fixed
 resource allowlist before deployment, and waits for stack deletion afterward. See [Disposable AWS
-Deployment Testing](DEPLOYMENT-TESTING.md) before configuring or running it.
+Deployment Testing](runbooks/disposable-aws-deployment.md) before configuring or running it.
