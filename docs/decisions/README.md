@@ -19,3 +19,9 @@ Status: Proposed | Accepted | Superseded
 ```
 
 Routine implementation detail belongs in code or [DESIGN.md](../../DESIGN.md), not in an ADR.
+
+Accepted records:
+
+- [0001: Use a private S3 origin with CloudFront OAC](0001-private-s3-origin-with-oac.md)
+- [0002: Retain stateful buckets by default](0002-retain-stateful-buckets-by-default.md)
+- [0003: Separate validation from cloud-changing automation](0003-separate-validation-from-cloud-changes.md)
