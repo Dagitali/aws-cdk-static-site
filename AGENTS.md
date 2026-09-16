@@ -4,14 +4,17 @@ These instructions apply to automated coding agents working in this repository. 
 system-level instructions take precedence.
 
 - [Repository Boundaries](#repository-boundaries)
+- [Agent Operating Model](#agent-operating-model)
 - [Repository Map](#repository-map)
 - [Development Policy](#development-policy)
 - [Validation Commands](#validation-commands)
 - [AWS CDK Conventions](#aws-cdk-conventions)
+- [Documentation Obligations](#documentation-obligations)
 - [Git and Automation](#git-and-automation)
 - [Release Readiness](#release-readiness)
 - [Infrastructure Safety](#infrastructure-safety)
 - [Definition of Done](#definition-of-done)
+- [Completion Report](#completion-report)
 
 ## Repository Boundaries
 
@@ -22,6 +25,38 @@ system-level instructions take precedence.
 - Keep reusable construct behavior separate from consumer-owned CDK app configuration, website
   content, deployment identity, monitoring, and account-wide controls.
 - Preserve unrelated working-tree changes and generated or user-owned files.
+- Treat `docs/build/`, `dist/`, `cdk.out/`, caches, virtual environments, and egg metadata as
+  generated output. Do not edit or commit them as source documentation.
+- Do not change public API, synthesized resources, workflow permissions, release behavior, or AWS
+  state merely to satisfy a documentation task.
+
+## Agent Operating Model
+
+Before editing:
+
+1. Read this file and any more specific `AGENTS.md` in the target subtree.
+2. Inspect `git status --short` and preserve unrelated changes. Never discard, overwrite, stage, or
+   reformat files outside the task's scope.
+3. Trace claims to repository evidence. For construct behavior, read `props.py`, `construct.py`, and
+   relevant tests; for commands, read `Makefile`; for automation, read the workflow itself.
+4. State the intended file scope and the narrowest verification that can prove the change.
+
+While editing:
+
+- Prefer a focused diff over broad cleanup. Preserve established terminology and relative links.
+- Do not invent deployed topology, account details, release state, pricing, or future commitments.
+- Record assumptions as assumptions. Convert durable architectural choices into ADRs and reusable
+  troubleshooting outcomes into `LEARNINGS.md`.
+- Stop and request explicit authorization before an AWS deploy or destroy, package publication,
+  release/tag creation, protected-branch mutation, secret access, or any destructive operation.
+- If repository evidence conflicts, report the conflict and fix the narrowest authoritative source;
+  do not silently choose the more convenient claim.
+
+Use ChatGPT for exploratory architecture discussion, alternatives, risk review, and decision framing
+when no repository write is required. Use Codex for evidence-backed repository inspection, edits,
+tests, and diffs. A ChatGPT conclusion is input to review, not repository truth, until Codex
+confirms it against the current checkout and records the accepted result. See the [agent workflow]
+and [task templates].
 
 ## Repository Map
 
@@ -76,6 +111,10 @@ Run `make check` before completion when practical. The default pytest suite cove
 integration tests with at least 90% branch coverage; optional security, distribution, and
 installation suites must be invoked explicitly.
 
+For Markdown-only changes outside `docs/source/`, also run a repository-local Markdown structure and
+relative-link check when available. `make docs-strict` validates Sphinx sources; it does not prove
+that every standalone Markdown link resolves.
+
 ## AWS CDK Conventions
 
 - Prefer stable L2 constructs and explicit typed properties. Use L1 constructs or escape hatches
@@ -91,6 +130,22 @@ installation suites must be invoked explicitly.
   consumer configuration outside this reusable construct unless its public boundary is revised.
 - Assert stable resource properties rather than generated logical IDs, except for tests that
   intentionally guard a stateful resource identity.
+
+## Documentation Obligations
+
+Update documentation in the same change when its source of truth changes:
+
+| Change | Documentation to review |
+| --- | --- |
+| Public property, validation, or export | Docstrings, `docs/CONFIGURATION.md`, `docs/api/`, examples, changelog |
+| Resource, request, lifecycle, or trust boundary | `ARCHITECTURE.md`, `DESIGN.md`, costs, tests, relevant ADR |
+| Make target or test layer | `AGENTS.md`, `CONTRIBUTING.md`, `docs/TESTING.md`, CI map |
+| Workflow trigger, job name, permissions, or artifact | `CI-CD-WORKFLOWS.md`, runbooks, branch-protection docs |
+| Release behavior or compatibility promise | `RELEASE-POLICY.md`, release playbook, roadmap, changelog |
+| Reusable failure and recovery | `LEARNINGS.md` and, when operational, a runbook |
+
+Do not duplicate generated API reference. Update public docstrings and `docs/source/` inputs. Follow
+the [documentation synchronization guide] for ownership, drift checks, and link validation.
 
 ## Git and Automation
 
@@ -143,5 +198,21 @@ A change is complete when all applicable items are true:
 - No AWS deployment, destruction, publication, tag creation, or external release occurred without
   explicit user authorization.
 
+## Completion Report
+
+Report:
+
+- Files created, updated, and intentionally left untouched;
+- The evidence and rationale for each major decision;
+- Validation commands run and their results;
+- Skipped checks with a concrete reason; and
+- Remaining risks, assumptions, or follow-up work.
+
+Do not claim success from edits alone. Distinguish completed validation from recommended validation,
+and never hide a failing check behind a broader passing command.
+
+[agent workflow]: docs/development/agent-workflow.md
+[documentation synchronization guide]: docs/development/documentation-sync.md
 [release checklist]: docs/playbooks/release.md
 [release policy]: RELEASE-POLICY.md
+[task templates]: docs/development/codex-task-templates.md
