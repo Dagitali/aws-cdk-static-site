@@ -59,7 +59,7 @@ performs cleanup.
 [configuration guide]: ../docs/CONFIGURATION.md
 [custom-CSP example]: custom-csp/
 [disposable-deployment example]: disposable-deployment/
-[Disposable AWS Deployment Testing]: ../docs/DEPLOYMENT-TESTING.md
+[Disposable AWS Deployment Testing]: ../docs/runbooks/disposable-aws-deployment.md
 [external-content example]: external-content/
 [external-DNS example]: external-dns/
 [generated-hostname example]: cloudfront-domain/
