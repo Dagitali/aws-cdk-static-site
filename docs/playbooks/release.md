@@ -19,7 +19,8 @@ details, and incident procedures outside the repository.
 - [ ] Run `make release-changelog RELEASE_VERSION=<version>` and resolve any failure before opening
       the release pull request.
 - [ ] Confirm package metadata, supported Python versions, dependencies, and public exports.
-- [ ] Draft release notes from `.github/RELEASE-NOTES-TEMPLATE.md`.
+- [ ] Draft release notes from the [release notes template] and add the versioned document to the
+      [release notes archive].
 
 ## Validate
 
@@ -53,8 +54,11 @@ PyPI publication remains intentionally inactive until trusted publishing is revi
 ## Close Out
 
 - [ ] Confirm release notes, artifacts, and checks are visible and correct.
+- [ ] Confirm the committed release document is linked from the [release notes archive].
 - [ ] Synchronize `main` back into `develop` through a `sync/*` pull request.
 - [ ] Delete merged working branches and prune obsolete remote references.
 - [ ] Record follow-up work without rewriting the released tag or shared history.
 
+[release notes archive]: ../releases/README.md
+[release notes template]: ../../.github/RELEASE-NOTES-TEMPLATE.md
 [release policy]: ../../RELEASE-POLICY.md

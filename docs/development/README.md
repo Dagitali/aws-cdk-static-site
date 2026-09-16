@@ -8,6 +8,7 @@ Existing development references include:
 - [Testing guide](../TESTING.md)
 - [Documentation build instructions](../README.md#build-the-local-site)
 - [CI/CD workflow map](../../CI-CD-WORKFLOWS.md)
+- [Learnings](../../LEARNINGS.md)
 - [Release policy](../../RELEASE-POLICY.md)
 
 Keep commands aligned with Make targets and canonical tool configuration in `pyproject.toml`.

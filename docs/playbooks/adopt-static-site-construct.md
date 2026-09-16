@@ -3,7 +3,8 @@
 Use this playbook to replace consumer-owned static-site delivery resources with the reusable
 `aws-cdk-static-site` construct, or to introduce the construct into a new consumer application. It
 keeps application-specific responsibilities in the consumer and makes infrastructure identity,
-security, availability, and cost changes explicit.
+security, availability, and cost changes explicit. Review the package [architecture], [design], and
+[testing guide] before planning a production migration.
 
 - [Outcomes](#outcomes)
 - [Choose the Adoption Path](#choose-the-adoption-path)
@@ -164,4 +165,7 @@ After adoption:
 4. Update examples, configuration documentation, tests, roadmap status, and learnings when the
    adoption reveals a reusable lesson.
 
+[architecture]: ../../ARCHITECTURE.md
 [configuration reference]: ../CONFIGURATION.md
+[design]: ../../DESIGN.md
+[testing guide]: ../TESTING.md

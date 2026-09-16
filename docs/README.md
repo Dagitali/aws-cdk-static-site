@@ -46,6 +46,8 @@ only to prevent documentation regressions.
 
 ## Guides
 
+- [Architecture] describes the resource model, request flow, lifecycle, and automation boundaries.
+- [Design] records public API principles, configuration strategy, defaults, and evolution rules.
 - [Configuration] describes construct properties, valid combinations, and DNS
   ownership models.
 - [Costs] explains cost drivers and safeguards without promising fixed prices.
@@ -54,6 +56,8 @@ only to prevent documentation regressions.
   cleanup boundaries.
 - [Project roadmap] records current status, consumer validation, and publication planning.
 - [Construct extraction history] preserves the completed origin and extraction milestones.
+- [Learnings] captures reusable symptom, cause, fix, and verification records.
+- [Release notes archive] indexes detailed committed records for each release candidate.
 - [Examples] demonstrates supported composition patterns.
 
 Topic indexes reserve discoverable homes for documentation as it grows:
@@ -82,6 +86,7 @@ pricing-sensitive or service-specific claims against the authoritative source li
 `REFERENCES.md`.
 
 [API notes]: api/README.md
+[Architecture]: ../ARCHITECTURE.md
 [Architecture notes]: architecture/README.md
 [CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
 [Configuration]: CONFIGURATION.md
@@ -91,9 +96,12 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
 [Decision records]: decisions/README.md
 [Development documentation]: development/README.md
+[Design]: ../DESIGN.md
 [Examples]: ../examples/README.md
 [Maintainer runbooks]: runbooks/maintainer-operations.md
+[Learnings]: ../LEARNINGS.md
 [Release checklist]: playbooks/release.md
+[Release notes archive]: releases/README.md
 [Release policy]: ../RELEASE-POLICY.md
 [Project roadmap]: ../ROADMAP.md
 [Playbooks]: playbooks/README.md
