@@ -22,16 +22,15 @@ line; it is not a promise of dates.
   supported Python/dependency boundaries, package artifacts, and clean installation.
 - Optional `cdk-nag` and a guarded disposable AWS deployment workflow provide additional confidence
   without giving routine CI cloud credentials.
+- `dagitali.com` has adopted a pinned release of the construct while retaining application-owned
+  concerns and deployed resource identities.
 - The current checkout is on `develop`; release and hotfix changes use the documented GitFlow.
 
 ## Near Term
 
-- Integrate a released version into `dagitali.com` while keeping application-specific tags, outputs,
-  APIs, budgets, and deployment identity in that consumer.
-- Compare synthesized templates before and after the first consumer migration and document any
-  intentional replacement, IAM, availability, security, or cost differences.
-- Exercise the consumer in a non-production environment before production adoption.
-- Validate the API with a second, materially different static-site consumer.
+- Continue validating the `dagitali.com` adoption and feed reusable lessons back into this package.
+- Create `datasci.me`, then use the [construct-adoption playbook] to validate the API with a second,
+  materially different static-site consumer.
 - Convert demonstrated consumer needs into small, optional extension points rather than speculative
   framework features.
 
@@ -67,3 +66,5 @@ line; it is not a promise of dates.
 - GitFlow routing, release policy, changelog validation, tagged GitHub Release automation, and
   maintainer runbooks.
 - Public security, support, contribution, cost, configuration, testing, and deployment-test guides.
+
+[construct-adoption playbook]: docs/playbooks/adopt-static-site-construct.md

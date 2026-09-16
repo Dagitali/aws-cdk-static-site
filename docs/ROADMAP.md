@@ -1,7 +1,7 @@
 # Extraction Roadmap
 
 - [Completed in the Initial Scaffold](#completed-in-the-initial-scaffold)
-- [Phase 2: Integrate the First Consumer](#phase-2-integrate-the-first-consumer)
+- [Phase 2: Consumer Adoption](#phase-2-consumer-adoption)
 - [Phase 3: Validate Generality](#phase-3-validate-generality)
 - [Phase 4: Prepare PyPI Publication](#phase-4-prepare-pypi-publication)
 - [Relationship to cookiecutter-aws-website](#relationship-to-cookiecutter-aws-website)
@@ -15,21 +15,24 @@
 - Add CDK assertion tests, linting, type checking, distribution builds, and CI.
 - Adopt the MIT License for open-source distribution.
 
-## Phase 2: Integrate the First Consumer
+## Phase 2: Consumer Adoption
 
-1. Add this repository to `dagitali.com` as a Git-pinned dependency.
-2. Refactor `DagitaliSiteStack` to compose `StaticSite` while retaining its application-specific
-   configuration, tags, outputs, contact form, and budget.
-3. Compare the synthesized CloudFormation template before and after migration.
-4. Deploy to a non-production stack and run the public-site checks.
-5. Deploy production through the existing GitHub OIDC workflow.
+Consumer adoption is in progress. `dagitali.com` has adopted the released construct through a pinned
+package version while keeping application-specific configuration, tags, outputs, APIs, budget, and
+deployment identity in its repository. That migration established reusable evidence for property
+convergence, logical-ID preservation, authenticated diff review, and rollback safety.
 
-Use a full commit SHA when evaluating unreleased source changes. Use an immutable release tag for a
-released package version.
+Use the [construct-adoption playbook] for every new or existing consumer. It covers both greenfield
+deployments and state-preserving migration of deployed resources.
+
+The next planned consumer is `datasci.me` after that software project is created. Its different
+domain, content, and caching requirements will provide the second-consumer evidence needed to
+evaluate the generality of the current API.
 
 ## Phase 3: Validate Generality
 
-- Integrate a second static website with different domain and caching needs.
+- Integrate `datasci.me` with different domain, content, and caching needs after its repository is
+  created.
 - Review whether the default security policy is practical for sites using fonts, analytics, forms,
   or third-party media.
 - Add extension points only in response to demonstrated consumer requirements.
@@ -56,3 +59,5 @@ released package version.
 `cookiecutter-aws-website` creates complete project repositories. This package provides the reusable
 construct within those repositories. After the API proves stable, the Cookiecutter template can
 depend on this package instead of maintaining its own S3 and CloudFront implementation.
+
+[construct-adoption playbook]: playbooks/adopt-static-site-construct.md
