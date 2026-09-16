@@ -5,6 +5,8 @@ Use this directory for maintained API design notes that do not belong in generat
 - The public facade exports `StaticSite`, `StaticSiteProps`, and
   `DEFAULT_CONTENT_SECURITY_POLICY`.
 - The [configuration reference](../CONFIGURATION.md) documents properties and invariants.
+- The [API evolution checklist](evolution-checklist.md) keeps public changes synchronized with tests,
+  examples, generated reference, compatibility notes, and releases.
 - Sphinx generates API pages from source docstrings through
   [`docs/source/api.rst`](../source/api.rst).
 
