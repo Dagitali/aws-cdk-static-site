@@ -49,7 +49,8 @@ bucket is always retained, and automatic object deletion is disabled. A versione
 also cannot be removed merely by changing its removal policy.
 
 **Fix:** Treat retained buckets as separately managed state. If a disposable consumer selects
-deletion, give it a reviewed emptying strategy; do not broadly delete buckets as a shortcut.
+deletion, give it a reviewed emptying strategy; do not broadly delete buckets as a shortcut. Review
+the related storage and retention [cost considerations].
 
 **Verification:** Review synthesized `DeletionPolicy` and `UpdateReplacePolicy` values and confirm
 the intended bucket and object lifecycle before deployment.
@@ -62,7 +63,8 @@ the intended bucket and object lifecycle before deployment.
 when resource properties are equivalent.
 
 **Fix:** Preserve construct paths and IDs. If replacement is intentional, document the migration and
-data-lifecycle consequences; otherwise use CDK-supported refactoring techniques.
+data-lifecycle consequences; otherwise use CDK-supported refactoring techniques. Follow the
+[construct-adoption playbook] for state-preserving consumer migrations.
 
 **Verification:** Compare synthesized templates, run stateful-resource identity regression tests,
 and inspect `cdk diff` before deployment.
@@ -90,7 +92,7 @@ test-full`. Use `make check-ci-local` for the broad local CI gate.
 application lockfile. The newest boundary remains dynamically resolved within allowed ranges.
 
 **Verification:** Run `make dependency-policy`, then test lowest and newest configurations in
-separate clean environments as documented in `docs/TESTING.md`.
+separate clean environments as documented in the [testing guide].
 
 ## A Workflow Pin Check Fails
 
@@ -115,7 +117,7 @@ incorrectly tagged source cannot reproduce the release version.
 complete Git history. Do not add a source version constant or move a released tag.
 
 **Verification:** Inspect artifact metadata, run distribution and clean-installation tests, and
-confirm the release workflow validates the matching dated changelog section.
+confirm the [release playbook] validates the matching dated changelog section.
 
 ## Disposable Deployment Cleanup Needs Operator Follow-Up
 
@@ -128,4 +130,10 @@ wait from finishing.
 that stack through a reviewed operator path. Never use a broad name pattern.
 
 **Verification:** Wait for `stack-delete-complete` and confirm the exact stack no longer exists, as
-described in `docs/runbooks/disposable-aws-deployment.md`.
+described in the [disposable deployment runbook].
+
+[construct-adoption playbook]: docs/playbooks/adopt-static-site-construct.md
+[cost considerations]: docs/COSTS.md
+[disposable deployment runbook]: docs/runbooks/disposable-aws-deployment.md
+[release playbook]: docs/playbooks/release.md
+[testing guide]: docs/TESTING.md

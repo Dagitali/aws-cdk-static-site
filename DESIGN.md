@@ -1,7 +1,7 @@
 # Design
 
 This document records the design principles and change constraints evident in the implementation,
-tests, examples, and automation.
+tests, examples, and automation. See [Architecture] for the resulting resource and automation model.
 
 - [Goals](#goals)
 - [Non-Goals](#non-goals)
@@ -44,6 +44,7 @@ Git tags through `setuptools-scm`, avoiding a second version source.
 Configuration is supplied as Python objects, not read from process state. Validation rejects empty,
 duplicate, incomplete, mutually exclusive, or region-incompatible values before synthesis proceeds.
 Defaults work with CloudFront's generated hostname; each external integration is explicit.
+The [configuration reference] documents the complete public property contract and validation rules.
 
 Adding a property should follow this sequence:
 
@@ -79,7 +80,7 @@ deployments keep pruning and invalidation boundaries explicit.
   deployment workflow uses short-lived OIDC credentials rather than stored AWS access keys.
 
 These defaults are a baseline, not a certification. Consumers must review CSP origins, data
-retention, availability, costs, regulatory requirements, and organizational controls.
+retention, availability, [costs], regulatory requirements, and organizational controls.
 
 ## Testing and Change Safety
 
@@ -87,6 +88,7 @@ Unit tests assert validation and stable CloudFormation properties. Integration t
 every example in an isolated output directory. Meta tests cover package artifacts, policy scripts,
 and optional `cdk-nag`; end-to-end tests install built wheel and sdist artifacts outside the source
 checkout. The default suite is credential-free and enforces at least 90% branch coverage.
+The [testing guide] documents the executable test layers and commands.
 
 Stateful-resource construct IDs are part of operational compatibility even when they are not part of
 the Python API. Preserve them or add explicit regression coverage and migration guidance. Always
@@ -101,4 +103,10 @@ inspect synthesized changes for replacement, IAM permissions, custom resources, 
 - Keep normal CI offline with respect to AWS and reserve real deployments for explicit, bounded,
   reviewed workflows.
 - Before 1.0, document breaking changes and migration steps; after 1.0, follow the repository's
-  deprecation and Semantic Versioning policy.
+  [release and deprecation policy].
+
+[Architecture]: ARCHITECTURE.md
+[configuration reference]: docs/CONFIGURATION.md
+[costs]: docs/COSTS.md
+[release and deprecation policy]: RELEASE-POLICY.md
+[testing guide]: docs/TESTING.md

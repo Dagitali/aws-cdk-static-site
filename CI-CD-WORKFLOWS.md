@@ -66,6 +66,9 @@ macOS and Windows runners.
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
 
+See the [testing guide] for local commands, test-layer boundaries, coverage behavior, and focused
+suite execution.
+
 ## Security Checks
 
 Workflow name: `Security checks`
@@ -145,3 +148,4 @@ and verify enforcement. The [branch protection guide] remains the authoritative 
 [branch protection guide]: .github/BRANCH-PROTECTION.md
 [deployment testing guide]: docs/runbooks/disposable-aws-deployment.md
 [required-check maintenance runbook]: docs/runbooks/update-required-checks.md
+[testing guide]: docs/TESTING.md

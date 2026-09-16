@@ -106,7 +106,7 @@ installation suites must be invoked explicitly.
 ## Release Readiness
 
 For changes affecting packaging, releases, compatibility, versioned documentation, or CI/CD, consult
-[RELEASE-POLICY.md] and the [release checklist].
+the [release policy] and the [release checklist].
 
 Preserve these release safeguards unless the user explicitly changes the policy:
 
@@ -143,5 +143,5 @@ A change is complete when all applicable items are true:
 - No AWS deployment, destruction, publication, tag creation, or external release occurred without
   explicit user authorization.
 
-[RELEASE-POLICY.md]: RELEASE-POLICY.md
 [release checklist]: docs/playbooks/release.md
+[release policy]: RELEASE-POLICY.md
