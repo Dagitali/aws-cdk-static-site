@@ -86,12 +86,12 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Configuration]: CONFIGURATION.md
 [Contributing]: ../CONTRIBUTING.md
 [Costs]: COSTS.md
-[Disposable AWS deployment testing]: DEPLOYMENT-TESTING.md
+[Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
 [Decision records]: decisions/README.md
 [Development documentation]: development/README.md
 [Examples]: ../examples/README.md
-[Maintainer runbooks]: ../.github/MAINTAINER-RUNBOOKS.md
-[Release checklist]: ../RELEASE-CHECKLIST.md
+[Maintainer runbooks]: runbooks/maintainer-operations.md
+[Release checklist]: playbooks/release.md
 [Release policy]: ../RELEASE-POLICY.md
 [Roadmap]: ROADMAP.md
 [Playbooks]: playbooks/README.md
