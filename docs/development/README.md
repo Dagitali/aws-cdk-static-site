@@ -5,6 +5,9 @@ guide](../../CONTRIBUTING.md) or [AGENTS.md](../../AGENTS.md).
 
 Existing development references include:
 
+- [Agent workflow](agent-workflow.md)
+- [Codex task templates](codex-task-templates.md)
+- [Documentation synchronization](documentation-sync.md)
 - [Testing guide](../TESTING.md)
 - [Documentation build instructions](../README.md#build-the-local-site)
 - [CI/CD workflow map](../../CI-CD-WORKFLOWS.md)
