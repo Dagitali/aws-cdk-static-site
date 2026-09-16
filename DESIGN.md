@@ -10,6 +10,7 @@ tests, examples, and automation. See [Architecture] for the resulting resource a
 - [Caching and Content](#caching-and-content)
 - [Security and Cost Defaults](#security-and-cost-defaults)
 - [Testing and Change Safety](#testing-and-change-safety)
+- [Decision Recording](#decision-recording)
 - [Evolution Rules](#evolution-rules)
 
 ## Goals
@@ -94,6 +95,17 @@ Stateful-resource construct IDs are part of operational compatibility even when 
 the Python API. Preserve them or add explicit regression coverage and migration guidance. Always
 inspect synthesized changes for replacement, IAM permissions, custom resources, security, and cost.
 
+## Decision Recording
+
+Use `DESIGN.md` for current design rules and an ADR for a decision whose alternatives or operational
+consequences must remain reviewable after the implementation evolves. An ADR is appropriate when a
+change crosses ownership boundaries, establishes a security or lifecycle default, constrains CI/CD,
+or would be expensive to reverse. Keep status and supersession explicit; do not rewrite an accepted
+record to make history appear cleaner.
+
+The current ADR index documents the private OAC origin, retained stateful buckets, and separation of
+credential-free validation from cloud-changing automation. See [architecture decisions].
+
 ## Evolution Rules
 
 - Prefer additive optional properties over new mandatory inputs.
@@ -106,6 +118,7 @@ inspect synthesized changes for replacement, IAM permissions, custom resources, 
   [release and deprecation policy].
 
 [Architecture]: ARCHITECTURE.md
+[architecture decisions]: docs/decisions/README.md
 [configuration reference]: docs/CONFIGURATION.md
 [costs]: docs/COSTS.md
 [release and deprecation policy]: RELEASE-POLICY.md
