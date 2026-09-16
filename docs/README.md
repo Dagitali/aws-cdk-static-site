@@ -52,7 +52,8 @@ only to prevent documentation regressions.
 - [Testing] covers local quality gates and test design.
 - [Disposable AWS deployment testing] defines the manual test's identity, resource, cost, and
   cleanup boundaries.
-- [Roadmap] records the extraction and stabilization plan.
+- [Project roadmap] records current status, consumer validation, and publication planning.
+- [Construct extraction history] preserves the completed origin and extraction milestones.
 - [Examples] demonstrates supported composition patterns.
 
 Topic indexes reserve discoverable homes for documentation as it grows:
@@ -86,6 +87,7 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Configuration]: CONFIGURATION.md
 [Contributing]: ../CONTRIBUTING.md
 [Costs]: COSTS.md
+[Construct extraction history]: architecture/construct-extraction-history.md
 [Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
 [Decision records]: decisions/README.md
 [Development documentation]: development/README.md
@@ -93,7 +95,7 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Maintainer runbooks]: runbooks/maintainer-operations.md
 [Release checklist]: playbooks/release.md
 [Release policy]: ../RELEASE-POLICY.md
-[Roadmap]: ROADMAP.md
+[Project roadmap]: ../ROADMAP.md
 [Playbooks]: playbooks/README.md
 [Runbooks]: runbooks/README.md
 [Security]: ../SECURITY.md
