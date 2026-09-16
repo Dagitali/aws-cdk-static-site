@@ -206,7 +206,8 @@ testing, documentation, and pull-request expectations.
 
 - [Testing guide]: Test layers, dependency boundaries, coverage, and local commands
 - [Disposable AWS deployment testing]: Guardrails for the manual create-and-destroy workflow
-- [Extraction roadmap]: Consumer integration, generality validation, and publication planning
+- [Project roadmap]: Current status, consumer validation, and publication planning
+- [Construct extraction history]: Completed origin, boundary, and first-consumer milestones
 - [CI/CD workflow map]: Workflow triggers, responsibilities, and required checks
 - [Changelog]: Versioned release history
 - [Release policy]: Versioning, compatibility, artifacts, and support expectations
@@ -230,7 +231,7 @@ welcome.
 [Dagitali website]: https://www.dagitali.com/
 [Disposable AWS deployment testing]: docs/runbooks/disposable-aws-deployment.md
 [Documentation index]: docs/README.md
-[Extraction roadmap]: docs/ROADMAP.md
+[Construct extraction history]: docs/architecture/construct-extraction-history.md
 [Focused examples]: examples/README.md
 [GitHub Actions CI workflow]: https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/ci.yml
 [GitHub Actions PR Gates workflow]: https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/pr.yml
@@ -240,6 +241,7 @@ welcome.
 [Maintainer runbooks]: docs/runbooks/maintainer-operations.md
 [MIT License]: LICENSE
 [Python support]: #requirements
+[Project roadmap]: ROADMAP.md
 [Release checklist]: docs/playbooks/release.md
 [Release policy]: RELEASE-POLICY.md
 [Security policy]: SECURITY.md
