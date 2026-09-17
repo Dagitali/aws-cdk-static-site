@@ -97,11 +97,12 @@ inspect synthesized changes for replacement, IAM permissions, custom resources, 
 
 ## Decision Recording
 
-Use `DESIGN.md` for current design rules and an ADR for a decision whose alternatives or operational
-consequences must remain reviewable after the implementation evolves. An ADR is appropriate when a
-change crosses ownership boundaries, establishes a security or lifecycle default, constrains CI/CD,
-or would be expensive to reverse. Keep status and supersession explicit; do not rewrite an accepted
-record to make history appear cleaner.
+Use `DESIGN.md` for current design rules and an [Architecture Decision Record (ADR)][architecture
+decisions] for a decision whose alternatives or operational consequences must remain reviewable
+after the implementation evolves. An ADR is appropriate when a change crosses ownership boundaries,
+establishes a security or lifecycle default, constrains CI/CD, or would be expensive to reverse.
+Keep status and supersession explicit; do not rewrite an accepted record to make history appear
+cleaner.
 
 The current ADR index documents the private OAC origin, retained stateful buckets, and separation of
 credential-free validation from cloud-changing automation. See [architecture decisions].
