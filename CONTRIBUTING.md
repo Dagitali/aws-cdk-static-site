@@ -76,7 +76,8 @@ Run the default local gate with:
 make check
 ```
 
-Run the CI-equivalent gate, including the strict HTML documentation build, with:
+Run the deterministic CI-equivalent gate, including strict HTML and EPUB documentation builds,
+with:
 
 ```bash
 make check-ci-local
@@ -86,16 +87,19 @@ Useful focused targets include:
 
 ```bash
 make fmt
+make format-check
 make lint
 make typecheck
 make test
+make synth
 make test-distribution
 make test-installation
 make test-security
+make docs-check
 make docs-strict
 make docs-linkcheck
 make dist
-make workflow-pins
+make github-actions-pins
 make python-policy
 ```
 

@@ -95,7 +95,7 @@ application lockfile. The newest boundary remains dynamically resolved within al
 **Verification:** Run `make dependency-policy`, then test lowest and newest configurations in
 separate clean environments as documented in the [testing guide].
 
-## A Workflow Pin Check Fails
+## A GitHub Actions Pin Check Fails
 
 **Symptom:** CI or pre-commit rejects a workflow even though an action reference is valid.
 
@@ -105,7 +105,7 @@ supply-chain policy.
 **Fix:** Resolve the intended release to its reviewed commit SHA, use it in `uses:`, and retain a
 human-readable pinned-version comment.
 
-**Verification:** Run `make workflow-pins` and review job-scoped permissions.
+**Verification:** Run `make github-actions-pins` and review job-scoped permissions.
 
 ## A Release Build Has the Wrong Version
 
