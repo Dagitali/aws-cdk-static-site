@@ -185,11 +185,11 @@ repos:
 
   - repo: local
     hooks:
-      - id: check-workflow-pins
+      - id: check-github-actions-pins
         name: Check GitHub Actions pins
-        entry: python -m scripts check-workflow-pins
+        entry: python -m scripts check-github-actions-pins
         language: python
-        files: ^\.github/workflows/.*\.ya?ml$
+        files: ^\.github/(?:actions|workflows)/.*\.ya?ml$
         pass_filenames: false
 
       - id: check-python-policy
