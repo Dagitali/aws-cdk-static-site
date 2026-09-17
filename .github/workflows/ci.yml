@@ -123,6 +123,28 @@ jobs:
           release_version="${RELEASE_BRANCH#*/}"
           python -m scripts check-release-changelog "$release_version"
 
+      - name: Verify versioned release document
+        if: >-
+          github.event_name == 'pull_request' &&
+          (startsWith(github.head_ref, 'release/') ||
+          startsWith(github.head_ref, 'hotfix/'))
+        env:
+          RELEASE_BRANCH: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+
+          release_version="${RELEASE_BRANCH#*/}"
+          release_tag="v${release_version#v}"
+          release_document="docs/releases/${release_tag}.md"
+          if [[ ! -f "$release_document" ]]; then
+            echo "Release document does not exist: $release_document" >&2
+            exit 1
+          fi
+          if ! grep -Fq "(${release_tag}.md)" docs/releases/README.md; then
+            echo "Release archive does not index ${release_tag}.md." >&2
+            exit 1
+          fi
+
       - name: Install development dependencies
         run: >-
           python -m pip install --disable-pip-version-check

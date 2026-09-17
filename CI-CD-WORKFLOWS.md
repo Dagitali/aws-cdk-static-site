@@ -100,10 +100,12 @@ replace review of synthesized CloudFormation.
 
 Workflow name: `Continuous Deployment (CD)`
 
-The `Build and validate release artifacts` job requires a dated changelog section matching the tag.
-It builds the sdist and wheel once, runs `twine check`, verifies distribution contents and metadata,
-and installs each distribution into a separate clean environment for an import and basic CDK
-synthesis test. It then generates SHA-256 checksums and a CycloneDX SBOM. The dependent `Publish
+The `Build and validate release artifacts` job requires a dated changelog section matching the tag,
+a corresponding `docs/releases/v<version>.md` document, and an entry for that document in the
+release archive. Release and hotfix pull requests validate the same three records before merge. The
+job then builds the sdist and wheel once, runs `twine check`, verifies distribution contents and
+metadata, and installs each distribution into a separate clean environment for an import and basic
+CDK synthesis test. It then generates SHA-256 checksums and a CycloneDX SBOM. The dependent `Publish
 GitHub release` job waits for separate strict HTML and EPUB builds of the tagged documentation,
 downloads the single validated artifact bundle, and attaches every file to the GitHub Release
 associated with the existing tag.
