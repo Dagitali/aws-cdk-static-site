@@ -106,11 +106,11 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+      - name: Set up project
+        uses: ./.github/actions/setup-python-project
         with:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
-          cache: pip
+          extras: dev,docs,security
 
       - name: Verify release changelog
         if: >-
@@ -145,28 +145,8 @@ jobs:
             exit 1
           fi
 
-      - name: Install development dependencies
-        run: >-
-          python -m pip install --disable-pip-version-check
-          -e '.[dev,docs,security]'
-
-      - name: Lint Python code
-        run: python -m ruff check .
-
-      - name: Check Python types
-        run: python -m mypy src tests scripts
-
-      - name: Verify GitHub Actions pins
-        run: python -m scripts check-workflow-pins
-
-      - name: Verify supported Python version policy
-        run: python -m scripts check-python-policy
-
-      - name: Verify dependency boundary policy
-        run: python -m scripts check-dependency-boundaries
-
-      - name: Run tests with coverage
-        run: python -m pytest
+      - name: Run the repository quality gate
+        run: make check-pre-push PYTHON=python
 
       - name: Build documentation
         run: >-
@@ -191,16 +171,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+      - name: Set up project
+        uses: ./.github/actions/setup-python-project
         with:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
-          cache: pip
-
-      - name: Install documentation dependencies
-        run: >-
-          python -m pip install --disable-pip-version-check
-          -e '.[docs]'
+          extras: docs
 
       - name: Build documentation
         env:
@@ -235,10 +210,10 @@ jobs:
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+        uses: ./.github/actions/setup-python-project
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
+          install: 'false'
           cache-dependency-path: |
             pyproject.toml
             requirements/lowest.txt
@@ -294,10 +269,10 @@ jobs:
           persist-credentials: false
 
       - name: Install package
-        uses: Dagitali/python-bootstrap@eebcaa17afad3256b944399e1e34ba355b30e895  # Pinned v0.1.3
+        uses: ./.github/actions/setup-python-project
         with:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
-          pip-install: "."
+          editable: 'false'
 
       - name: Verify installed package import
         run: >-
@@ -318,14 +293,11 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # Pinned v7.0.0
+      - name: Set up project
+        uses: ./.github/actions/setup-python-project
         with:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
-          cache: pip
-
-      - name: Install artifact-test dependencies
-        run: python -m pip install --disable-pip-version-check -e '.[dev]'
+          extras: dev
 
       - name: Build distributions
         run: python -m build
