@@ -103,17 +103,23 @@ Run focused suites explicitly:
 make test-unit
 make test-integration
 make test-examples
+make synth
 make test-distribution
 make test-installation
 make test-security
 make test-full
 make dependency-policy
+make format-check
+make docs-check
 ```
 
-`make test-installation` accesses the package index to install runtime dependencies into clean
-virtual environments. `make test-security` installs the optional security dependency group. The
-normal test command enforces branch coverage with a 90% minimum; subprocess and optional layers use
-`--no-cov` and do not dilute the unit-test coverage measurement.
+`make synth` is the discoverable alias for the credential-free example synthesis suite. `make
+docs-check` builds the deterministic strict HTML and EPUB targets; external link checking remains
+the explicit `make docs-linkcheck` command because network availability can be transient. `make
+test-installation` accesses the package index to install runtime dependencies into clean virtual
+environments. `make test-security` installs the optional security dependency group. The normal test
+command enforces branch coverage with a 90% minimum; subprocess and optional layers use `--no-cov`
+and do not dilute the unit-test coverage measurement.
 
 Coverage, pytest, Ruff, and mypy settings are centralized in `pyproject.toml`. The project does not
 duplicate these settings in `.coveragerc`, `pytest.toml`, `pytest.ini`, `ruff.toml`, or `.ruff.toml`.
