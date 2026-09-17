@@ -15,7 +15,7 @@ relative links resolve. Generated output under `docs/build/` is never a source o
 | Package metadata, Python range, dependencies | `pyproject.toml` | README, testing, roadmap, Sphinx getting started |
 | Contributor command | `Makefile` and invoked script | AGENTS, contributing, testing, playbooks |
 | Public API and validation | source docstrings, implementation, tests | configuration, API notes, examples, Sphinx |
-| Synthesized resource behavior | construct plus synthesis tests | architecture, design, costs, ADRs |
+| Synthesized resource behavior | construct plus synthesis tests | architecture, design, costs, [Architecture Decision Records (ADRs)][ADRs] |
 | Workflow trigger, job, permission, artifact | `.github/workflows/*.yml` | CI map, branch protection, runbooks |
 | Release and version behavior | tags, setuptools-scm, CD workflow | release policy, playbook, changelog, release archive |
 | Current priorities | `ROADMAP.md` | link to it; do not create a second active roadmap |
@@ -41,3 +41,5 @@ changes, report the mismatch and split the implementation into a separately auth
 
 List created and updated files, the source used for each major claim, commands run, and skipped
 checks. State whether the change affects public behavior; if it does not, say so explicitly.
+
+[ADRs]: ../decisions/README.md
