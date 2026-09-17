@@ -6,6 +6,8 @@ Unit tests for repository-maintenance command dispatch and reporting.
 
 from pathlib import Path
 
+import pytest
+
 from scripts.__main__ import main
 
 # SECTION: TESTS
@@ -13,6 +15,26 @@ from scripts.__main__ import main
 
 class TestMain:
     """Verify successful and failing subcommand execution."""
+
+    def test_dispatches_github_actions_pin_check_and_compatibility_alias(
+        self,
+        tmp_path: Path,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
+        automation_dir = tmp_path / '.github' / 'workflows'
+        automation_dir.mkdir(parents=True)
+        (automation_dir / 'ci.yml').write_text(
+            f'steps:\n  - uses: actions/checkout@{'a' * 40}\n',
+            encoding='utf-8',
+        )
+
+        arguments = ['--automation-dir', str(tmp_path / '.github')]
+
+        assert main(['check-github-actions-pins', *arguments]) == 0
+        assert 'deprecated' not in capsys.readouterr().err
+
+        assert main(['check-workflow-pins', *arguments]) == 0
+        assert "'check-workflow-pins' is deprecated" in capsys.readouterr().err
 
     def test_dispatches_release_changelog_check(
         self,
