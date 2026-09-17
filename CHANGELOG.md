@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.17 - 2026-09-17](#0317---2026-09-17)
 - [0.3.16 - 2026-09-17](#0316---2026-09-17)
 - [0.3.14 - 2026-09-15](#0314---2026-09-15)
 - [0.3.13 - 2026-09-15](#0313---2026-09-15)
@@ -32,6 +33,14 @@ records are indexed in the [release notes archive].
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.17 - 2026-09-17
+
+- Centralize cached Python setup, project installation, and dependency diagnostics in a reusable
+  local GitHub Action shared by current-branch CI, security, and deployment-test workflows.
+- Align hosted and local quality gates around deterministic Make targets, and extend immutable
+  GitHub Actions pin validation to workflow and composite-action YAML with canonical commands and
+  deprecated compatibility aliases.
 
 ## 0.3.16 - 2026-09-17
 
