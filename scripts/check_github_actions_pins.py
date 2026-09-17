@@ -1,14 +1,14 @@
 """
-:mod:`scripts.check_workflow_pins` module.
+:mod:`scripts.check_github_actions_pins` module.
 
-Validate that every remote GitHub Action reference uses an immutable,
-full-length commit SHA.
+Validate that every remote GitHub Action reference in workflows and composite
+actions uses an immutable, full-length commit SHA.
 """
 
 import re
 from pathlib import Path
 
-from ._support import workflow_paths
+from ._support import automation_paths
 
 # SECTION: CONSTANTS
 
@@ -26,26 +26,26 @@ USES_PATTERN = re.compile(
 
 
 def validate(
-    workflow_dir: Path,
+    automation_dir: Path,
 ) -> list[str]:
     """
     Return every mutable or malformed remote action reference.
 
     Parameters
     ----------
-    workflow_dir : pathlib.Path
-        Directory containing GitHub Actions YAML files.
+    automation_dir : pathlib.Path
+        Directory tree containing GitHub Actions workflow and action YAML.
 
     Returns
     -------
     list[str]
         Human-readable failures; empty when every remote action is pinned.
     """
-    if not workflow_dir.is_dir():
-        return [f'workflow directory does not exist: {workflow_dir}']
+    if not automation_dir.is_dir():
+        return [f'automation directory does not exist: {automation_dir}']
 
     failures: list[str] = []
-    for path in workflow_paths(workflow_dir):
+    for path in automation_paths(automation_dir):
         lines = path.read_text(encoding='utf-8').splitlines()
         for line_number, line in enumerate(lines, start=1):
             match = USES_PATTERN.match(line)

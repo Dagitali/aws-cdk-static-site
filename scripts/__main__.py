@@ -5,12 +5,14 @@ Command-line interface for repository policy and release-maintenance tools.
 """
 
 import argparse
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import cast
 
 from ._support import REPOSITORY_ROOT, report
 from .check_dependency_boundaries import validate as validate_dependencies
+from .check_github_actions_pins import validate as validate_github_actions_pins
 from .check_python_policy import (
     SUPPORTED_PYTHON_SPECIFIER,
 )
@@ -18,7 +20,6 @@ from .check_python_policy import (
     validate as validate_python,
 )
 from .check_release_changelog import validate as validate_changelog
-from .check_workflow_pins import validate as validate_workflow_pins
 
 # SECTION: TYPE ALIASES
 
@@ -91,6 +92,27 @@ def _check_dependencies(args: argparse.Namespace) -> CommandResult:
     )
 
 
+def _check_github_actions(args: argparse.Namespace) -> CommandResult:
+    """
+    Validate immutable GitHub Actions references.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Parsed automation-directory option.
+
+    Returns
+    -------
+    CommandResult
+        Failures and success message.
+    """
+    automation_dir = args.automation_dir.resolve()
+    return (
+        validate_github_actions_pins(automation_dir),
+        f'remote actions are immutably pinned in {automation_dir}',
+    )
+
+
 def _check_python(args: argparse.Namespace) -> CommandResult:
     """
     Validate the repository's supported Python policy.
@@ -108,27 +130,6 @@ def _check_python(args: argparse.Namespace) -> CommandResult:
     return (
         validate_python(args.root.resolve()),
         f'repository supports Python {SUPPORTED_PYTHON_SPECIFIER}',
-    )
-
-
-def _check_workflows(args: argparse.Namespace) -> CommandResult:
-    """
-    Validate immutable GitHub Actions references.
-
-    Parameters
-    ----------
-    args : argparse.Namespace
-        Parsed workflow-directory option.
-
-    Returns
-    -------
-    CommandResult
-        Failures and success message.
-    """
-    workflow_dir = args.workflow_dir.resolve()
-    return (
-        validate_workflow_pins(workflow_dir),
-        f'remote actions are immutably pinned in {workflow_dir}',
     )
 
 
@@ -177,17 +178,20 @@ def create_parser() -> argparse.ArgumentParser:
     )
     changelog_parser.set_defaults(handler=_check_changelog)
 
-    workflow_parser = commands.add_parser(
-        'check-workflow-pins',
+    github_actions_parser = commands.add_parser(
+        'check-github-actions-pins',
+        aliases=['check-workflow-pins'],
         help='Verify immutable GitHub Actions references',
     )
-    workflow_parser.add_argument(
+    github_actions_parser.add_argument(
+        '--automation-dir',
         '--workflow-dir',
+        dest='automation_dir',
         type=Path,
-        default=REPOSITORY_ROOT / '.github' / 'workflows',
-        help='Directory containing GitHub Actions workflow files',
+        default=REPOSITORY_ROOT / '.github',
+        help='Directory containing GitHub Actions workflow and action files',
     )
-    workflow_parser.set_defaults(handler=_check_workflows)
+    github_actions_parser.set_defaults(handler=_check_github_actions)
 
     return parser
 
@@ -208,6 +212,12 @@ def main(argv: list[str] | None = None) -> int:
         Conventional status returned by the selected command.
     """
     args = create_parser().parse_args(argv)
+    if args.command == 'check-workflow-pins':
+        print(
+            "WARNING: 'check-workflow-pins' is deprecated; use "
+            "'check-github-actions-pins'.",
+            file=sys.stderr,
+        )
     command = cast(Command, args.handler)
     failures, success = command(args)
     return report(failures, success=success)

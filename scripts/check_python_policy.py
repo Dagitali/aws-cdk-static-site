@@ -10,7 +10,7 @@ import sys
 import tomllib
 from pathlib import Path
 
-from ._support import workflow_paths
+from ._support import automation_paths
 
 # SECTION: TYPE ALIASES
 
@@ -280,7 +280,7 @@ def validate(
         re.MULTILINE,
     )
     workflow_dir = root / '.github' / 'workflows'
-    for path in workflow_paths(workflow_dir):
+    for path in automation_paths(workflow_dir):
         content = path.read_text(encoding='utf-8')
         configured_versions = [
             resolved
