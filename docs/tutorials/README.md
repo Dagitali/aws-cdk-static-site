@@ -2,6 +2,7 @@
 
 Tutorials provide end-to-end learning paths for consumers. Current starting points are:
 
+- [Synthesize a first site](synthesize-first-site.md)
 - [Repository quickstart](../../README.md#quickstart)
 - [Sphinx getting started](../source/getting-started.rst)
 - [Focused examples](../../examples/README.md)
