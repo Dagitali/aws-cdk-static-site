@@ -124,8 +124,22 @@ jobs:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
           cache: pip
 
-      - name: Verify versioned changelog
+      - name: Verify release changelog
         run: python -m scripts check-release-changelog "${RELEASE_TAG}"
+
+      - name: Verify versioned release document
+        run: |
+          set -euo pipefail
+
+          release_document="docs/releases/${RELEASE_TAG}.md"
+          if [[ ! -f "$release_document" ]]; then
+            echo "Release document does not exist: $release_document" >&2
+            exit 1
+          fi
+          if ! grep -Fq "(${RELEASE_TAG}.md)" docs/releases/README.md; then
+            echo "Release archive does not index ${RELEASE_TAG}.md." >&2
+            exit 1
+          fi
 
       - name: Install release tools
         run: |
