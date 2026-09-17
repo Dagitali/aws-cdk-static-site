@@ -29,7 +29,7 @@
 # 1) Create the development environment.
 # $ make dev
 #
-# 2) Run the local CI-equivalent checks.
+# 2) Run the default local quality gate.
 # $ make check
 #
 # 3) Run the default test suite.
@@ -162,10 +162,10 @@ DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
 
 ### Quality ###
 
-BASE_CHECK_TARGETS ?= python-policy dependency-policy lint typecheck workflow-pins test
+BASE_CHECK_TARGETS ?= python-policy dependency-policy format-check lint typecheck github-actions-pins test
 CHECK_TARGETS ?= $(BASE_CHECK_TARGETS) dist
 CHECK_PRE_PUSH_TARGETS ?= $(BASE_CHECK_TARGETS)
-CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS) docs-strict test-distribution
+CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS) docs-check test-distribution
 CI_SMOKE_TARGETS ?= python-policy lint test-unit
 
 ### Testing ###
@@ -362,6 +362,14 @@ fmt: fix ## Format Python code with Ruff
 .PHONY: format
 format: fmt ## Format Python code (compatibility alias)
 
+.PHONY: format-check
+format-check: python-policy ## Verify Python formatting without changing files
+	$(call RUN_IN_PACKAGE,$(RUFF) format --check $(PYTHON_FORMAT_PATHS))
+
+.PHONY: github-actions-pins
+github-actions-pins: python-policy ## Verify remote GitHub Actions use immutable commits
+	$(PYTHON) -m $(PROJECT_TOOLS_MODULE) check-github-actions-pins
+
 .PHONY: lint
 lint: python-policy ## Run Python lint checks
 	$(call RUN_IN_PACKAGE,$(RUFF) check $(PYTHON_LINT_PATHS))
@@ -371,8 +379,9 @@ typecheck: python-policy ## Check Python types
 	$(call RUN_IN_PACKAGE,$(MYPY) $(PYTHON_TYPECHECK_PATHS))
 
 .PHONY: workflow-pins
-workflow-pins: python-policy ## Verify remote GitHub Actions use immutable commits
-	$(PYTHON) -m $(PROJECT_TOOLS_MODULE) check-workflow-pins
+workflow-pins: ## Verify GitHub Actions pins (deprecated compatibility alias)
+	@echo "WARNING: 'workflow-pins' is deprecated; use 'github-actions-pins'." >&2
+	@$(MAKE) --no-print-directory github-actions-pins
 
 .PHONY: python-policy
 python-policy: ## Verify the repository-wide supported Python version policy
@@ -385,6 +394,9 @@ release-changelog: ## Verify a dated changelog section (RELEASE_VERSION=x.y.z)
 	$(PY) -m $(PROJECT_TOOLS_MODULE) check-release-changelog "$(RELEASE_VERSION)"
 
 ##@ Testing
+
+.PHONY: synth
+synth: test-examples ## Synthesize every documented example (compatibility alias)
 
 .PHONY: test
 test: python-policy ## Run the default test suite
@@ -425,6 +437,9 @@ test-full: $(FULL_TEST_TARGETS) ## Run all available test suites
 docs: venv ## Build HTML documentation with Sphinx
 	$(call RUN_SPHINX_BUILD,html,)
 
+.PHONY: docs-check
+docs-check: docs-strict docs-epub ## Build deterministic documentation targets strictly
+
 .PHONY: docs-strict
 docs-strict: venv ## Build HTML documentation with CI-parity warning checks
 	$(call RUN_SPHINX_BUILD,html,$(SPHINX_STRICT_FLAGS))
@@ -439,6 +454,9 @@ docs-linkcheck: venv ## Check documentation links with CI-parity warning checks
 
 
 ##@ CI
+
+.PHONY: ci
+ci: check-ci-local ## Run the deterministic local CI gate (compatibility alias)
 
 .PHONY: ci-smoke
 ci-smoke: $(CI_SMOKE_TARGETS) ## Run the fast CI smoke checks
