@@ -6,7 +6,7 @@ the current implementation, tests, Make targets, and workflows remain executable
 | Changed surface | Evidence to inspect | Validation | Documentation to review |
 | --- | --- | --- | --- |
 | `StaticSiteProps` field or validation | `props.py`, property tests, examples | unit and integration tests | configuration, API, design, changelog |
-| Construct resource or behavior | `construct.py`, synthesis tests, `cdk-nag` expectations | unit, integration, optional security | architecture, costs, ADRs, examples |
+| Construct resource or behavior | `construct.py`, synthesis tests, `cdk-nag` expectations | unit, integration, optional security | architecture, costs, [Architecture Decision Records (ADRs)][ADRs], examples |
 | Public export or typing | `__init__.py`, `py.typed`, artifact tests | typecheck, unit, distribution | API docs, quickstart, release notes |
 | Example | example app and integration synthesis | `make test-examples` | examples index, Sphinx examples |
 | Runtime dependency or Python range | `pyproject.toml`, lowest constraints, policy scripts | dependency policy and matrix-equivalent tests | README, testing, roadmap |
@@ -31,3 +31,5 @@ A consumer application owns accounts, regions, stack names, deployment identity,
 budgets, site content policy, and application APIs. This package owns the reusable construct and its
 tested defaults. A proposed change that transfers one of those responsibilities needs explicit
 design review and usually an ADR before implementation.
+
+[ADRs]: ../decisions/README.md
