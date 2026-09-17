@@ -11,7 +11,7 @@ the current implementation, tests, Make targets, and workflows remain executable
 | Example | example app and integration synthesis | `make test-examples` | examples index, Sphinx examples |
 | Runtime dependency or Python range | `pyproject.toml`, lowest constraints, policy scripts | dependency policy and matrix-equivalent tests | README, testing, roadmap |
 | Make target or test selection | `Makefile`, scripts, CI invocation | focused target plus local CI gate | AGENTS, contributing, testing |
-| Workflow trigger, job, permission, or action | workflow YAML and policy tests | workflow pins and hosted dry run/PR | CI map, branch protection, runbooks |
+| Workflow trigger, job, permission, or action | workflow YAML and policy tests | GitHub Actions pins and hosted dry run/PR | CI map, branch protection, runbooks |
 | Release artifact or version behavior | CD workflow, setuptools-scm, artifact tests | distribution and installation tests | release policy, playbook, changelog |
 
 - [Review Lenses](#review-lenses)
