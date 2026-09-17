@@ -1,8 +1,9 @@
 # Architecture Decision Records
 
-Use this directory for durable decisions whose alternatives and consequences matter to future
-maintainers. Name records `NNNN-short-title.md` and do not rewrite accepted history; supersede an
-older record with a new one.
+An Architecture Decision Record (ADR) documents a durable technical decision whose context,
+alternatives, and consequences matter to future maintainers. Use this directory for ADRs, name
+records `NNNN-short-title.md`, and do not rewrite accepted history; supersede an older record with a
+new one.
 
 Suggested structure:
 

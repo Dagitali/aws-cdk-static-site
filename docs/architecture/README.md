@@ -11,5 +11,8 @@ package was separated from its original consumer. It is historical context; the 
 The [change-impact map](change-impact-map.md) connects source areas to tests, documentation, and
 review risks so maintainers and agents can bound changes before editing.
 
-New notes should identify scope, decisions, operational consequences, and related ADRs. Keep
-consumer-specific production details outside this reusable library repository.
+New notes should identify scope, decisions, operational consequences, and related [Architecture
+Decision Records (ADRs)][ADRs]. Keep consumer-specific production details outside this reusable
+library repository.
+
+[ADRs]: ../decisions/README.md
