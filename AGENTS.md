@@ -70,6 +70,8 @@ and [task templates].
   production stacks.
 - `scripts/` implements repository-policy checks exposed through `python -m scripts` and Make.
 - `docs/source/` is the Sphinx source; `docs/build/` is generated and must not be edited.
+- `.github/actions/setup-python-project/` centralizes cached Python setup, project installation, and
+  dependency-integrity diagnostics for hosted workflows.
 - `.github/workflows/` separates PR routing, CI, releases, SBOM generation, optional security
   checks, and the guarded disposable deployment test.
 
@@ -102,14 +104,15 @@ Use Make targets as the stable contributor interface:
 | Python implementation | `make lint typecheck test-unit` |
 | Construct or configuration behavior | `make test-unit test-integration` |
 | Example | `make test-examples` |
-| Workflow | `make workflow-pins python-policy` |
+| Workflow or composite action | `make github-actions-pins python-policy` |
 | Dependencies or packaging | `make dependency-policy test-distribution` |
 | Documentation | `make docs-strict` |
 | Broad or release-sensitive change | `make check-ci-local` |
 
-Run `make check` before completion when practical. The default pytest suite covers unit and
-integration tests with at least 90% branch coverage; optional security, distribution, and
-installation suites must be invoked explicitly.
+Run `make check` before completion when practical. Use `make synth` for an explicit credential-free
+CDK synthesis gate and `make docs-check` for deterministic strict HTML and EPUB builds. The default
+pytest suite covers unit and integration tests with at least 90% branch coverage; optional security,
+distribution, and installation suites must be invoked explicitly.
 
 For Markdown-only changes outside `docs/source/`, also run a repository-local Markdown structure and
 relative-link check when available. `make docs-strict` validates Sphinx sources; it does not prove
