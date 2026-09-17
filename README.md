@@ -204,11 +204,16 @@ testing, documentation, and pull-request expectations.
 
 ### Maintainer Docs
 
+- [Architecture]: Resource model, request flow, lifecycle, and automation boundaries
+- [Design]: Public API principles, configuration strategy, defaults, and evolution rules
+- [Learnings]: Reusable symptom, cause, fix, and verification records
 - [Testing guide]: Test layers, dependency boundaries, coverage, and local commands
 - [Disposable AWS deployment testing]: Guardrails for the manual create-and-destroy workflow
-- [Extraction roadmap]: Consumer integration, generality validation, and publication planning
+- [Project roadmap]: Current status, consumer validation, and publication planning
+- [Construct extraction history]: Completed origin, boundary, and first-consumer milestones
 - [CI/CD workflow map]: Workflow triggers, responsibilities, and required checks
 - [Changelog]: Versioned release history
+- [Release notes archive]: Detailed committed records for each release candidate
 - [Release policy]: Versioning, compatibility, artifacts, and support expectations
 - [Release checklist]: Preparation, validation, tagging, publication, and closeout steps
 - [Maintainer runbooks]: Protected-branch, release, hotfix, recovery, and cleanup procedures
@@ -221,6 +226,7 @@ construct that applications can compose inside their own stacks. Feedback and co
 welcome.
 
 [Buy Me a Coffee]: https://buymeacoffee.com/djrlj694
+[Architecture]: ARCHITECTURE.md
 [Changelog]: CHANGELOG.md
 [CI/CD workflow map]: CI-CD-WORKFLOWS.md
 [Code of Conduct]: CODE_OF_CONDUCT.md
@@ -228,19 +234,23 @@ welcome.
 [Contributing guidelines]: CONTRIBUTING.md
 [Cost considerations]: docs/COSTS.md
 [Dagitali website]: https://www.dagitali.com/
-[Disposable AWS deployment testing]: docs/DEPLOYMENT-TESTING.md
+[Disposable AWS deployment testing]: docs/runbooks/disposable-aws-deployment.md
+[Design]: DESIGN.md
 [Documentation index]: docs/README.md
-[Extraction roadmap]: docs/ROADMAP.md
+[Construct extraction history]: docs/architecture/construct-extraction-history.md
 [Focused examples]: examples/README.md
 [GitHub Actions CI workflow]: https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/ci.yml
 [GitHub Actions PR Gates workflow]: https://github.com/Dagitali/aws-cdk-static-site/actions/workflows/pr.yml
 [GitHub release]: https://github.com/Dagitali/aws-cdk-static-site/releases
 [GitHub Sponsors]: https://github.com/sponsors/Dagitali
 [Local Sphinx documentation]: docs/README.md#build-the-local-site
-[Maintainer runbooks]: .github/MAINTAINER-RUNBOOKS.md
+[Learnings]: LEARNINGS.md
+[Maintainer runbooks]: docs/runbooks/maintainer-operations.md
 [MIT License]: LICENSE
 [Python support]: #requirements
-[Release checklist]: RELEASE-CHECKLIST.md
+[Project roadmap]: ROADMAP.md
+[Release checklist]: docs/playbooks/release.md
+[Release notes archive]: docs/releases/README.md
 [Release policy]: RELEASE-POLICY.md
 [Security policy]: SECURITY.md
 [Support policy]: SUPPORT.md

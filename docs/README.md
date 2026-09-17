@@ -46,14 +46,35 @@ only to prevent documentation regressions.
 
 ## Guides
 
+- [Architecture] describes the resource model, request flow, lifecycle, and automation boundaries.
+- [Design] records public API principles, configuration strategy, defaults, and evolution rules.
 - [Configuration] describes construct properties, valid combinations, and DNS
   ownership models.
 - [Costs] explains cost drivers and safeguards without promising fixed prices.
 - [Testing] covers local quality gates and test design.
+- [Agent workflow] defines evidence gathering, tool roles, safe editing, and completion reporting.
+- [Documentation synchronization] maps executable sources to the prose that must change with them.
+- [Codex task templates] provides reusable prompts with scope, safety, and verification fields.
 - [Disposable AWS deployment testing] defines the manual test's identity, resource, cost, and
   cleanup boundaries.
-- [Roadmap] records the extraction and stabilization plan.
+- [Project roadmap] records current status, consumer validation, and publication planning.
+- [Construct extraction history] preserves the completed origin and extraction milestones.
+- [Learnings] captures reusable symptom, cause, fix, and verification records.
+- [Release notes archive] indexes detailed committed records for each release candidate.
 - [Examples] demonstrates supported composition patterns.
+- [Consumer tutorial] walks from a new CDK app to credential-free synthesis.
+- [Consumer scaffolding] turns a new consumer requirement into a reviewable project baseline.
+- [Incident response] covers failures in CI, releases, packages, and the disposable deployment test.
+
+Topic indexes reserve discoverable homes for documentation as it grows:
+
+- [API notes] for maintained public-interface design notes;
+- [Architecture notes] for focused diagrams and analyses;
+- [Decision records] for durable architectural decisions;
+- [Development documentation] for detailed contributor guidance;
+- [Playbooks] for repeatable maintainer workflows;
+- [Runbooks] for bounded operational procedures; and
+- [Tutorials] for end-to-end consumer learning paths.
 
 ## Related Repository Documents
 
@@ -70,17 +91,35 @@ Keep examples executable, prefer relative links between repository documents, an
 pricing-sensitive or service-specific claims against the authoritative source linked in
 `REFERENCES.md`.
 
+[API notes]: api/README.md
+[Architecture]: ../ARCHITECTURE.md
+[Architecture notes]: architecture/README.md
+[Agent workflow]: development/agent-workflow.md
 [CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
 [Configuration]: CONFIGURATION.md
 [Contributing]: ../CONTRIBUTING.md
 [Costs]: COSTS.md
-[Disposable AWS deployment testing]: DEPLOYMENT-TESTING.md
+[Construct extraction history]: architecture/construct-extraction-history.md
+[Consumer scaffolding]: playbooks/scaffold-consumer-project.md
+[Consumer tutorial]: tutorials/synthesize-first-site.md
+[Codex task templates]: development/codex-task-templates.md
+[Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
+[Documentation synchronization]: development/documentation-sync.md
+[Decision records]: decisions/README.md
+[Development documentation]: development/README.md
+[Design]: ../DESIGN.md
 [Examples]: ../examples/README.md
-[Maintainer runbooks]: ../.github/MAINTAINER-RUNBOOKS.md
-[Release checklist]: ../RELEASE-CHECKLIST.md
+[Maintainer runbooks]: runbooks/maintainer-operations.md
+[Incident response]: runbooks/incident-response.md
+[Learnings]: ../LEARNINGS.md
+[Release checklist]: playbooks/release.md
+[Release notes archive]: releases/README.md
 [Release policy]: ../RELEASE-POLICY.md
-[Roadmap]: ROADMAP.md
+[Project roadmap]: ../ROADMAP.md
+[Playbooks]: playbooks/README.md
+[Runbooks]: runbooks/README.md
 [Security]: ../SECURITY.md
 [Support]: ../SUPPORT.md
 [Technical references]: ../REFERENCES.md
 [Testing]: TESTING.md
+[Tutorials]: tutorials/README.md

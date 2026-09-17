@@ -4,6 +4,9 @@ The construct favors low-cost defaults, but it does not make AWS usage free or c
 account-level budget. Actual charges depend on region, traffic, object count and size,
 invalidations, logging, and AWS pricing changes.
 
+See the project [architecture] for the complete resource model and the [configuration reference] for
+the properties that enable cost-bearing optional integrations.
+
 - [Resources That Can Incur Charges](#resources-that-can-incur-charges)
 - [Important Behaviors](#important-behaviors)
 - [Consumer Responsibilities](#consumer-responsibilities)
@@ -44,5 +47,7 @@ features change.
 
 [Amazon CloudFront pricing]: https://aws.amazon.com/cloudfront/pricing/
 [Amazon S3 pricing]: https://aws.amazon.com/s3/pricing/
+[architecture]: ../ARCHITECTURE.md
 [AWS Pricing Calculator]: https://calculator.aws/
+[configuration reference]: CONFIGURATION.md
 [Route 53 pricing]: https://aws.amazon.com/route53/pricing/
