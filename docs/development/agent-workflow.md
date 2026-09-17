@@ -48,11 +48,13 @@ should surface the conflict instead of implementing the conversation literally.
 3. Make the smallest coherent change.
 4. Run focused checks, then the broader appropriate gate.
 5. Review the diff for unrelated changes and documentation drift.
-6. Record durable decisions in ADRs and reusable failures in `LEARNINGS.md`.
+6. Record durable decisions in [Architecture Decision Records (ADRs)][architecture decision records]
+   and reusable failures in `LEARNINGS.md`.
 7. Return an evidence-based completion report.
 
 Use the [Codex task templates] for common change types and the [change-impact map] to find dependent
 tests and documentation.
 
+[ADRs]: ../decisions/README.md
 [change-impact map]: ../architecture/change-impact-map.md
 [Codex task templates]: codex-task-templates.md
