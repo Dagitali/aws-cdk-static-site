@@ -8,7 +8,7 @@ actions uses an immutable, full-length commit SHA.
 import re
 from pathlib import Path
 
-from ._support import workflow_paths
+from ._support import automation_paths
 
 # SECTION: CONSTANTS
 
@@ -45,7 +45,7 @@ def validate(
         return [f'automation directory does not exist: {automation_dir}']
 
     failures: list[str] = []
-    for path in workflow_paths(automation_dir):
+    for path in automation_paths(automation_dir):
         lines = path.read_text(encoding='utf-8').splitlines()
         for line_number, line in enumerate(lines, start=1):
             match = USES_PATTERN.match(line)

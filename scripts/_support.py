@@ -23,6 +23,23 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 # SECTION: FUNCTIONS
 
 
+def automation_paths(directory: Path, /) -> list[Path]:
+    """
+    Return sorted YAML automation paths from a directory tree.
+
+    Parameters
+    ----------
+    directory : pathlib.Path
+        Directory containing GitHub Actions workflow or action files.
+
+    Returns
+    -------
+    list[pathlib.Path]
+        Recursively sorted ``.yml`` and ``.yaml`` paths.
+    """
+    return sorted((*directory.rglob('*.yml'), *directory.rglob('*.yaml')))
+
+
 def normalize_release(release: str, /) -> str:
     """
     Return a normalized semantic release version.
@@ -72,23 +89,6 @@ def report(failures: Sequence[str], /, *, success: str) -> int:
         return 1
     print(f'PASS: {success}')
     return 0
-
-
-def workflow_paths(directory: Path, /) -> list[Path]:
-    """
-    Return sorted YAML workflow paths from a directory.
-
-    Parameters
-    ----------
-    directory : pathlib.Path
-        Directory containing GitHub Actions workflow files.
-
-    Returns
-    -------
-    list[pathlib.Path]
-        Sorted ``.yml`` and ``.yaml`` paths.
-    """
-    return sorted((*directory.glob('*.yml'), *directory.glob('*.yaml')))
 
 
 # !SECTION
