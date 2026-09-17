@@ -135,9 +135,9 @@ vulnerability reporting.
 
 [branch protection guide]: .github/BRANCH-PROTECTION.md
 [Code of Conduct]: CODE_OF_CONDUCT.md
-[maintainer runbooks]: .github/MAINTAINER-RUNBOOKS.md
+[maintainer runbooks]: docs/runbooks/maintainer-operations.md
 [MIT License]: LICENSE
-[release checklist]: RELEASE-CHECKLIST.md
+[release checklist]: docs/playbooks/release.md
 [release policy]: RELEASE-POLICY.md
 [security policy]: SECURITY.md
 [support policy]: SUPPORT.md

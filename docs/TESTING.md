@@ -1,7 +1,8 @@
 # Testing Guide
 
 The test strategy uses the conventional unit, integration, end-to-end, and meta layers. A suite runs
-only where its dependencies and side effects are explicit.
+only where its dependencies and side effects are explicit. See the [contributing guide] for the
+development workflow and the [CI/CD workflow map] for hosted execution and required checks.
 
 - [Set Up Development](#set-up-development)
 - [Test Layers](#test-layers)
@@ -135,4 +136,7 @@ duplicate these settings in `.coveragerc`, `pytest.toml`, `pytest.ini`, `ruff.to
 Normal pytest and CI never deploy resources. The manual workflow is restricted to `main`, requires
 the exact `DEPLOY-AND-DESTROY` acknowledgement and a protected GitHub environment, validates a fixed
 resource allowlist before deployment, and waits for stack deletion afterward. See [Disposable AWS
-Deployment Testing](DEPLOYMENT-TESTING.md) before configuring or running it.
+Deployment Testing](runbooks/disposable-aws-deployment.md) before configuring or running it.
+
+[CI/CD workflow map]: ../CI-CD-WORKFLOWS.md
+[contributing guide]: ../CONTRIBUTING.md

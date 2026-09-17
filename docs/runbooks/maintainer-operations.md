@@ -333,11 +333,11 @@ without disclosing the sensitive procedure itself.
 - [GitHub merge queue guidance][merge-queue]
 - [GitHub pull request reverts][revert-pr]
 
-[BRANCH-PROTECTION.md]: BRANCH-PROTECTION.md
-[CONTRIBUTING.md]: ../CONTRIBUTING.md
+[BRANCH-PROTECTION.md]: ../../.github/BRANCH-PROTECTION.md
+[CONTRIBUTING.md]: ../../CONTRIBUTING.md
 [git-flow-avh]: https://github.com/petervanderdoes/gitflow-avh#git-flow-usage
 [merge-queue]: https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request-with-a-merge-queue
-[release checklist]: ../RELEASE-CHECKLIST.md
-[release notes template]: RELEASE-NOTES-TEMPLATE.md
-[release policy]: ../RELEASE-POLICY.md
+[release checklist]: ../playbooks/release.md
+[release notes template]: ../../.github/RELEASE-NOTES-TEMPLATE.md
+[release policy]: ../../RELEASE-POLICY.md
 [revert-pr]: https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request

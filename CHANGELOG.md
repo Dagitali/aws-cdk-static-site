@@ -1,6 +1,7 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. Detailed release-candidate
+records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
 - [0.3.14 - 2026-09-15](#0314---2026-09-15)
@@ -216,3 +217,4 @@ All notable changes to this project will be documented in this file.
 [#3]: https://github.com/Dagitali/aws-cdk-static-site/pull/3
 [#5]: https://github.com/Dagitali/aws-cdk-static-site/pull/5
 [#6]: https://github.com/Dagitali/aws-cdk-static-site/pull/6
+[release notes archive]: docs/releases/README.md

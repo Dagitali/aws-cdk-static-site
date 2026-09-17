@@ -66,6 +66,9 @@ macOS and Windows runners.
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
 
+See the [testing guide] for local commands, test-layer boundaries, coverage behavior, and focused
+suite execution.
+
 ## Security Checks
 
 Workflow name: `Security checks`
@@ -138,8 +141,11 @@ docs-epub`, and `make docs-linkcheck` to reproduce the package and documentation
 Platform-specific smoke jobs still require their corresponding GitHub-hosted runner or an equivalent
 operating system.
 
-When renaming workflows or jobs, run the replacement on a representative pull request before
-updating the ruleset. See the [branch protection guide].
+When renaming workflows or jobs, follow the [required-check maintenance runbook] to stage the
+replacement, observe its exact emitted name on a representative pull request, update the ruleset,
+and verify enforcement. The [branch protection guide] remains the authoritative configuration.
 
 [branch protection guide]: .github/BRANCH-PROTECTION.md
-[deployment testing guide]: docs/DEPLOYMENT-TESTING.md
+[deployment testing guide]: docs/runbooks/disposable-aws-deployment.md
+[required-check maintenance runbook]: docs/runbooks/update-required-checks.md
+[testing guide]: docs/TESTING.md
