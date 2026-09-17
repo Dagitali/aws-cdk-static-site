@@ -15,7 +15,8 @@ the CloudFormation resources consumers receive.
 - Decide whether the change is additive, behavior-changing, deprecating, or breaking under the
   [release policy].
 - Choose a safe default and list invalid combinations before implementation.
-- Record an ADR when the choice establishes a cross-cutting security, lifecycle, or ownership rule.
+- Record an [Architecture Decision Record (ADR)][ADRs] when the choice establishes a cross-cutting
+  security, lifecycle, or ownership rule.
 
 ## Implement and Prove
 
@@ -37,5 +38,6 @@ Run `make lint typecheck test-unit test-integration`, then the broader gate appr
 change. Inspect synthesized templates for replacement, IAM, custom-resource, security, availability,
 and cost impact. Report any intentionally deferred consumer migration or release work.
 
+[ADRs]: ../decisions/README.md
 [documentation synchronization guide]: ../development/documentation-sync.md
 [release policy]: ../../RELEASE-POLICY.md
