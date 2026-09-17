@@ -45,8 +45,8 @@ While editing:
 
 - Prefer a focused diff over broad cleanup. Preserve established terminology and relative links.
 - Do not invent deployed topology, account details, release state, pricing, or future commitments.
-- Record assumptions as assumptions. Convert durable architectural choices into ADRs and reusable
-  troubleshooting outcomes into `LEARNINGS.md`.
+- Record assumptions as assumptions. Convert durable architectural choices into [Architecture
+  Decision Records (ADRs)][ADRs] and reusable troubleshooting outcomes into `LEARNINGS.md`.
 - Stop and request explicit authorization before an AWS deploy or destroy, package publication,
   release/tag creation, protected-branch mutation, secret access, or any destructive operation.
 - If repository evidence conflicts, report the conflict and fix the narrowest authoritative source;
@@ -212,6 +212,7 @@ Do not claim success from edits alone. Distinguish completed validation from rec
 and never hide a failing check behind a broader passing command.
 
 [agent workflow]: docs/development/agent-workflow.md
+[ADRs]: docs/decisions/README.md
 [documentation synchronization guide]: docs/development/documentation-sync.md
 [release checklist]: docs/playbooks/release.md
 [release policy]: RELEASE-POLICY.md
