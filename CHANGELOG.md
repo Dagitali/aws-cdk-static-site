@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.16 - 2026-09-17](#0316---2026-09-17)
 - [0.3.14 - 2026-09-15](#0314---2026-09-15)
 - [0.3.13 - 2026-09-15](#0313---2026-09-15)
 - [0.3.12 - 2026-09-15](#0312---2026-09-15)
@@ -31,6 +32,11 @@ records are indexed in the [release notes archive].
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.16 - 2026-09-17
+
+- Require release and hotfix pull requests plus tagged continuous delivery to verify the matching
+  dated changelog section, versioned release document, and release-archive entry before publication.
 
 ## 0.3.14 - 2026-09-15
 
