@@ -1,5 +1,5 @@
 """
-:mod:`tests.unit.test_check_workflow_pins` module.
+:mod:`tests.unit.test_check_github_actions_pins` module.
 
 Unit tests for immutable GitHub Actions reference validation.
 """
@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from scripts.check_workflow_pins import validate
+from scripts.check_github_actions_pins import validate
 
 # SECTION: TESTS
 
@@ -20,6 +20,21 @@ class TestValidate:
     The suite accepts immutable remote references and non-remote actions while
     rejecting mutable or malformed remote references.
     """
+
+    def test_checks_composite_actions_recursively(self, tmp_path: Path) -> None:
+        automation_dir = tmp_path / '.github'
+        action_dir = automation_dir / 'actions' / 'setup-python-project'
+        action_dir.mkdir(parents=True)
+        (action_dir / 'action.yml').write_text(
+            'runs:\n  using: composite\n  steps:\n'
+            '    - uses: actions/setup-python@v7\n',
+            encoding='utf-8',
+        )
+
+        failures = validate(automation_dir)
+
+        assert len(failures) == 1
+        assert 'actions/setup-python@v7' in failures[0]
 
     @pytest.mark.parametrize(
         ('reference', 'expected_failure'),
@@ -39,20 +54,21 @@ class TestValidate:
         *,
         expected_failure: bool,
     ) -> None:
-        workflow_dir = tmp_path / '.github' / 'workflows'
+        automation_dir = tmp_path / '.github'
+        workflow_dir = automation_dir / 'workflows'
         workflow_dir.mkdir(parents=True)
         (workflow_dir / 'ci.yml').write_text(
             f'steps:\n  - uses: {reference}\n',
             encoding='utf-8',
         )
 
-        assert bool(validate(workflow_dir)) is expected_failure
+        assert bool(validate(automation_dir)) is expected_failure
 
-    def test_rejects_missing_workflow_directory(self, tmp_path: Path) -> None:
-        workflow_dir = tmp_path / 'missing'
+    def test_rejects_missing_automation_directory(self, tmp_path: Path) -> None:
+        automation_dir = tmp_path / 'missing'
 
-        assert validate(workflow_dir) == [
-            f'workflow directory does not exist: {workflow_dir}',
+        assert validate(automation_dir) == [
+            f'automation directory does not exist: {automation_dir}',
         ]
 
 
