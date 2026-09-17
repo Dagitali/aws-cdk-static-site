@@ -54,7 +54,7 @@ classifiers = [
 # Runtime dependencies define the complete supported construct surface; optional
 # groups below contain only contributor and documentation tooling.
 dependencies = [
-  "aws-cdk-lib>=2.267.0,<3.0.0",
+  "aws-cdk-lib>=2.269.0,<3.0.0",
   "constructs>=10.8.1,<11.0.0",
 ]
 
