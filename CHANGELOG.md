@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.18 - 2026-09-17](#0318---2026-09-17)
 - [0.3.17 - 2026-09-17](#0317---2026-09-17)
 - [0.3.16 - 2026-09-17](#0316---2026-09-17)
 - [0.3.14 - 2026-09-15](#0314---2026-09-15)
@@ -33,6 +34,11 @@ records are indexed in the [release notes archive].
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.18 - 2026-09-17
+
+- Raise the minimum supported `aws-cdk-lib` version from 2.267.0 to 2.269.0 and align the
+  deterministic lowest-dependency test constraint with the published package metadata ([#4]).
 
 ## 0.3.17 - 2026-09-17
 
@@ -230,6 +236,7 @@ records are indexed in the [release notes archive].
 
 [#2]: https://github.com/Dagitali/aws-cdk-static-site/pull/2
 [#3]: https://github.com/Dagitali/aws-cdk-static-site/pull/3
+[#4]: https://github.com/Dagitali/aws-cdk-static-site/pull/4
 [#5]: https://github.com/Dagitali/aws-cdk-static-site/pull/5
 [#6]: https://github.com/Dagitali/aws-cdk-static-site/pull/6
 [release notes archive]: docs/releases/README.md
