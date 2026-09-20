@@ -5,9 +5,10 @@ identify the intended target branch when that context is not obvious. -->
 
 ## Compatibility and Risks
 
-<!-- Describe effects on public interfaces, generated artifacts, supported platforms or toolchains,
-and existing consumers. Identify breaking changes, deprecations, migrations, security
-considerations, and operational risks explicitly. Write "None" when there is no material impact. -->
+<!-- Describe effects on public interfaces, user-visible behavior, generated artifacts, supported
+platforms or toolchains, and existing consumers or operations. Identify breaking changes,
+deprecations, migrations, security considerations, and operational risks explicitly. Write "None"
+when there is no material impact. -->
 
 ## Validation
 
@@ -34,5 +35,6 @@ or state why no ADR is needed. -->
 - [ ] I identified breaking changes, deprecations, and migration steps explicitly.
 - [ ] I described deployment, publication, and rollback implications when applicable.
 - [ ] I reviewed `AGENTS.md` and preserved its safety invariants.
-- [ ] I kept credentials, private identifiers, and other secrets out of the repository.
+- [ ] I kept credentials, private identifiers, other secrets, and confidential evidence out of the
+  repository.
 - [ ] I documented intentional limitations and follow-up work.
