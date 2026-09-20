@@ -59,6 +59,7 @@ only to prevent documentation regressions.
 - [Developer onboarding] provides the shortest safe path to a working local environment.
 - [Agent workflow] defines evidence gathering, tool roles, safe editing, and completion reporting.
 - [Documentation synchronization] maps executable sources to the prose that must change with them.
+- [Evidence inventory template] provides a privacy-aware review record for proposed public claims.
 - [Codex task templates] provides reusable prompts with scope, safety, and verification fields.
 - [Disposable AWS deployment testing] defines the manual test's identity, resource, cost, and
   cleanup boundaries.
@@ -110,6 +111,7 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Codex task templates]: development/codex-task-templates.md
 [Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
 [Documentation synchronization]: development/documentation-sync.md
+[Evidence inventory template]: EVIDENCE_INVENTORY_TEMPLATE.md
 [Decision records]: decisions/README.md
 [Development documentation]: development/README.md
 [Developer onboarding]: development/onboarding.md
