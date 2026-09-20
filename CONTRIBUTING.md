@@ -134,9 +134,9 @@ and keep table-of-contents labels synchronized with their headings.
 
 ## Community Standards
 
-All contributors must follow the [Code of Conduct]. Use the public issue forms for bugs and feature
-requests, the [support policy] for help channels, and the [security policy] for private
-vulnerability reporting.
+All contributors must follow the [Code of Conduct]. Use the public issue forms for bugs, feature
+requests, and documentation corrections; use the [support policy] for help channels and the
+[security policy] for private vulnerability reporting.
 
 [branch protection guide]: .github/BRANCH-PROTECTION.md
 [Code of Conduct]: CODE_OF_CONDUCT.md
