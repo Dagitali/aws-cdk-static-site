@@ -19,6 +19,11 @@ exercised. Include commands when practical, such as `make check`, and identify c
 <!-- Describe deployment, publication, or release impact; configuration changes; and how to restore
 the prior safe state. Write "None" when the change has no deployment or publication effect. -->
 
+## Documentation and Decisions
+
+<!-- List synchronized documentation. Link an ADR when the change alters an architectural boundary
+or state why no ADR is needed. -->
+
 ## Checklist
 
 - [ ] I added or updated tests for changed behavior when applicable.
@@ -28,5 +33,6 @@ the prior safe state. Write "None" when the change has no deployment or publicat
 - [ ] I reviewed public-interface, platform, artifact, and synthesized-infrastructure compatibility.
 - [ ] I identified breaking changes, deprecations, and migration steps explicitly.
 - [ ] I described deployment, publication, and rollback implications when applicable.
+- [ ] I reviewed `AGENTS.md` and preserved its safety invariants.
 - [ ] I kept credentials, private identifiers, and other secrets out of the repository.
 - [ ] I documented intentional limitations and follow-up work.
