@@ -204,6 +204,7 @@ testing, documentation, and pull-request expectations.
 
 ### Maintainer Docs
 
+- [Developer onboarding]: Prerequisites, first local checks, and safe AWS learning path
 - [Architecture]: Resource model, request flow, lifecycle, and automation boundaries
 - [Design]: Public API principles, configuration strategy, defaults, and evolution rules
 - [Learnings]: Reusable symptom, cause, fix, and verification records
@@ -236,6 +237,7 @@ welcome.
 [Dagitali website]: https://www.dagitali.com/
 [Disposable AWS deployment testing]: docs/runbooks/disposable-aws-deployment.md
 [Design]: DESIGN.md
+[Developer onboarding]: docs/development/onboarding.md
 [Documentation index]: docs/README.md
 [Construct extraction history]: docs/architecture/construct-extraction-history.md
 [Focused examples]: examples/README.md
