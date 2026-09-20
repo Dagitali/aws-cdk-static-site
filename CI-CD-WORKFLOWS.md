@@ -54,24 +54,25 @@ Workflow name: `Continuous Integration (CI)`
 
 The `Validate pull request` job verifies the dated changelog section for release and hotfix pull
 requests, then runs the same `make check-pre-push` quality gate available to contributors and
-agents. That gate verifies formatting, lint, types, repository policies, and tests with coverage
-(including example CDK synthesis), after which the job builds the HTML documentation with warnings
-treated as errors. Separate `Build docs (epub)` and `Build docs (linkcheck)` jobs validate a
-portable documentation artifact and external references. The `Test Python … with … dependencies`
-matrix exercises every supported Python version against both the lowest supported direct
-dependencies and the newest versions allowed by package metadata. `Validate distributions` builds
-the wheel and sdist once, checks their contents, and installs each into a clean environment. The
-advisory cross-platform jobs install the package and verify its public module can be imported on
-macOS and Windows runners.
+agents. That gate verifies formatting, lint, types, repository policies, local Markdown links and
+anchors, and tests with coverage (including example CDK synthesis), after which the job builds the
+HTML documentation with warnings treated as errors. Separate `Build docs (epub)` and `Build docs
+(linkcheck)` jobs validate a portable documentation artifact and external references. The `Test
+Python … with … dependencies` matrix exercises every supported Python version against both the
+lowest supported direct dependencies and the newest versions allowed by package metadata. `Validate
+distributions` builds the wheel and sdist once, checks their contents, and installs each into a
+clean environment. The advisory cross-platform jobs install the package and verify its public module
+can be imported on macOS and Windows runners.
 
 CI runs for pull requests and merge-queue entries targeting `develop` or `main`, pushes to those
 branches, and manual dispatches.
 
 Current-branch CI, security, and deployment-test jobs reuse
 `.github/actions/setup-python-project/action.yml` for cached Python setup, project installation, and
-`pip check` diagnostics. Release jobs intentionally remain self-contained because historical
-backfills check out tags that may predate the local action. Remote actions inside workflows and the
-composite action are covered by the repository's immutable-SHA policy check.
+`pip check` diagnostics. The action rejects invalid boolean-like installation inputs before setup.
+Release jobs intentionally remain self-contained because historical backfills check out tags that
+may predate the local action. Remote actions inside workflows and the composite action are covered
+by the repository's immutable-SHA policy check.
 
 See the [testing guide] for local commands, test-layer boundaries, coverage behavior, and focused
 suite execution.

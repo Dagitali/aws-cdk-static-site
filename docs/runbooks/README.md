@@ -10,4 +10,4 @@ verification, rollback, and escalation. Current procedures:
 - [Release playbook](../playbooks/release.md)
 
 Add a file here when a public operational procedure benefits from a dedicated runbook. Never record
-secrets or overly broad deletion commands.
+secrets, confidential incident evidence, or overly broad deletion commands.

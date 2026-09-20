@@ -16,6 +16,19 @@ from scripts.__main__ import main
 class TestMain:
     """Verify successful and failing subcommand execution."""
 
+    def test_dispatches_documentation_check(
+        self,
+        tmp_path: Path,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
+        tmp_path.joinpath('README.md').write_text(
+            '[missing](missing.md)\n',
+            encoding='utf-8',
+        )
+
+        assert main(['check-docs', '--root', str(tmp_path)]) == 1
+        assert 'missing link target' in capsys.readouterr().out
+
     def test_dispatches_github_actions_pin_check_and_compatibility_alias(
         self,
         tmp_path: Path,

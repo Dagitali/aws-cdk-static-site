@@ -9,7 +9,7 @@ entry uses `Symptom → Cause → Fix → Verification`.
 - [A CDK Refactor Plans Unexpected Resource Replacement](#a-cdk-refactor-plans-unexpected-resource-replacement)
 - [Local Pytest Does Not Run Every Repository Test](#local-pytest-does-not-run-every-repository-test)
 - [Lowest-Dependency CI Drifts from Package Metadata](#lowest-dependency-ci-drifts-from-package-metadata)
-- [A Workflow Pin Check Fails](#a-workflow-pin-check-fails)
+- [A GitHub Actions Pin Check Fails](#a-github-actions-pin-check-fails)
 - [A Release Build Has the Wrong Version](#a-release-build-has-the-wrong-version)
 - [Disposable Deployment Cleanup Needs Operator Follow-Up](#disposable-deployment-cleanup-needs-operator-follow-up)
 - [Documentation and Automation Claims Drift Apart](#documentation-and-automation-claims-drift-apart)
