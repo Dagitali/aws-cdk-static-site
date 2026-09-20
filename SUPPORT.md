@@ -54,8 +54,8 @@ Backports are not guaranteed. See the [release policy] for versioning and deprec
 - Use a [GitHub issue][issues] for a reproducible bug or a concrete feature request.
 - Follow the [security policy] for suspected vulnerabilities.
 
-Do not include AWS credentials, account identifiers, private domain data, or sensitive synthesized
-templates in public reports.
+Do not include AWS credentials, personal data, account identifiers, private domain data,
+confidential incident evidence, or sensitive synthesized templates in public reports.
 
 ## Response Targets
 
