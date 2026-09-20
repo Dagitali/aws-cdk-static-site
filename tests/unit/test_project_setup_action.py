@@ -6,29 +6,19 @@ Contract tests for the shared GitHub Actions Python-project setup action.
 
 from pathlib import Path
 
-# SECTION: CONSTANTS
-
-
-ACTION_PATH = (
-    Path(__file__).resolve().parents[2]
-    / '.github'
-    / 'actions'
-    / 'setup-python-project'
-    / 'action.yml'
-)
-
-
-# !SECTION
-
-
 # SECTION: TESTS
 
 
 class TestProjectSetupAction:
     """Verify the action's reusable input and execution contracts."""
 
-    def test_installs_and_checks_dependencies_before_reporting(self) -> None:
-        action = ACTION_PATH.read_text(encoding='utf-8')
+    def test_installs_and_checks_dependencies_before_reporting(
+        self,
+        repository_root: Path,
+    ) -> None:
+        action = repository_root.joinpath(
+            '.github/actions/setup-python-project/action.yml',
+        ).read_text(encoding='utf-8')
 
         setup = action.index('- name: Set up Python')
         install = action.index('- name: Install project')
@@ -39,8 +29,13 @@ class TestProjectSetupAction:
         assert 'python -m pip install "${install_args[@]}" "$target"' in action
         assert 'python -m pip check' in action
 
-    def test_validates_boolean_inputs_before_environment_setup(self) -> None:
-        action = ACTION_PATH.read_text(encoding='utf-8')
+    def test_validates_boolean_inputs_before_environment_setup(
+        self,
+        repository_root: Path,
+    ) -> None:
+        action = repository_root.joinpath(
+            '.github/actions/setup-python-project/action.yml',
+        ).read_text(encoding='utf-8')
 
         validation = action.index('- name: Validate inputs')
         setup = action.index('- name: Set up Python')
