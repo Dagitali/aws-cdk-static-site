@@ -49,15 +49,21 @@ branch roles while retaining the review and validation requirements.
 This repository uses GitFlow-style roles with hosted pull requests as the authoritative integration
 path:
 
-- `feature/*`: Feature and enhancement work. Create from and target `develop`.
+- `feature/*`: Feature, enhancement, documentation, and routine maintenance work. Create from and
+  target `develop`.
 - `bugfix/*`: Non-emergency corrections before release. Create from and target `develop`.
-- `chore/*`, `ci/*`, `docs/*`, and `dependabot/*`: Focused maintenance work targeting `develop`.
-- `sync/*`: Reconciliation from `main` back into `develop`.
 - `release/*`: Release stabilization. Create from `develop` and target `main`.
 - `hotfix/*`: Urgent corrections to the released line. Create from and target `main`.
 - `support/*`: Maintainer-approved support for an older release line. Agree on its base and
-  integration strategy before creating it, and update the target guard through a normal pull
-  request before using the new path.
+  integration strategy before creating it.
+
+The repository also permits `chore/*`, `ci/*`, `docs/*`, `dependabot/*`, and `sync/*` branches to
+target `develop`. These are repository conventions rather than additional Git Flow roles. Tools that
+expose only canonical Git Flow branch types can use `feature/*` for the same work. External
+contributions may target `develop` regardless of their source-branch name.
+
+Reconcile `main` back into `develop` through a temporary `sync/main-into-develop` or
+`feature/sync-main-into-develop` branch, according to the contributor's tooling.
 
 Do not use local Git Flow `finish` commands, such as `git flow feature finish`, `git flow release
 finish`, or `git flow hotfix finish`, as the authoritative integration step. They typically perform
