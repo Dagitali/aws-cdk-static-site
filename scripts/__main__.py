@@ -12,6 +12,7 @@ from typing import cast
 
 from ._support import REPOSITORY_ROOT, report
 from .check_dependency_boundaries import validate as validate_dependencies
+from .check_docs import validate as validate_docs
 from .check_github_actions_pins import validate as validate_github_actions_pins
 from .check_python_policy import (
     SUPPORTED_PYTHON_SPECIFIER,
@@ -92,6 +93,26 @@ def _check_dependencies(args: argparse.Namespace) -> CommandResult:
     )
 
 
+def _check_docs(args: argparse.Namespace) -> CommandResult:
+    """
+    Validate repository-local Markdown links and anchors.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Parsed repository-root option.
+
+    Returns
+    -------
+    CommandResult
+        Failures and success message.
+    """
+    return (
+        validate_docs(args.root.resolve()),
+        'local Markdown links and anchors are valid',
+    )
+
+
 def _check_github_actions(args: argparse.Namespace) -> CommandResult:
     """
     Validate immutable GitHub Actions references.
@@ -157,6 +178,13 @@ def create_parser() -> argparse.ArgumentParser:
     )
     _add_root_argument(dependency_parser)
     dependency_parser.set_defaults(handler=_check_dependencies)
+
+    docs_parser = commands.add_parser(
+        'check-docs',
+        help='Verify local Markdown links and anchors',
+    )
+    _add_root_argument(docs_parser)
+    docs_parser.set_defaults(handler=_check_docs)
 
     python_parser = commands.add_parser(
         'check-python-policy',

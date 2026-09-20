@@ -14,18 +14,18 @@ to validate and review as a coherent diff.
 ```text
 In this repository, [outcome]. Inspect AGENTS.md and the current working tree first.
 Scope: [paths/components]. Preserve unrelated changes and public behavior outside this scope.
-Constraints: [compatibility/security/lifecycle/non-goals].
+Constraints: [compatibility/security/privacy/accessibility/lifecycle/non-goals].
 Acceptance: [observable behavior and tests].
-Run [focused commands] and the broadest practical local gate. Do not deploy, publish, tag,
-or change protected branches. Report changed files, evidence, validation, and remaining risks.
+Run [focused commands] and the broadest practical local gate. Do not deploy, change DNS, publish,
+tag, or change protected branches. Report changed files, evidence, validation, and remaining risks.
 ```
 
 ## Architecture or API Review
 
 ```text
 Review [proposal/surface] against the implementation, tests, examples, and current docs.
-Compare [alternatives]. Evaluate compatibility, logical-ID replacement, IAM/public access,
-data retention, availability, cost, migration, and rollback where applicable.
+Compare [alternatives]. Evaluate compatibility, logical-ID replacement, IAM/public access, privacy,
+accessibility, data retention, availability, cost, migration, and rollback where applicable.
 Do not edit files. Return evidence-backed findings, open questions, and a recommended decision.
 ```
 
@@ -33,7 +33,7 @@ Do not edit files. Return evidence-backed findings, open questions, and a recomm
 
 ```text
 Verify [claim/change] against canonical repository sources and update only affected maintained docs.
-Do not edit generated output. Check relative links and run make docs-strict when Sphinx inputs or
+Do not edit generated output. Run make docs-markdown, and run make docs-strict when Sphinx inputs or
 linked public docs are affected. Report every file changed and every skipped check.
 ```
 
@@ -52,5 +52,6 @@ Do not dispatch workflows or mutate repository settings unless explicitly author
 Diagnose [failed check/release/deployment-test/package issue]. Start read-only: identify the first
 meaningful failure, affected revision/artifact/stack, and blast radius. Do not rerun, delete,
 publish, revoke, or change external state without explicit authorization. Provide evidence, safe
-containment, recovery options, verification, and documentation follow-up.
+containment, recovery options, verification, and documentation follow-up without exposing
+confidential incident material.
 ```

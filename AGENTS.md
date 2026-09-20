@@ -114,9 +114,9 @@ CDK synthesis gate and `make docs-check` for deterministic strict HTML and EPUB 
 pytest suite covers unit and integration tests with at least 90% branch coverage; optional security,
 distribution, and installation suites must be invoked explicitly.
 
-For Markdown-only changes outside `docs/source/`, also run a repository-local Markdown structure and
-relative-link check when available. `make docs-strict` validates Sphinx sources; it does not prove
-that every standalone Markdown link resolves.
+For Markdown-only changes outside `docs/source/`, also run `make docs-markdown` to validate local
+targets and heading anchors. `make docs-strict` validates Sphinx sources; it does not prove that
+every standalone Markdown link resolves.
 
 ## AWS CDK Conventions
 

@@ -185,6 +185,14 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-docs
+        name: Check local Markdown links and anchors
+        entry: python -m scripts check-docs
+        language: python
+        files: >-
+          ^(?:.*\.md|scripts/(?:__main__|check_docs)\.py|Makefile)$
+        pass_filenames: false
+
       - id: check-github-actions-pins
         name: Check GitHub Actions pins
         entry: python -m scripts check-github-actions-pins

@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.19 - 2026-09-20](#0319---2026-09-20)
 - [0.3.18 - 2026-09-17](#0318---2026-09-17)
 - [0.3.17 - 2026-09-17](#0317---2026-09-17)
 - [0.3.16 - 2026-09-17](#0316---2026-09-17)
@@ -34,6 +35,24 @@ records are indexed in the [release notes archive].
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.19 - 2026-09-20
+
+- Add a deterministic repository-wide Markdown link and heading-anchor check to the shared
+  maintenance CLI, Make quality gate, and pre-commit configuration, and repair the stale Learnings
+  table-of-contents anchor it detected.
+- Align the pull-request template with shared documentation-decision and agent-safety review prompts
+  while retaining package-specific compatibility checks.
+- Add a package-specific developer-onboarding guide using the same reusable structure as the
+  consumer site while keeping credential-free synthesis and package compatibility boundaries clear.
+- Validate composite-action boolean inputs before environment setup, and add direct unit contracts
+  for shared maintenance helpers.
+- Align reusable contribution, agent, tutorial, runbook, and security guidance around privacy,
+  accessibility, confidential evidence, and explicit authorization for DNS or AWS changes.
+- Standardize ADR metadata and release evidence around dates, supersession, verification, artifacts,
+  infrastructure diffs, and explicit deployment, publication, DNS, or replacement impact.
+- Document the construct's verified security model, enforced controls, consumer responsibilities,
+  deliberate exclusions, and credential boundary in the public security policy.
 
 ## 0.3.18 - 2026-09-17
 

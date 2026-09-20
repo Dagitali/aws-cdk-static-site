@@ -162,7 +162,7 @@ DIST_CHECK_COMMAND ?= $(TWINE) check "$(PYTHON_DIST_DIR)"/*
 
 ### Quality ###
 
-BASE_CHECK_TARGETS ?= python-policy dependency-policy format-check lint typecheck github-actions-pins test
+BASE_CHECK_TARGETS ?= python-policy dependency-policy docs-markdown format-check lint typecheck github-actions-pins test
 CHECK_TARGETS ?= $(BASE_CHECK_TARGETS) dist
 CHECK_PRE_PUSH_TARGETS ?= $(BASE_CHECK_TARGETS)
 CHECK_CI_LOCAL_TARGETS ?= $(CHECK_TARGETS) docs-check test-distribution
@@ -432,6 +432,10 @@ test-full: $(FULL_TEST_TARGETS) ## Run all available test suites
 
 
 ##@ Documentation
+
+.PHONY: docs-markdown
+docs-markdown: python-policy ## Verify local links and anchors in Markdown documentation
+	$(PYTHON) -m $(PROJECT_TOOLS_MODULE) check-docs
 
 .PHONY: docs
 docs: venv ## Build HTML documentation with Sphinx

@@ -1,7 +1,7 @@
 # Release Checklist
 
 Use this public checklist for release readiness. Keep credentials, recovery codes, private account
-details, and incident procedures outside the repository.
+details, confidential incident evidence, and operator-only procedures outside the repository.
 
 - [Prepare](#prepare)
 - [Validate](#validate)
@@ -31,6 +31,8 @@ details, and incident procedures outside the repository.
 - [ ] Install each distribution in a separate clean environment and smoke-test imports and the
       package's representative example.
 - [ ] Review synthesized changes for security, replacement risk, and cost implications.
+- [ ] Record whether deployment, publication, resource replacement, DNS changes, or neither are
+  expected from the release.
 - [ ] Confirm required GitHub Actions are pinned and pass on the release pull request.
 
 ## Integrate and Tag

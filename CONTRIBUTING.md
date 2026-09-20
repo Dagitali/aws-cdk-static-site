@@ -95,6 +95,7 @@ make synth
 make test-distribution
 make test-installation
 make test-security
+make docs-markdown
 make docs-check
 make docs-strict
 make docs-linkcheck
