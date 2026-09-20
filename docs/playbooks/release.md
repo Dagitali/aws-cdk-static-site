@@ -57,7 +57,8 @@ PyPI publication remains intentionally inactive until trusted publishing is revi
 
 - [ ] Confirm release notes, artifacts, and checks are visible and correct.
 - [ ] Confirm the committed release document is linked from the [release notes archive].
-- [ ] Synchronize `main` back into `develop` through a `sync/*` pull request.
+- [ ] Synchronize `main` back into `develop` through a temporary `sync/main-into-develop` or
+  `feature/sync-main-into-develop` pull request, according to the available tooling.
 - [ ] Delete merged working branches and prune obsolete remote references.
 - [ ] Record follow-up work without rewriting the released tag or shared history.
 

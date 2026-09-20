@@ -152,8 +152,10 @@ the [documentation synchronization guide] for ownership, drift checks, and link 
 
 ## Git and Automation
 
-- Follow the GitFlow routes enforced by `.github/workflows/pr.yml`: feature, bugfix, chore, CI,
-  docs, Dependabot, and sync branches target `develop`; release and hotfix branches target `main`.
+- Follow the GitFlow routes enforced by `.github/workflows/pr.yml`: feature and bugfix branches
+  target `develop`; release and hotfix branches target `main`; support branches require an agreed
+  release-line strategy. The repository also permits chore, CI, docs, Dependabot, and sync prefixes
+  to target `develop`; tools limited to canonical Git Flow types may use `feature/*` instead.
 - Do not commit directly to `develop` or `main`; local hooks and hosted checks enforce this.
 - Use Conventional Commits and align release notes and `CHANGELOG.md` with user-visible changes.
 - Never weaken least-privilege workflow permissions or replace pinned action SHAs with floating tags

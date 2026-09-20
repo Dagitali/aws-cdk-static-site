@@ -33,13 +33,15 @@ The general operating model is:
 This repository uses GitFlow-style branch roles:
 
 - `feature/*` and `bugfix/*` branches start from and target `develop`.
-- `chore/*`, `ci/*`, `docs/*`, and `dependabot/*` branches target `develop`.
-- `sync/*` branches reconcile `main` back into `develop`.
 - `release/*` branches start from `develop` and target `main`.
 - `hotfix/*` branches start from and target `main`.
-- `support/*` branches are exceptional and require an agreed base, integration strategy, and
-  corresponding update to the pull-request target guard before use.
+- `support/*` branches are exceptional and require an agreed base and integration strategy.
 - `develop` and `main` are protected integration branches.
+
+The repository also permits `chore/*`, `ci/*`, `docs/*`, `dependabot/*`, and `sync/*` branches to
+target `develop`. These are repository conventions rather than additional Git Flow roles. Use
+`feature/*` when the installed Git Flow tool does not expose a desired custom prefix. External
+contributions may target `develop` regardless of their source-branch name.
 
 Git Flow tooling is optional. The examples in this document assume a compatible implementation, but
 ordinary Git commands may create and publish the same branches. Confirm which Git Flow
@@ -78,8 +80,9 @@ expectations.
 
 ## Feature and Bugfix Work
 
-Use `feature/*` for enhancements, `bugfix/*` for non-emergency corrections, and the documented
-maintenance prefixes for focused non-feature work entering through `develop`.
+Use `feature/*` for enhancements and `bugfix/*` for non-emergency corrections. Documentation and
+routine maintenance may use `feature/*` or the permitted repository-specific prefix supported by the
+contributor's tooling.
 
 1. Start from current `develop`.
 2. Create the working branch. For example:
@@ -190,8 +193,7 @@ Before creating a support branch, document:
 - How applicable fixes will propagate to current release and development branches.
 
 Do not assume `main` or `develop` is the correct pull request target for a support branch. Agree on
-the integration strategy first, update the pull-request target guard through the ordinary reviewed
-workflow, and protect long-lived support branches consistently with their risk.
+the integration strategy first and protect long-lived support branches consistently with their risk.
 
 ## Synchronizing the Default Branch Back to Development
 
@@ -199,7 +201,8 @@ After a release, hotfix, revert, or other authorized change reaches `main`, sync
 `develop` deliberately.
 
 1. Fetch current `origin/main` and `origin/develop`.
-2. Create `sync/main-into-develop` from `origin/develop`.
+2. Create `sync/main-into-develop` or `feature/sync-main-into-develop` from `origin/develop`,
+   according to the available tooling.
 3. Merge `origin/main` into the sync branch.
 4. Resolve conflicts there and run relevant validation.
 5. Push the sync branch and open a pull request targeting `develop`.
