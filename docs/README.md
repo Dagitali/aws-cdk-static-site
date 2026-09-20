@@ -29,8 +29,12 @@ make docs
 Use the CI-parity build, which treats warnings as errors, before proposing documentation changes:
 
 ```bash
+make docs-markdown
 make docs-strict
 ```
+
+The Markdown check validates local paths and heading anchors across the repository without network
+access. The strict Sphinx build validates generated API documentation and its source tree.
 
 Additional builders exercise output formats and external links:
 
