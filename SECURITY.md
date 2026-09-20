@@ -13,9 +13,9 @@ policy].
 
 ## Reporting a Vulnerability
 
-Report suspected vulnerabilities privately through the repository's
-[GitHub private vulnerability reporting][private-reporting] feature. Do not open a public issue or
-pull request containing exploit details, credentials, account identifiers, or other sensitive data.
+Report suspected vulnerabilities privately through the repository's [GitHub private vulnerability
+reporting][private-reporting] feature. Do not open a public issue or pull request containing exploit
+details, credentials, account identifiers, private incident evidence, or other sensitive data.
 
 If private vulnerability reporting is unavailable, email `security@dagitali.com` with a link to the
 repository and a concise description. Do not send secrets that are unnecessary to reproduce the
@@ -24,7 +24,8 @@ issue.
 ## What to Include
 
 Provide the affected version or commit, impact, reproduction steps, and any suggested mitigation.
-Redact credentials and private infrastructure details from logs and screenshots.
+Redact credentials, personal data, account identifiers, and private infrastructure details from logs
+and screenshots.
 
 ## Response Expectations
 
