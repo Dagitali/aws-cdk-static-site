@@ -47,6 +47,7 @@ The `support` directory is importable test infrastructure, not another test laye
 
 | Suite | Location | Execution |
 | --- | --- | --- |
+| Shared setup action | `tests/unit/test_project_setup_action.py` | Default suite |
 | Example synthesis | `tests/integration/test_examples.py` | Default suite |
 | Artifact installation | `tests/e2e/test_distribution_installation.py` | Distribution CI job |
 | Artifact contracts | `tests/meta/test_package_artifacts.py` | Distribution and release jobs |
