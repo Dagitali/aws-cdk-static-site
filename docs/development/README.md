@@ -5,6 +5,7 @@ guide](../../CONTRIBUTING.md) or [AGENTS.md](../../AGENTS.md).
 
 Existing development references include:
 
+- [Developer onboarding](onboarding.md)
 - [Agent workflow](agent-workflow.md)
 - [Codex task templates](codex-task-templates.md)
 - [Documentation synchronization](documentation-sync.md)
