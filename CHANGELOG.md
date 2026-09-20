@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.20 - 2026-09-20](#0320---2026-09-20)
 - [0.3.19 - 2026-09-20](#0319---2026-09-20)
 - [0.3.18 - 2026-09-17](#0318---2026-09-17)
 - [0.3.17 - 2026-09-17](#0317---2026-09-17)
@@ -35,6 +36,25 @@ records are indexed in the [release notes archive].
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.20 - 2026-09-20
+
+- Add direct contract tests for the shared Python-project setup action's boolean inputs, early
+  validation, conditional installation, dependency check, and step ordering.
+- Add reusable, privacy-aware evidence inventory and documentation-correction intake templates for
+  verifying public technical claims without exposing confidential material.
+- Add direct regression tests for Make cleanup path guards and overridable installation, formatting,
+  and unit-test commands.
+- Centralize repository-root discovery in a session-scoped test fixture shared by project-level
+  contract suites.
+- Add a reusable change-management playbook connecting scope classification, operable scaffolding,
+  documentation synchronization, release evidence, and rollback boundaries.
+- Simplify pull-request routing so `develop` accepts canonical, repository-specific, automated, and
+  external branch names while `main` remains restricted to same-repository release and hotfix
+  branches; distinguish canonical Git Flow roles from optional repository prefixes in contributor
+  guidance.
+- Add role-oriented documentation navigation and separate guide and topic indexes without changing
+  the package's canonical source or operating boundaries.
 
 ## 0.3.19 - 2026-09-20
 
