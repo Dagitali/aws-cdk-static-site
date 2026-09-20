@@ -22,6 +22,9 @@ pytest marker from each test module's top-level directory.
 The scope answers how much of the system a test crosses. Module names describe what the test covers:
 
 - `tests/integration/test_examples.py` synthesizes every example application;
+- `tests/unit/test_makefile.py` protects cleanup path guards and overridable maintenance commands;
+- `tests/unit/test_project_setup_action.py` protects the shared setup action's input validation and
+  execution order;
 - `tests/e2e/test_distribution_installation.py` installs each artifact in a clean environment;
 - `tests/meta/test_package_artifacts.py` checks wheel, sdist, typing, legal, and metadata contracts;
 - `tests/meta/test_cdk_nag.py` applies the optional synthesized-infrastructure policy.
@@ -63,6 +66,8 @@ approved deployment workflow requires AWS credentials.
 - Classify tests by `unit`, `integration`, `e2e`, or `meta` scope; express the subject in the module
   and test names.
 - Keep fixtures at the narrowest useful scope and put genuinely shared test code in `support`.
+- Use the session-scoped `repository_root` fixture for project-level contracts instead of repeating
+  path-depth assumptions in individual test modules.
 - Name test modules for the production, integration, workflow, or repository contract they exercise.
 - Assert stable public properties by default; pin logical IDs only for stateful resources whose
   replacement could risk persistent data.

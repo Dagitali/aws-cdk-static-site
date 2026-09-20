@@ -40,9 +40,10 @@ release publication.
 
 Workflow name: `Pull Request (PR) Gates`
 
-The `Guard pull request target` job enforces the documented GitFlow branch map. It also requires
-release and hotfix pull requests targeting `main` to originate in this repository, matching the
-shared production-safety boundary without requiring AWS access.
+The `Guard pull request target` job reserves `main` for same-repository `release/*` and `hotfix/*`
+pull requests. Pull requests from ordinary topic, automation-generated, and external branches may
+target `develop`, matching the shared GitFlow and contribution boundary without requiring AWS
+access.
 
 PR gates run for pull requests and merge-queue entries targeting `develop` or `main`. Comprehensive
 source and package validation remains in `ci.yml`, keeping `pr.yml` focused on hosted pull-request

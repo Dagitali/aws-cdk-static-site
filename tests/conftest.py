@@ -20,6 +20,25 @@ pytest_plugins = ('tests.support.artifacts',)
 # !SECTION
 
 
+# SECTION: FIXTURES
+
+
+@pytest.fixture(name='repository_root', scope='session')
+def repository_root_fixture() -> Path:
+    """
+    Return the repository root for tests of project-level contracts.
+
+    Returns
+    -------
+    pathlib.Path
+        Absolute path containing the repository metadata and source trees.
+    """
+    return TESTS_ROOT.parent.resolve()
+
+
+# !SECTION
+
+
 # SECTION: PYTEST HOOKS
 
 

@@ -5,8 +5,10 @@ community policies remain at the repository root or under `.github/` so their co
 are discoverable by contributors and GitHub.
 
 - [Document Scope](#document-scope)
+- [Start Here](#start-here)
 - [Build the Local Site](#build-the-local-site)
 - [Guides](#guides)
+- [Topic Indexes](#topic-indexes)
 - [Related Repository Documents](#related-repository-documents)
 
 ## Document Scope
@@ -16,6 +18,24 @@ with repository-specific names, links, support boundaries, and release state sup
 under `.github/` describe GitHub-facing policy and must remain synchronized with actual workflow and
 ruleset names. Guides in `docs/` describe this package and should not be generalized at the expense
 of accurate product behavior.
+
+Historical ADRs and release notes preserve their decision or release context. Current source,
+tests, workflows, and operating guides remain authoritative for present behavior.
+
+## Start Here
+
+| Need | Document |
+| --- | --- |
+| Repository rules for agents | [`AGENTS.md`](../AGENTS.md) |
+| Resource boundaries and request flow | [Architecture] |
+| Public API principles and evolution | [Design] and [API notes] |
+| Local setup and contribution | [Developer onboarding] and [Contributing] |
+| Construct configuration | [Configuration] |
+| Examples and first synthesis | [Examples] and [Consumer tutorial] |
+| Tests and quality gates | [Testing] |
+| Release preparation and version policy | [Release checklist] and [Release policy] |
+| Security and vulnerability reporting | [Security] |
+| Support and compatibility | [Support] |
 
 ## Build the Local Site
 
@@ -59,6 +79,7 @@ only to prevent documentation regressions.
 - [Developer onboarding] provides the shortest safe path to a working local environment.
 - [Agent workflow] defines evidence gathering, tool roles, safe editing, and completion reporting.
 - [Documentation synchronization] maps executable sources to the prose that must change with them.
+- [Evidence inventory template] provides a privacy-aware review record for proposed public claims.
 - [Codex task templates] provides reusable prompts with scope, safety, and verification fields.
 - [Disposable AWS deployment testing] defines the manual test's identity, resource, cost, and
   cleanup boundaries.
@@ -69,7 +90,11 @@ only to prevent documentation regressions.
 - [Examples] demonstrates supported composition patterns.
 - [Consumer tutorial] walks from a new CDK app to credential-free synthesis.
 - [Consumer scaffolding] turns a new consumer requirement into a reviewable project baseline.
+- [Change management] connects change classification, supported scaffolding, documentation, and
+  release evidence.
 - [Incident response] covers failures in CI, releases, packages, and the disposable deployment test.
+
+## Topic Indexes
 
 Topic indexes reserve discoverable homes for documentation as it grows:
 
@@ -107,9 +132,11 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Construct extraction history]: architecture/construct-extraction-history.md
 [Consumer scaffolding]: playbooks/scaffold-consumer-project.md
 [Consumer tutorial]: tutorials/synthesize-first-site.md
+[Change management]: playbooks/change-management.md
 [Codex task templates]: development/codex-task-templates.md
 [Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
 [Documentation synchronization]: development/documentation-sync.md
+[Evidence inventory template]: EVIDENCE_INVENTORY_TEMPLATE.md
 [Decision records]: decisions/README.md
 [Development documentation]: development/README.md
 [Developer onboarding]: development/onboarding.md
