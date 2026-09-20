@@ -5,8 +5,10 @@ community policies remain at the repository root or under `.github/` so their co
 are discoverable by contributors and GitHub.
 
 - [Document Scope](#document-scope)
+- [Start Here](#start-here)
 - [Build the Local Site](#build-the-local-site)
 - [Guides](#guides)
+- [Topic Indexes](#topic-indexes)
 - [Related Repository Documents](#related-repository-documents)
 
 ## Document Scope
@@ -16,6 +18,24 @@ with repository-specific names, links, support boundaries, and release state sup
 under `.github/` describe GitHub-facing policy and must remain synchronized with actual workflow and
 ruleset names. Guides in `docs/` describe this package and should not be generalized at the expense
 of accurate product behavior.
+
+Historical ADRs and release notes preserve their decision or release context. Current source,
+tests, workflows, and operating guides remain authoritative for present behavior.
+
+## Start Here
+
+| Need | Document |
+| --- | --- |
+| Repository rules for agents | [`AGENTS.md`](../AGENTS.md) |
+| Resource boundaries and request flow | [Architecture] |
+| Public API principles and evolution | [Design] and [API notes] |
+| Local setup and contribution | [Developer onboarding] and [Contributing] |
+| Construct configuration | [Configuration] |
+| Examples and first synthesis | [Examples] and [Consumer tutorial] |
+| Tests and quality gates | [Testing] |
+| Release preparation and version policy | [Release checklist] and [Release policy] |
+| Security and vulnerability reporting | [Security] |
+| Support and compatibility | [Support] |
 
 ## Build the Local Site
 
@@ -73,6 +93,8 @@ only to prevent documentation regressions.
 - [Change management] connects change classification, supported scaffolding, documentation, and
   release evidence.
 - [Incident response] covers failures in CI, releases, packages, and the disposable deployment test.
+
+## Topic Indexes
 
 Topic indexes reserve discoverable homes for documentation as it grows:
 
