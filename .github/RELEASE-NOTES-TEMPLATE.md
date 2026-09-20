@@ -23,7 +23,8 @@ private operational evidence.
 
 ## Change Scope
 
-- Describe the package, infrastructure, automation, dependencies, or documentation affected.
+- Describe the package, infrastructure, automation, dependencies, artifacts, or documentation
+  affected.
 - State important areas intentionally left unchanged, especially when that distinction informs
   compatibility or deployment risk.
 - Link relevant pull requests, issues, architecture decisions, or public documentation by reference.
@@ -49,16 +50,16 @@ private operational evidence.
 
 - List checks completed against the exact release candidate.
 - Include relevant automated tests, static checks, synthesis or build results, artifact inspection,
-  and representative manual verification.
+  infrastructure diffs, and representative manual verification.
 - Distinguish completed evidence from checks that must still pass during release or deployment.
 
 ## Deployment and Rollback
 
-- Explain whether merging or tagging triggers deployment or publication and which protected
-  environment, if any, is used.
-- Describe expected package, infrastructure, dependency, or operational effects.
-- State whether resource replacements, data migrations, publication changes, or service interruption
-  are expected.
+- Explain whether merging or tagging triggers deployment, publication, or neither and which
+  protected environment, if any, is used.
+- Describe expected package, infrastructure, dependency, artifact, or operational effects.
+- State whether resource replacements, data migrations, DNS or publication changes, or service
+  interruption are expected.
 - Provide a safe rollback or forward-fix approach appropriate to the release.
 
 ## Known Limitations and Follow-Up
