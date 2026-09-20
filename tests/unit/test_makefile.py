@@ -9,15 +9,6 @@ from pathlib import Path
 
 import pytest
 
-# SECTION: CONSTANTS
-
-
-REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
-
-
-# !SECTION
-
-
 # SECTION: TESTS
 
 
@@ -36,13 +27,14 @@ class TestMakefileContracts:
     )
     def test_clean_rejects_paths_outside_repository(
         self,
+        repository_root: Path,
         tmp_path: Path,
         variable: str,
         safe_overrides: tuple[str, ...],
     ) -> None:
         result = subprocess.run(
             ('make', 'clean', *safe_overrides, f'{variable}={tmp_path}'),
-            cwd=REPOSITORY_ROOT,
+            cwd=repository_root,
             capture_output=True,
             check=False,
             text=True,
@@ -86,12 +78,13 @@ class TestMakefileContracts:
     )
     def test_commands_are_overridable(
         self,
+        repository_root: Path,
         arguments: tuple[str, ...],
         expected_output: tuple[str, ...],
     ) -> None:
         result = subprocess.run(
             ('make', '--dry-run', *arguments),
-            cwd=REPOSITORY_ROOT,
+            cwd=repository_root,
             capture_output=True,
             check=True,
             text=True,
