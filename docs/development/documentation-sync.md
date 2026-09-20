@@ -30,6 +30,9 @@ relative links resolve. Generated output under `docs/build/` is never a source o
 6. Run `make docs-strict` when Sphinx sources, public docstrings, or their dependencies changed.
    Treat external link checks as advisory because remote availability can be transient.
 7. Inspect the diff for private identifiers, fixed prices, unverified future state, and stale names.
+8. For claims that depend on non-obvious evidence or external disclosure authority, complete the
+   [evidence inventory template] in an access-controlled working system and keep only approved,
+   publicly supportable wording in the repository.
 
 ## Documentation-Only Boundary
 
@@ -43,3 +46,4 @@ List created and updated files, the source used for each major claim, commands r
 checks. State whether the change affects public behavior; if it does not, say so explicitly.
 
 [ADRs]: ../decisions/README.md
+[evidence inventory template]: ../EVIDENCE_INVENTORY_TEMPLATE.md
