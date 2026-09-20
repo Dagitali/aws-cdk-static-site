@@ -76,17 +76,16 @@ jobs:
           HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
           REPOSITORY: ${{ github.repository }}
         run: |
-          case "$BASE_REF:$HEAD_REF" in
-            main:release/* | main:hotfix/*)
-              if [[ "$HEAD_REPOSITORY" != "$REPOSITORY" ]]; then
-                echo 'Release and hotfix branches targeting main must belong to this repository.' >&2
-                exit 1
-              fi
-              ;;
-            develop:feature/* | develop:bugfix/* | develop:chore/* | develop:ci/* | develop:docs/* | develop:dependabot/* | develop:sync/*)
-              ;;
-            *)
-              echo "Unsupported GitFlow path: $HEAD_REF -> $BASE_REF" >&2
-              exit 1
-              ;;
-          esac
+          if [[ "$BASE_REF" != 'main' ]]; then
+            exit 0
+          fi
+
+          if [[ ! "$HEAD_REF" =~ ^(release|hotfix)/ ]]; then
+            echo 'Only release/* and hotfix/* branches may target main.' >&2
+            exit 1
+          fi
+
+          if [[ "$HEAD_REPOSITORY" != "$REPOSITORY" ]]; then
+            echo 'Release and hotfix branches targeting main must belong to this repository.' >&2
+            exit 1
+          fi
