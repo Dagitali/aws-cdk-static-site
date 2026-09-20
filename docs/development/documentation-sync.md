@@ -26,9 +26,9 @@ relative links resolve. Generated output under `docs/build/` is never a source o
 2. Read the canonical source rather than copying another guide.
 3. Update the smallest set of maintained mirrors; link instead of duplicating large reference text.
 4. Add an ADR for durable alternatives/consequences or a learning for a reusable diagnosed failure.
-5. Run `make docs-strict` when Sphinx sources, public docstrings, or their dependencies changed.
-6. Check standalone Markdown headings and relative links. Treat external link checks as advisory
-   because remote availability can be transient.
+5. Run `make docs-markdown` for repository-local Markdown links and heading anchors.
+6. Run `make docs-strict` when Sphinx sources, public docstrings, or their dependencies changed.
+   Treat external link checks as advisory because remote availability can be transient.
 7. Inspect the diff for private identifiers, fixed prices, unverified future state, and stale names.
 
 ## Documentation-Only Boundary
