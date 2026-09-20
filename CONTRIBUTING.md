@@ -43,9 +43,18 @@ version source. See the [release policy] and [release checklist] for release-aff
 
 This repository uses GitFlow-style branch roles with GitHub-protected integration branches:
 
-- `feature/*`, `bugfix/*`, and routine maintenance branches target `develop`;
+- `feature/*` carries enhancements, documentation, and routine maintenance to `develop`;
+- `bugfix/*` carries non-emergency corrections to `develop`;
 - `release/*` and `hotfix/*` target `main`; and
-- `sync/*` carries released changes from `main` back to `develop`.
+- `support/*` is exceptional and requires an agreed base and integration strategy.
+
+The repository also permits `chore/*`, `ci/*`, `docs/*`, `dependabot/*`, and `sync/*` branches to
+target `develop`. These are repository conventions rather than additional Git Flow roles. If a Git
+Flow tool does not expose those prefixes, use `feature/*` instead. External contributions may target
+`develop` regardless of their source-branch name.
+
+Synchronize released changes from `main` through a temporary `sync/main-into-develop` or
+`feature/sync-main-into-develop` branch and hosted pull request.
 
 Do not treat `git flow ... finish` as the authoritative integration step: it performs local merges
 that bypass the pull-request review surface. The complete branch map and required checks are in
