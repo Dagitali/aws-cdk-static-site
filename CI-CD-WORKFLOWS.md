@@ -69,9 +69,10 @@ branches, and manual dispatches.
 
 Current-branch CI, security, and deployment-test jobs reuse
 `.github/actions/setup-python-project/action.yml` for cached Python setup, project installation, and
-`pip check` diagnostics. Release jobs intentionally remain self-contained because historical
-backfills check out tags that may predate the local action. Remote actions inside workflows and the
-composite action are covered by the repository's immutable-SHA policy check.
+`pip check` diagnostics. The action rejects invalid boolean-like installation inputs before setup.
+Release jobs intentionally remain self-contained because historical backfills check out tags that
+may predate the local action. Remote actions inside workflows and the composite action are covered
+by the repository's immutable-SHA policy check.
 
 See the [testing guide] for local commands, test-layer boundaries, coverage behavior, and focused
 suite execution.
