@@ -9,4 +9,6 @@ Tutorials provide end-to-end learning paths for consumers. Current starting poin
 - [Configuration reference](../CONFIGURATION.md)
 
 Future tutorials should use documentation-only identifiers, state prerequisites and expected costs,
-and distinguish synthesis from deployment. Do not present an example as a production template.
+separate credential-free learning from authorized AWS operations, and distinguish synthesis from
+deployment. Do not present an example as a production template or a sample command as authorization
+to change AWS state.

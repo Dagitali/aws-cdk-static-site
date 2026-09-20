@@ -9,4 +9,5 @@ decisions. Current playbooks and related guidance:
 - [CI/CD workflow map](../../CI-CD-WORKFLOWS.md)
 - [Testing guide](../TESTING.md)
 
-Keep credentials, recovery codes, account IDs, and private operator details out of tracked files.
+Keep credentials, recovery codes, account identifiers, private incident evidence, and operator-only
+details out of tracked files.
