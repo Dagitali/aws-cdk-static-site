@@ -66,6 +66,8 @@ approved deployment workflow requires AWS credentials.
 - Classify tests by `unit`, `integration`, `e2e`, or `meta` scope; express the subject in the module
   and test names.
 - Keep fixtures at the narrowest useful scope and put genuinely shared test code in `support`.
+- Use the session-scoped `repository_root` fixture for project-level contracts instead of repeating
+  path-depth assumptions in individual test modules.
 - Name test modules for the production, integration, workflow, or repository contract they exercise.
 - Assert stable public properties by default; pin logical IDs only for stateful resources whose
   replacement could risk persistent data.
