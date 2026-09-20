@@ -70,6 +70,8 @@ only to prevent documentation regressions.
 - [Examples] demonstrates supported composition patterns.
 - [Consumer tutorial] walks from a new CDK app to credential-free synthesis.
 - [Consumer scaffolding] turns a new consumer requirement into a reviewable project baseline.
+- [Change management] connects change classification, supported scaffolding, documentation, and
+  release evidence.
 - [Incident response] covers failures in CI, releases, packages, and the disposable deployment test.
 
 Topic indexes reserve discoverable homes for documentation as it grows:
@@ -108,6 +110,7 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Construct extraction history]: architecture/construct-extraction-history.md
 [Consumer scaffolding]: playbooks/scaffold-consumer-project.md
 [Consumer tutorial]: tutorials/synthesize-first-site.md
+[Change management]: playbooks/change-management.md
 [Codex task templates]: development/codex-task-templates.md
 [Disposable AWS deployment testing]: runbooks/disposable-aws-deployment.md
 [Documentation synchronization]: development/documentation-sync.md
