@@ -56,6 +56,7 @@ only to prevent documentation regressions.
   ownership models.
 - [Costs] explains cost drivers and safeguards without promising fixed prices.
 - [Testing] covers local quality gates and test design.
+- [Developer onboarding] provides the shortest safe path to a working local environment.
 - [Agent workflow] defines evidence gathering, tool roles, safe editing, and completion reporting.
 - [Documentation synchronization] maps executable sources to the prose that must change with them.
 - [Codex task templates] provides reusable prompts with scope, safety, and verification fields.
@@ -111,6 +112,7 @@ pricing-sensitive or service-specific claims against the authoritative source li
 [Documentation synchronization]: development/documentation-sync.md
 [Decision records]: decisions/README.md
 [Development documentation]: development/README.md
+[Developer onboarding]: development/onboarding.md
 [Design]: ../DESIGN.md
 [Examples]: ../examples/README.md
 [Maintainer runbooks]: runbooks/maintainer-operations.md
