@@ -22,6 +22,7 @@ pytest marker from each test module's top-level directory.
 The scope answers how much of the system a test crosses. Module names describe what the test covers:
 
 - `tests/integration/test_examples.py` synthesizes every example application;
+- `tests/unit/test_makefile.py` protects cleanup path guards and overridable maintenance commands;
 - `tests/unit/test_project_setup_action.py` protects the shared setup action's input validation and
   execution order;
 - `tests/e2e/test_distribution_installation.py` installs each artifact in a clean environment;
