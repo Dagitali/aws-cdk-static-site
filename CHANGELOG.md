@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.21 - 2026-09-20](#0321---2026-09-20)
 - [0.3.20 - 2026-09-20](#0320---2026-09-20)
 - [0.3.19 - 2026-09-20](#0319---2026-09-20)
 - [0.3.18 - 2026-09-17](#0318---2026-09-17)
@@ -36,6 +37,11 @@ records are indexed in the [release notes archive].
 - [0.2.0 - 2026-09-08](#020---2026-09-08)
 
 ## Unreleased
+
+## 0.3.21 - 2026-09-20
+
+- Strengthen Markdown-checker regression coverage for repositories beneath hidden parent
+  directories, `.github` documentation, generated-directory exclusions, and fenced code blocks.
 
 ## 0.3.20 - 2026-09-20
 
