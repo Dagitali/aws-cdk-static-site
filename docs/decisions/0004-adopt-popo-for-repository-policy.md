@@ -4,6 +4,7 @@ Status: Accepted
 
 - [Context](#context)
 - [Decision](#decision)
+- [Implementation Status](#implementation-status)
 - [Consequences](#consequences)
 - [Alternatives Considered](#alternatives-considered)
 - [Verification](#verification)
@@ -26,6 +27,13 @@ development dependency and declare this repository's policy explicitly under `[t
 Retain `scripts/` and its direct tests temporarily as a deprecated compatibility surface. Do not add
 new policy behavior there. Remove the package and those tests in a follow-up after Popo-backed local
 and hosted gates have completed a migration window and all remaining callers have been rechecked.
+
+## Implementation Status
+
+The migration window completed successfully with Popo-backed local and hosted quality gates. The
+deprecated `scripts/` compatibility package and its direct tests were subsequently removed after
+confirming that Make, pre-commit, continuous integration, and release automation no longer invoked
+it.
 
 ## Consequences
 
