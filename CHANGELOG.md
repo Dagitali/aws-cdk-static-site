@@ -51,6 +51,10 @@ records are indexed in the [release notes archive].
 
 - Remove the unused `write_file` pytest fixture, its `FileWriter` support type, and the obsolete
   testing guidance that referenced them.
+- Expand invalid content-path coverage to verify that deployment rejects both missing paths and
+  existing files.
+- Run the release-changelog quality gate with the project environment's Python interpreter so it
+  uses the pinned Popo installation consistently with the other repository-policy checks.
 
 ## [0.3.22] - 2026-09-27
 

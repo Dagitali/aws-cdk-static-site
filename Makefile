@@ -391,7 +391,7 @@ python-policy: ## Verify the repository-wide supported Python version policy
 release-changelog: ## Verify a dated changelog section (RELEASE_VERSION=x.y.z)
 	@test -n "$(strip $(RELEASE_VERSION))" || \
 		(echo "RELEASE_VERSION is required" >&2; exit 2)
-	$(PY) -m $(PROJECT_TOOLS_MODULE) check-release-changelog "$(RELEASE_VERSION)"
+	$(PYTHON) -m $(PROJECT_TOOLS_MODULE) check-release-changelog "$(RELEASE_VERSION)"
 
 ##@ Testing
 
