@@ -73,7 +73,9 @@ SCRIPTS_DIR ?= scripts
 SOURCE_DIR ?= src
 TESTS_DIR ?= tests
 
-PROJECT_TOOLS_MODULE ?= scripts
+# Popo is authoritative for repository-policy checks. The local scripts package
+# remains temporarily for compatibility while its callers and tests retire.
+PROJECT_TOOLS_MODULE ?= popo
 
 RELEASE_VERSION ?=
 
