@@ -121,7 +121,7 @@ jobs:
           RELEASE_BRANCH: ${{ github.head_ref }}
         run: |
           release_version="${RELEASE_BRANCH#*/}"
-          python -m scripts check-release-changelog "$release_version"
+          python -m popo check-release-changelog "$release_version"
 
       - name: Verify versioned release document
         if: >-

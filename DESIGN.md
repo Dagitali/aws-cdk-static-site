@@ -86,10 +86,10 @@ retention, availability, [costs], regulatory requirements, and organizational co
 ## Testing and Change Safety
 
 Unit tests assert validation and stable CloudFormation properties. Integration tests synthesize
-every example in an isolated output directory. Meta tests cover package artifacts, policy scripts,
-and optional `cdk-nag`; end-to-end tests install built wheel and sdist artifacts outside the source
-checkout. The default suite is credential-free and enforces at least 90% branch coverage.
-The [testing guide] documents the executable test layers and commands.
+every example in an isolated output directory and exercise the Popo consumer policy. Meta tests
+cover package artifacts and optional `cdk-nag`; end-to-end tests install built wheel and sdist
+artifacts outside the source checkout. The default suite is credential-free and enforces at least
+90% branch coverage. The [testing guide] documents the executable test layers and commands.
 
 Stateful-resource construct IDs are part of operational compatibility even when they are not part of
 the Python API. Preserve them or add explicit regression coverage and migration guidance. Always

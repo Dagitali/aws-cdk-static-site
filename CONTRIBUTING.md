@@ -115,7 +115,8 @@ make python-policy
 
 Install the staged Git hooks with `make hooks`. Ruff is the canonical formatter and linter, mypy is
 the type-checking gate, and settings shared by supported Python tools are centralized in
-`pyproject.toml`.
+`pyproject.toml`. Repository-policy targets invoke the pinned Popo development tool using the
+consumer policy under `[tool.popo]`; use the Make targets as the stable contributor interface.
 
 ## Testing
 

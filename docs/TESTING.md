@@ -70,9 +70,10 @@ configurations:
   newest stable versions permitted by package metadata.
 
 The resulting matrix covers every supported Python version at both boundaries. Running `python -m
-scripts check-dependency-boundaries` prevents the lowest constraints from drifting away from
-canonical project metadata. The newest boundary intentionally remains dynamically resolved instead
-of becoming an application-style lockfile.
+popo check-dependency-boundaries` prevents the lowest constraints from drifting away from canonical
+project metadata. Popo is pinned as a development tool and configured by `[tool.popo]` in
+`pyproject.toml`. The newest boundary intentionally remains dynamically resolved instead of becoming
+an application-style lockfile.
 
 Use separate virtual environments when reproducing the two configurations locally. For the lowest
 boundary, install with:

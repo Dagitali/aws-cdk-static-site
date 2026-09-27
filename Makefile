@@ -69,11 +69,11 @@ SHARED_MAKEFILE ?=
 
 PROJECT_NAME ?= $(notdir $(CURDIR))
 EXAMPLES_DIR ?= examples
-SCRIPTS_DIR ?= scripts
 SOURCE_DIR ?= src
 TESTS_DIR ?= tests
 
-PROJECT_TOOLS_MODULE ?= scripts
+# Popo is authoritative for repository-policy checks.
+PROJECT_TOOLS_MODULE ?= popo
 
 RELEASE_VERSION ?=
 
@@ -83,7 +83,7 @@ PACKAGE_PREFIX ?= $(PROJECT_NAME)/
 
 ### Cleanup ###
 
-CLEAN_SEARCH_DIRS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR) $(EXAMPLES_DIR)
+CLEAN_SEARCH_DIRS ?= $(SOURCE_DIR) $(TESTS_DIR) $(EXAMPLES_DIR)
 CLEAN_REMOVE_PATHS ?= build .coverage coverage.xml htmlcov $(DOCS_BUILD_DIR) \
 	.mypy_cache .pytest_cache .ruff_cache $(PKG_DIR)/*.egg-info \
 	$(SOURCE_DIR)/*.egg-info
@@ -148,7 +148,7 @@ SECURITY_INSTALL_ARGS ?= -e "$(abspath $(PKG_DIR))[security]"
 
 PYTHON_FORMAT_PATHS ?= .
 PYTHON_LINT_PATHS ?= $(PYTHON_FORMAT_PATHS)
-PYTHON_TYPECHECK_PATHS ?= $(SOURCE_DIR) $(TESTS_DIR) $(SCRIPTS_DIR)
+PYTHON_TYPECHECK_PATHS ?= $(SOURCE_DIR) $(TESTS_DIR)
 
 ### Packaging (Git) ###
 

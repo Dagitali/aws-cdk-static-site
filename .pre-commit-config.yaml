@@ -187,25 +187,25 @@ repos:
     hooks:
       - id: check-docs
         name: Check local Markdown links and anchors
-        entry: python -m scripts check-docs
-        language: python
+        entry: make docs-markdown
+        language: system
         files: >-
-          ^(?:.*\.md|scripts/(?:__main__|check_docs)\.py|Makefile)$
+          ^(?:.*\.md|pyproject\.toml|Makefile)$
         pass_filenames: false
 
       - id: check-github-actions-pins
         name: Check GitHub Actions pins
-        entry: python -m scripts check-github-actions-pins
-        language: python
+        entry: make github-actions-pins
+        language: system
         files: ^\.github/(?:actions|workflows)/.*\.ya?ml$
         pass_filenames: false
 
       - id: check-python-policy
         name: Check supported Python version policy
-        entry: python -m scripts check-python-policy
-        language: python
+        entry: make python-policy
+        language: system
         files: >-
-          ^(?:\.python-version|\.pre-commit-config\.yaml|Makefile|README\.md|CONTRIBUTING\.md|pyproject\.toml|\.github/workflows/.*\.ya?ml|scripts/(?:__main__|_support|check_python_policy)\.py)$
+          ^(?:\.python-version|\.pre-commit-config\.yaml|Makefile|README\.md|CONTRIBUTING\.md|pyproject\.toml|\.github/workflows/.*\.ya?ml)$
         pass_filenames: false
 
       - id: make-check-pre-push
