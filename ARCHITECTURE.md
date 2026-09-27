@@ -99,7 +99,6 @@ tests/unit/                Validation and synthesized-resource contracts
 tests/integration/         Example/application boundary tests
 tests/e2e/                 Built-distribution installation workflows
 tests/meta/                Packaging, policy, and cdk-nag contracts
-scripts/                   Repository policy checks and release helpers
 docs/source/               Sphinx sources and generated API-doc configuration
 ```
 
