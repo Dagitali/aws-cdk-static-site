@@ -10,6 +10,7 @@ rather than silently trusting either source.
 | [0001](0001-private-s3-origin-with-oac.md) | Accepted | Use a private S3 origin with CloudFront OAC |
 | [0002](0002-retain-stateful-buckets-by-default.md) | Accepted | Retain stateful buckets by default |
 | [0003](0003-separate-validation-from-cloud-changes.md) | Accepted | Separate validation from cloud-changing automation |
+| [0004](0004-adopt-popo-for-repository-policy.md) | Accepted | Adopt Popo for repository-policy checks |
 
 ## Adding a Decision
 
