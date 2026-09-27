@@ -41,9 +41,8 @@ records are indexed in the [release notes archive].
 - Adopt the pinned Popo CLI as the authoritative implementation for repository-policy checks in
   Make, pre-commit, pull-request validation, and tagged-release validation, with explicit consumer
   configuration in `pyproject.toml`.
-- Deprecate the repository-local `scripts` policy package and its direct tests as a temporary
-  compatibility surface; removal is deferred until the Popo-backed gates have completed a migration
-  window.
+- Remove the deprecated repository-local `scripts` policy package and its direct tests after the
+  Popo-backed quality gates completed their migration window.
 
 ## 0.3.21 - 2026-09-20
 
