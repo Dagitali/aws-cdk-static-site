@@ -13,7 +13,7 @@ relative links resolve. Generated output under `docs/build/` is never a source o
 | Claim | Canonical evidence | Maintained mirrors to review |
 | --- | --- | --- |
 | Package metadata, Python range, dependencies | `pyproject.toml` | README, testing, roadmap, Sphinx getting started |
-| Contributor command | `Makefile` and invoked script | AGENTS, contributing, testing, playbooks |
+| Contributor command | `Makefile` and invoked tool | AGENTS, contributing, testing, playbooks |
 | Public API and validation | source docstrings, implementation, tests | configuration, API notes, examples, Sphinx |
 | Synthesized resource behavior | construct plus synthesis tests | architecture, design, costs, [Architecture Decision Records (ADRs)][ADRs] |
 | Workflow trigger, job, permission, artifact | `.github/workflows/*.yml` | CI map, branch protection, runbooks |

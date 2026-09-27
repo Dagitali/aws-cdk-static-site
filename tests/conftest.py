@@ -9,6 +9,8 @@ from pathlib import Path
 
 import pytest
 
+from tests.support.files import FileWriter
+
 # SECTION: CONSTANTS
 
 
@@ -23,7 +25,10 @@ pytest_plugins = ('tests.support.artifacts',)
 # SECTION: FIXTURES
 
 
-@pytest.fixture(name='repository_root', scope='session')
+@pytest.fixture(
+    name='repository_root',
+    scope='session',
+)
 def repository_root_fixture() -> Path:
     """
     Return the repository root for tests of project-level contracts.
@@ -34,6 +39,19 @@ def repository_root_fixture() -> Path:
         Absolute path containing the repository metadata and source trees.
     """
     return TESTS_ROOT.parent.resolve()
+
+
+@pytest.fixture(name='write_file')
+def write_file_fixture(tmp_path: Path) -> FileWriter:
+    """Create parent directories and write UTF-8 content in a temporary repository."""
+
+    def write(relative_path: str, content: str) -> Path:
+        path = tmp_path / relative_path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding='utf-8')
+        return path
+
+    return write
 
 
 # !SECTION

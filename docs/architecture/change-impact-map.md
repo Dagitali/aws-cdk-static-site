@@ -9,8 +9,8 @@ the current implementation, tests, Make targets, and workflows remain executable
 | Construct resource or behavior | `construct.py`, synthesis tests, `cdk-nag` expectations | unit, integration, optional security | architecture, costs, [Architecture Decision Records (ADRs)][ADRs], examples |
 | Public export or typing | `__init__.py`, `py.typed`, artifact tests | typecheck, unit, distribution | API docs, quickstart, release notes |
 | Example | example app and integration synthesis | `make test-examples` | examples index, Sphinx examples |
-| Runtime dependency or Python range | `pyproject.toml`, lowest constraints, policy scripts | dependency policy and matrix-equivalent tests | README, testing, roadmap |
-| Make target or test selection | `Makefile`, scripts, CI invocation | focused target plus local CI gate | AGENTS, contributing, testing |
+| Runtime dependency or Python range | `pyproject.toml`, lowest constraints, Popo policy | dependency policy and matrix-equivalent tests | README, testing, roadmap |
+| Make target or test selection | `Makefile`, Popo configuration, CI invocation | focused target plus local CI gate | AGENTS, contributing, testing |
 | Workflow trigger, job, permission, or action | workflow YAML and policy tests | GitHub Actions pins and hosted dry run/PR | CI map, branch protection, runbooks |
 | Release artifact or version behavior | CD workflow, setuptools-scm, artifact tests | distribution and installation tests | release policy, playbook, changelog |
 
