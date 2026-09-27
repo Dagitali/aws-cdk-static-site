@@ -4,10 +4,60 @@
 Contract tests for repository-maintenance Make targets and safety boundaries.
 """
 
+import os
+import shutil
 import subprocess
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
+
+# SECTION: TYPE ALIASES
+
+
+type MakeRunner = Callable[..., subprocess.CompletedProcess[str]]
+
+
+# !SECTION
+
+
+# SECTION: FIXTURES
+
+
+@pytest.fixture
+def make(
+    repository_root: Path,
+    tmp_path: Path,
+) -> MakeRunner:
+    """Run Make in a disposable checkout without inherited flags or local overrides."""
+    executable = shutil.which('make')
+    if executable is None:
+        pytest.skip('Make contract tests require make')
+    checkout = tmp_path / 'checkout'
+    checkout.mkdir()
+    shutil.copyfile(repository_root / 'Makefile', checkout / 'Makefile')
+    environment = {
+        key: value
+        for key, value in os.environ.items()
+        if key not in {'MAKEFLAGS', 'MFLAGS', 'MAKELEVEL', 'MAKEOVERRIDES', 'MAKEFILES'}
+    }
+
+    def run(*arguments: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            (executable, 'ENV_FILE=', 'SHARED_MAKEFILE=', *arguments),
+            cwd=checkout,
+            env=environment,
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=30,
+        )
+
+    return run
+
+
+# !SECTION
+
 
 # SECTION: TESTS
 
@@ -27,18 +77,12 @@ class TestMakefileContracts:
     )
     def test_clean_rejects_paths_outside_repository(
         self,
-        repository_root: Path,
+        make: MakeRunner,
         tmp_path: Path,
         variable: str,
         safe_overrides: tuple[str, ...],
     ) -> None:
-        result = subprocess.run(
-            ('make', 'clean', *safe_overrides, f'{variable}={tmp_path}'),
-            cwd=repository_root,
-            capture_output=True,
-            check=False,
-            text=True,
-        )
+        result = make('clean', *safe_overrides, f'{variable}={tmp_path}')
 
         assert result.returncode != 0
         assert f'{variable} must be' in result.stderr
@@ -69,6 +113,7 @@ class TestMakefileContracts:
                     'UNIT_TEST_ARGS=--collect-only tests/example',
                 ),
                 (
+                    '-m popo check-python-policy',
                     'ruff format --check example.py',
                     'pytest --collect-only tests/example',
                 ),
@@ -78,18 +123,13 @@ class TestMakefileContracts:
     )
     def test_commands_are_overridable(
         self,
-        repository_root: Path,
+        make: MakeRunner,
         arguments: tuple[str, ...],
         expected_output: tuple[str, ...],
     ) -> None:
-        result = subprocess.run(
-            ('make', '--dry-run', *arguments),
-            cwd=repository_root,
-            capture_output=True,
-            check=True,
-            text=True,
-        )
+        result = make('--dry-run', *arguments)
 
+        assert result.returncode == 0, result.stderr
         assert all(fragment in result.stdout for fragment in expected_output)
 
 
