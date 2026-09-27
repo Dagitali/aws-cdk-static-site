@@ -68,7 +68,8 @@ and [task templates].
 - `tests/support/` contains shared test infrastructure and must not be collected as a test layer.
 - `examples/` demonstrates supported compositions. Examples are documentation and test fixtures, not
   production stacks.
-- `scripts/` implements repository-policy checks exposed through `python -m scripts` and Make.
+- Popo implements repository-policy checks exposed through Make. The local `scripts/` package is a
+  deprecated compatibility surface pending removal with its direct tests.
 - `docs/source/` is the Sphinx source; `docs/build/` is generated and must not be edited.
 - `.github/actions/setup-python-project/` centralizes cached Python setup, project installation, and
   dependency-integrity diagnostics for hosted workflows.
