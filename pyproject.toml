@@ -54,30 +54,30 @@ classifiers = [
 # Runtime dependencies define the complete supported construct surface; optional
 # groups below contain only contributor and documentation tooling.
 dependencies = [
-  "aws-cdk-lib>=2.269.0,<3.0.0",
+  "aws-cdk-lib>=2.271.0,<3.0.0",
   "constructs>=10.8.1,<11.0.0",
 ]
 
 [project.optional-dependencies]
 # Development-only tools (install with: pip install -e '.[dev]')
 dev = [
-  "build>=1.3,<2",
-  "mypy>=2.0,<3",
+  "build>=1.6.1,<2",
+  "mypy>=2.3.1,<3",
   "popo @ git+https://github.com/Dagitali/popo.git@32fe971f8894d14f5ce356e44dd245efe3a4117a",
-  "pre-commit>=4.0,<5",
-  "pytest>=9.0,<10",
-  "pytest-cov>=7.0,<8",
-  "ruff>=0.16,<0.17",
-  "twine>=6.2,<8",
+  "pre-commit>=4.6.2,<5",
+  "pytest>=9.1.1,<10",
+  "pytest-cov>=7.1.0,<8",
+  "ruff>=0.16.9,<0.17",
+  "twine>=7.0.0,<8",
 ]
 # Local documentation tools (install with: pip install -e '.[docs]')
 docs = [
-  "sphinx>=9.1,<10",
-  "sphinx-rtd-theme>=3.1,<4",
+  "sphinx>=9.1.0,<10",
+  "sphinx-rtd-theme>=3.1.0,<4",
 ]
 # Optional synthesized-template security checks (install with: pip install -e '.[security]')
 security = [
-  "cdk-nag>=3.0,<4",
+  "cdk-nag>=3.0.2,<4",
 ]
 
 [project.urls]
