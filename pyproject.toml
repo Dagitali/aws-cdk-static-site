@@ -63,6 +63,7 @@ dependencies = [
 dev = [
   "build>=1.3,<2",
   "mypy>=2.0,<3",
+  "popo @ git+https://github.com/Dagitali/popo.git@32fe971f8894d14f5ce356e44dd245efe3a4117a",
   "pre-commit>=4.0,<5",
   "pytest>=9.0,<10",
   "pytest-cov>=7.0,<8",
@@ -78,6 +79,7 @@ docs = [
 security = [
   "cdk-nag>=3.0,<4",
 ]
+workflow-directory = ".github/workflows"
 
 [project.urls]
 Changelog = "https://github.com/Dagitali/aws-cdk-static-site/blob/main/CHANGELOG.md"
@@ -100,6 +102,20 @@ python_version = "3.13"
 strict = true
 packages = ["aws_cdk_static_site"]
 mypy_path = "src"
+
+[tool.popo.dependencies]
+metadata = "pyproject.toml"
+requirements = "requirements/lowest.txt"
+mode = "minimum-constraints"
+
+[tool.popo.python-policy]
+metadata = "pyproject.toml"
+requires-python = ">=3.13,<3.15"
+python-version = "3.13"
+python-version-file = ".python-version"
+ruff-config = "pyproject.toml"
+ruff-target-version = "py313"
+mypy-python-version = "3.13"
 
 [tool.pytest]
 minversion = "9.0"
