@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.25 - 2026-09-27](#0325---2026-09-27)
 - [0.3.24 - 2026-09-27](#0324---2026-09-27)
 - [0.3.23 - 2026-09-27](#0323---2026-09-27)
 - [0.3.22 - 2026-09-27](#0322---2026-09-27)
@@ -47,6 +48,16 @@ records are indexed in the [release notes archive].
 - [0.0.0 - 2026-09-06](#000---2026-09-06)
 
 ## [Unreleased]
+
+## [0.3.25] - 2026-09-27
+
+- Standardize file headers, release-summary wording, present-tense highlights, and verified tag-date
+  introductions across the release archive while preserving version-specific compatibility and
+  operational details.
+- Add direct changelog, archive, and release-policy navigation and complete historical records'
+  validation sections and tables of contents.
+- Distinguish historical preparation checks from verified tagging and publication evidence without
+  attributing current-checkout validation to earlier releases.
 
 ## [0.3.24] - 2026-09-27
 
@@ -358,7 +369,8 @@ records are indexed in the [release notes archive].
 [#4]: https://github.com/Dagitali/aws-cdk-static-site/pull/4
 [#5]: https://github.com/Dagitali/aws-cdk-static-site/pull/5
 [#6]: https://github.com/Dagitali/aws-cdk-static-site/pull/6
-[Unreleased]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.24...HEAD
+[Unreleased]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.25...HEAD
+[0.3.25]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.24...v0.3.25
 [0.3.24]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.23...v0.3.24
 [0.3.23]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.22...v0.3.23
 [0.3.22]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.21...v0.3.22
