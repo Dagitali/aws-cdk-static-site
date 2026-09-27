@@ -73,7 +73,9 @@ Current-branch CI, security, and deployment-test jobs reuse
 `pip check` diagnostics. The action rejects invalid boolean-like installation inputs before setup.
 Release jobs intentionally remain self-contained because historical backfills check out tags that
 may predate the local action. Remote actions inside workflows and the composite action are covered
-by the repository's immutable-SHA policy check.
+by the repository's immutable-SHA policy check. Repository-policy commands use the Popo revision
+pinned in project metadata; the self-contained release workflow installs that same revision before
+validating a tagged changelog.
 
 See the [testing guide] for local commands, test-layer boundaries, coverage behavior, and focused
 suite execution.
