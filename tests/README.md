@@ -66,8 +66,8 @@ approved deployment workflow requires AWS credentials.
 - Classify tests by `unit`, `integration`, `e2e`, or `meta` scope; express the subject in the module
   and test names.
 - Keep fixtures at the narrowest useful scope and put genuinely shared test code in `support`.
-- Keep consumer integration coverage for Popo in `tests/integration/test_popo.py`; the direct local
-  `scripts` tests cover only the deprecated compatibility surface until its removal.
+- Keep consumer configuration and quality-gate coverage for Popo in
+  `tests/integration/test_popo.py`; implementation regression coverage belongs in Popo.
 - Group related tests in plain pytest classes with instance methods, without shared mutable state.
 - Parameterize independent scenarios so failures identify the affected input or command.
 - Use `write_file` for temporary UTF-8 repository fixtures and assert actionable diagnostics.
