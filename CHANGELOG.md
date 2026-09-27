@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.22 - 2026-09-27](#0322---2026-09-27)
 - [0.3.21 - 2026-09-20](#0321---2026-09-20)
 - [0.3.20 - 2026-09-20](#0320---2026-09-20)
 - [0.3.19 - 2026-09-20](#0319---2026-09-20)
@@ -38,12 +39,13 @@ records are indexed in the [release notes archive].
 
 ## Unreleased
 
+## [0.3.22] - 2026-09-27
+
 - Adopt the pinned Popo CLI as the authoritative implementation for repository-policy checks in
   Make, pre-commit, pull-request validation, and tagged-release validation, with explicit consumer
   configuration in `pyproject.toml`.
-- Deprecate the repository-local `scripts` policy package and its direct tests as a temporary
-  compatibility surface; removal is deferred until the Popo-backed gates have completed a migration
-  window.
+- Remove the deprecated repository-local `scripts` policy package and its direct tests after the
+  Popo-backed quality gates completed their migration window.
 
 ## 0.3.21 - 2026-09-20
 
