@@ -38,6 +38,13 @@ records are indexed in the [release notes archive].
 
 ## Unreleased
 
+- Adopt the pinned Popo CLI as the authoritative implementation for repository-policy checks in
+  Make, pre-commit, pull-request validation, and tagged-release validation, with explicit consumer
+  configuration in `pyproject.toml`.
+- Deprecate the repository-local `scripts` policy package and its direct tests as a temporary
+  compatibility surface; removal is deferred until the Popo-backed gates have completed a migration
+  window.
+
 ## 0.3.21 - 2026-09-20
 
 - Strengthen Markdown-checker regression coverage for repositories beneath hidden parent
