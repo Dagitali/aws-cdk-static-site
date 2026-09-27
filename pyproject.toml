@@ -79,7 +79,6 @@ docs = [
 security = [
   "cdk-nag>=3.0,<4",
 ]
-workflow-directory = ".github/workflows"
 
 [project.urls]
 Changelog = "https://github.com/Dagitali/aws-cdk-static-site/blob/main/CHANGELOG.md"
@@ -116,6 +115,7 @@ python-version-file = ".python-version"
 ruff-config = "pyproject.toml"
 ruff-target-version = "py313"
 mypy-python-version = "3.13"
+workflow-directory = ".github/workflows"
 
 [tool.pytest]
 minversion = "9.0"
