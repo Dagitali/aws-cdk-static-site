@@ -70,7 +70,6 @@ approved deployment workflow requires AWS credentials.
   `tests/integration/test_popo.py`; implementation regression coverage belongs in Popo.
 - Group related tests in plain pytest classes with instance methods, without shared mutable state.
 - Parameterize independent scenarios so failures identify the affected input or command.
-- Use `write_file` for temporary UTF-8 repository fixtures and assert actionable diagnostics.
 - Bound subprocess execution with timeouts and isolate inherited tool configuration.
 - Use the session-scoped `repository_root` fixture for project-level contracts instead of repeating
   path-depth assumptions in individual test modules.
