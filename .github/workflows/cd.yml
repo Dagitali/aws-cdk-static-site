@@ -73,6 +73,7 @@ env:
   DEFAULT_PYTHON_VERSION: '3.13'
   PACKAGE_DISTRIBUTION_NAME: aws-cdk-static-site
   PACKAGE_IMPORT_NAME: aws_cdk_static_site
+  POPO_REVISION: 32fe971f8894d14f5ce356e44dd245efe3a4117a
   RELEASE_ARTIFACT_NAME: release-artifacts
   RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
   SBOM_FILENAME: python-sbom.json
@@ -124,8 +125,13 @@ jobs:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
           cache: pip
 
+      - name: Install repository policy tool
+        run: >-
+          python -m pip install --disable-pip-version-check
+          "popo @ git+https://github.com/Dagitali/popo.git@${POPO_REVISION}"
+
       - name: Verify release changelog
-        run: python -m scripts check-release-changelog "${RELEASE_TAG}"
+        run: python -m popo check-release-changelog "${RELEASE_TAG}"
 
       - name: Verify versioned release document
         run: |
