@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.24 - 2026-09-27](#0324---2026-09-27)
 - [0.3.23 - 2026-09-27](#0323---2026-09-27)
 - [0.3.22 - 2026-09-27](#0322---2026-09-27)
 - [0.3.21 - 2026-09-20](#0321---2026-09-20)
@@ -46,6 +47,13 @@ records are indexed in the [release notes archive].
 - [0.0.0 - 2026-09-06](#000---2026-09-06)
 
 ## [Unreleased]
+
+## [0.3.24] - 2026-09-27
+
+- Expand invalid content-path coverage to verify that deployment rejects both missing paths and
+  existing files.
+- Run the release-changelog quality gate with the project environment's Python interpreter so it
+  uses the pinned Popo installation consistently with the other repository-policy checks.
 
 ## [0.3.23] - 2026-09-27
 
@@ -346,7 +354,8 @@ records are indexed in the [release notes archive].
 [#4]: https://github.com/Dagitali/aws-cdk-static-site/pull/4
 [#5]: https://github.com/Dagitali/aws-cdk-static-site/pull/5
 [#6]: https://github.com/Dagitali/aws-cdk-static-site/pull/6
-[Unreleased]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.23...HEAD
+[Unreleased]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.24...HEAD
+[0.3.24]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.23...v0.3.24
 [0.3.23]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.22...v0.3.23
 [0.3.22]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.21...v0.3.22
 [0.3.21]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.20...v0.3.21

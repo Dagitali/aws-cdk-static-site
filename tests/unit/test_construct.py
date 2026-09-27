@@ -191,15 +191,27 @@ class TestDelivery:
             },
         )
 
-    def test_rejects_missing_content_directory(self) -> None:
+    @pytest.mark.parametrize(
+        'existing_file',
+        [False, True],
+        ids=['missing', 'file'],
+    )
+    def test_rejects_invalid_content_directory(
+        self,
+        tmp_path: Path,
+        existing_file: bool,
+    ) -> None:
         app = cdk.App()
         stack = cdk.Stack(app, 'TestStack')
+        content = tmp_path / 'content'
+        if existing_file:
+            content.write_text('not a directory', encoding='utf-8')
 
         with pytest.raises(ValueError, match='must identify a directory'):
             StaticSite(
                 stack,
                 'Site',
-                props=StaticSiteProps(site_content_path='does-not-exist'),
+                props=StaticSiteProps(site_content_path=content),
             )
 
     def test_uses_oac_security_headers_and_cost_conscious_defaults(

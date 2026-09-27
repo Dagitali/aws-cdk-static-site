@@ -132,5 +132,23 @@ class TestMakefileContracts:
         assert result.returncode == 0, result.stderr
         assert all(fragment in result.stdout for fragment in expected_output)
 
+    def test_release_changelog_uses_project_python(
+        self,
+        make: MakeRunner,
+    ) -> None:
+        result = make(
+            '--dry-run',
+            'release-changelog',
+            'RELEASE_VERSION=0.3.23',
+            'PY=bootstrap-python',
+            'PYTHON=project-python',
+        )
+
+        assert result.returncode == 0, result.stderr
+        assert (
+            'project-python -m popo check-release-changelog "0.3.23"' in result.stdout
+        )
+        assert 'bootstrap-python -m popo' not in result.stdout
+
 
 # !SECTION
