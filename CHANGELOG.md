@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Detailed re
 records are indexed in the [release notes archive].
 
 - [Unreleased](#unreleased)
+- [0.3.27 - 2026-09-27](#0327---2026-09-27)
 - [0.3.26 - 2026-09-27](#0326---2026-09-27)
 - [0.3.25 - 2026-09-27](#0325---2026-09-27)
 - [0.3.24 - 2026-09-27](#0324---2026-09-27)
@@ -49,6 +50,11 @@ records are indexed in the [release notes archive].
 - [0.0.0 - 2026-09-06](#000---2026-09-06)
 
 ## [Unreleased]
+
+## [0.3.27] - 2026-09-27
+
+- Update the Commitizen pre-commit hook from v4.18.0 to v4.18.1 and the Ruff hooks from v0.16.7 to
+  v0.16.8, retaining their existing stages and configuration ([#9]).
 
 ## [0.3.26] - 2026-09-27
 
@@ -377,7 +383,9 @@ records are indexed in the [release notes archive].
 [#5]: https://github.com/Dagitali/aws-cdk-static-site/pull/5
 [#6]: https://github.com/Dagitali/aws-cdk-static-site/pull/6
 [#8]: https://github.com/Dagitali/aws-cdk-static-site/pull/8
-[Unreleased]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.26...HEAD
+[#9]: https://github.com/Dagitali/aws-cdk-static-site/pull/9
+[Unreleased]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.27...HEAD
+[0.3.27]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.26...v0.3.27
 [0.3.26]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.25...v0.3.26
 [0.3.25]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.24...v0.3.25
 [0.3.24]: https://github.com/Dagitali/aws-cdk-static-site/compare/v0.3.23...v0.3.24
