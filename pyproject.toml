@@ -67,7 +67,7 @@ dev = [
   "pre-commit>=4.6.2,<5",
   "pytest>=9.1.1,<10",
   "pytest-cov>=7.1.0,<8",
-  "ruff>=0.16.9,<0.17",
+  "ruff>=0.16.9,<0.18",
   "twine>=7.0.0,<8",
 ]
 # Local documentation tools (install with: pip install -e '.[docs]')
